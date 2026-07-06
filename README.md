@@ -190,6 +190,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 python3 agent-tools/scripts/mystic_intake_triage.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/agent_workflow_router.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/paradigm_selector.py --text "帮我做一个塔罗三张牌，看看工作状态"
+python3 agent-tools/scripts/consultation_packet_builder.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/agent_route_smoke_runner.py
 python3 agent-tools/scripts/agent_runtime_dry_run_runner.py
 python3 agent-tools/scripts/agent_tool_wrapper_manifest_builder.py --format markdown

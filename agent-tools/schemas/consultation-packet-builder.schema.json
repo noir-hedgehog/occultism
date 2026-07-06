@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsultationPacketBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "request_text",
+    "session",
+    "paradigm",
+    "context_docs",
+    "workflow_steps",
+    "tool_chain",
+    "agent_brief",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "consultation_packet_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "request_text": {"type": "string"},
+    "session": {
+      "type": "object",
+      "required": [
+        "domain",
+        "domain_display_name",
+        "intent",
+        "risk_level",
+        "route_status",
+        "can_continue_mystic_workflow",
+        "risk_signals",
+        "required_clarifications",
+        "allowed_next_steps"
+      ],
+      "properties": {
+        "domain": {"type": "string"},
+        "domain_display_name": {"type": "string"},
+        "intent": {"type": "string"},
+        "risk_level": {"type": "string", "enum": ["green", "yellow", "orange", "red"]},
+        "route_status": {"type": "string"},
+        "can_continue_mystic_workflow": {"type": "boolean"},
+        "risk_signals": {"type": "array", "items": {"type": "string"}},
+        "required_clarifications": {"type": "array", "items": {"type": "string"}},
+        "allowed_next_steps": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "paradigm": {
+      "type": "object",
+      "required": ["trunk", "question_type", "recommended_paradigm", "execution_boundary", "evidence_track"],
+      "properties": {
+        "trunk": {
+          "type": "object",
+          "required": ["id", "title"],
+          "properties": {
+            "id": {"type": "string"},
+            "title": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "question_type": {"type": "string"},
+        "recommended_paradigm": {
+          "type": "object",
+          "required": ["id", "title", "why"],
+          "properties": {
+            "id": {"type": "string"},
+            "title": {"type": "string"},
+            "why": {"type": "string"}
+          },
+          "additionalProperties": false
+        },
+        "execution_boundary": {
+          "type": "object",
+          "required": ["automation_mode", "automated_parts", "agent_required_parts", "human_review_recommended"],
+          "properties": {
+            "automation_mode": {"type": "string"},
+            "automated_parts": {"type": "array", "items": {"type": "string"}},
+            "agent_required_parts": {"type": "array", "items": {"type": "string"}},
+            "human_review_recommended": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        },
+        "evidence_track": {
+          "type": "object",
+          "required": [
+            "scientific_or_practical_validation",
+            "provenance_audit",
+            "mystical_boundary_priority",
+            "case_validation_recommended"
+          ],
+          "properties": {
+            "scientific_or_practical_validation": {"type": "boolean"},
+            "provenance_audit": {"type": "boolean"},
+            "mystical_boundary_priority": {"type": "boolean"},
+            "case_validation_recommended": {"type": "boolean"}
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "context_docs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "path", "title"],
+        "properties": {
+          "role": {"type": "string"},
+          "path": {"type": "string"},
+          "title": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "workflow_steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "status", "label"],
+        "properties": {
+          "id": {"type": "string"},
+          "status": {"type": "string"},
+          "label": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "tool_chain": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool", "command", "execution_status"],
+        "properties": {
+          "tool": {"type": "string"},
+          "command": {"type": "string"},
+          "execution_status": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "agent_brief": {
+      "type": "object",
+      "required": ["instructions", "review_checklist", "handoff_summary"],
+      "properties": {
+        "instructions": {"type": "array", "items": {"type": "string"}},
+        "review_checklist": {"type": "array", "items": {"type": "string"}},
+        "handoff_summary": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

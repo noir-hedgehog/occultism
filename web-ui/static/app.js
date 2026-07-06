@@ -129,6 +129,34 @@ function renderParadigm(session) {
   `;
 }
 
+function renderPacket(session) {
+  if (!session || !session.packet) {
+    $("#packetBadge").textContent = "";
+    $("#packetPanel").innerHTML = "";
+    return;
+  }
+  const packet = session.packet;
+  $("#packetBadge").textContent = packet.agent_brief.handoff_summary;
+  const runnable = packet.tool_chain.filter((item) => item.execution_status === "runnable_now").length;
+  const structured = packet.tool_chain.filter((item) => item.execution_status === "requires_structured_input").length;
+  $("#packetPanel").innerHTML = `
+    <article class="packet-card">
+      <h3>执行状态</h3>
+      <div class="chips">
+        <span class="chip">可直接运行 ${runnable}</span>
+        <span class="chip">需补字段 ${structured}</span>
+        <span class="chip">${packet.session.route_status}</span>
+      </div>
+    </article>
+    <article class="packet-card">
+      <h3>复核清单</h3>
+      <ul>
+        ${packet.agent_brief.review_checklist.map((item) => `<li>${item}</li>`).join("")}
+      </ul>
+    </article>
+  `;
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -202,6 +230,7 @@ function renderAll() {
   renderStatus(state.session);
   renderWorkflow(state.session);
   renderParadigm(state.session);
+  renderPacket(state.session);
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
@@ -256,6 +285,7 @@ async function runSession() {
       can_continue_mystic_workflow: false,
       workflow_steps: [{step: "error", status: "next", label: error.message}],
       paradigm: null,
+      packet: null,
       context: {skill: {}, sop: [], knowledge: []},
       initial_tool_commands: [],
     };

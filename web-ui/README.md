@@ -4,6 +4,7 @@
 
 - 请求路由和安全分流
 - 从具体问题推导适用范式
+- 生成给人和 Agent 共读的咨询工作单
 - 领域、Skill、SOP、知识卡和初始工具链展示
 - 知识库文档站浏览
 - 当前覆盖度、工具数量和验证状态概览
@@ -31,6 +32,9 @@ curl "http://127.0.0.1:8765/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93/07-%E9%97%
 curl -X POST http://127.0.0.1:8765/api/paradigm \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
+curl -X POST http://127.0.0.1:8765/api/packet \
+  -H 'Content-Type: application/json' \
+  -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
 curl -X POST http://127.0.0.1:8765/api/session \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
@@ -39,5 +43,5 @@ curl -X POST http://127.0.0.1:8765/api/session \
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令，只返回当前路由、范式、上下文文件和建议命令。
+- API 不执行任意 shell 命令，只返回当前路由、范式、咨询工作单、上下文文件和建议命令。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。

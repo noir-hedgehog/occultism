@@ -272,6 +272,7 @@ button:disabled {
 .trunks,
 .workflow,
 .paradigm,
+.packet,
 .context-docs,
 .commands {
   display: grid;
@@ -280,6 +281,7 @@ button:disabled {
 
 .trunk,
 .workflow-step,
+.packet-card,
 .doc-row,
 .command-row {
   border: 1px solid var(--line);
@@ -290,10 +292,22 @@ button:disabled {
 
 .trunk h3,
 .workflow-step h3,
+.packet-card h3,
 .doc-row strong,
 .command-row strong {
   margin: 0 0 6px;
   font-size: 14px;
+}
+
+.packet-card ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.packet-card li + li {
+  margin-top: 4px;
 }
 
 .chips {

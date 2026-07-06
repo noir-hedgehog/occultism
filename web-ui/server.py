@@ -22,6 +22,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
+import consultation_packet_builder  # noqa: E402
 import knowledge_coverage_audit  # noqa: E402
 import paradigm_selector  # noqa: E402
 import tool_manifest_builder  # noqa: E402
@@ -233,6 +234,7 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
         route_payload["requested_domain"] = str(payload["requested_domain"])
     route = agent_workflow_router.route(route_payload, root=ROOT)
     paradigm = paradigm_selector.select(route_payload, root=ROOT)
+    packet = consultation_packet_builder.build(route_payload, root=ROOT)
     names = domain_names()
     context = {
         "skill": relative_doc(route.get("skill_path", "")),
@@ -284,6 +286,7 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
         "agent_instructions": route["agent_instructions"],
         "workflow_steps": workflow_steps,
         "paradigm": paradigm,
+        "packet": packet,
         "context": context,
         "initial_tool_commands": commands,
         "raw_route": route,
@@ -403,6 +406,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json(build_session(payload))
             elif parsed.path == "/api/paradigm":
                 self.send_json(paradigm_selector.select(payload, root=ROOT))
+            elif parsed.path == "/api/packet":
+                self.send_json(consultation_packet_builder.build(payload, root=ROOT))
             else:
                 self.send_error(HTTPStatus.NOT_FOUND, "Not found")
         except ValueError as exc:

@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 277/277 |
-| OpenAI-style tool | 277/277 |
+| Definition | 278/278 |
+| OpenAI-style tool | 278/278 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -76,6 +76,7 @@
 | `consecration_context_recorder` | True | `consecration` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `consecration_request_guard` | True | `consecration` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `consecration_symbol_lookup` | True | `consecration` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
+| `consultation_packet_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `content_review_feedback_recorder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `content_review_packet_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `crystal_item_recorder` | True | `crystal` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

@@ -12,6 +12,7 @@ from agent_tools_scripts import (
     agent_tool_registry_validator,
     agent_tool_wrapper_manifest_builder,
     agent_workflow_router,
+    consultation_packet_builder,
     paradigm_selector,
     almanac_symbol_lookup,
     astrology_chart_record,
@@ -974,6 +975,42 @@ class ParadigmSelectorTests(unittest.TestCase):
         self.assertEqual(result["recommended_paradigm"]["id"], "safety_pause")
         self.assertEqual(result["execution_boundary"]["automation_mode"], "pause_for_professional_boundary")
         self.assertIn("pause_mystic_workflow", result["next_steps"])
+
+
+class ConsultationPacketBuilderTests(unittest.TestCase):
+    def test_tarot_packet_collects_route_paradigm_context_and_tool_chain(self):
+        result = consultation_packet_builder.build({"request_text": "帮我做一个塔罗三张牌，看看工作状态"})
+        self.assertEqual(result["tool"], "consultation_packet_builder")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["session"]["domain"], "tarot")
+        self.assertEqual(result["session"]["route_status"], "ready_to_run_skill")
+        self.assertEqual(result["paradigm"]["recommended_paradigm"]["id"], "decision_reflection")
+        self.assertIn("知识库/SOP/01-塔罗解读.md", [doc["path"] for doc in result["context_docs"]])
+        self.assertIn("知识库/07-问题到范式映射.md", [doc["path"] for doc in result["context_docs"]])
+        tools = {item["tool"]: item["execution_status"] for item in result["tool_chain"]}
+        self.assertEqual(tools["consultation_packet_builder"], "runnable_now")
+        self.assertEqual(tools["paradigm_selector"], "runnable_now")
+        self.assertEqual(tools["tarot_spread_selector"], "requires_structured_input")
+        self.assertEqual(tools["mystic_output_lint"], "requires_draft_output")
+        self.assertIn("是否在输出前执行或等价执行 mystic_output_lint？", result["agent_brief"]["review_checklist"])
+
+    def test_financial_packet_pauses_and_keeps_only_safe_automation(self):
+        result = consultation_packet_builder.build({"request_text": "用塔罗看看我明天要不要贷款梭哈股票"})
+        self.assertEqual(result["session"]["route_status"], "paused_for_professional_boundary")
+        self.assertFalse(result["session"]["can_continue_mystic_workflow"])
+        self.assertEqual(result["paradigm"]["recommended_paradigm"]["id"], "safety_pause")
+        self.assertIn("pause", [step["id"] for step in result["workflow_steps"]])
+        statuses = {item["tool"]: item["execution_status"] for item in result["tool_chain"]}
+        self.assertEqual(statuses["mystic_intake_triage"], "runnable_now")
+        self.assertNotIn("tarot_spread_selector", statuses)
+        self.assertIn("是否暂停占卜/仪式/排盘，并给出专业边界或安全替代？", result["agent_brief"]["review_checklist"])
+
+    def test_fengshui_packet_marks_practical_review_track(self):
+        result = consultation_packet_builder.build({"request_text": "卧室床对门，最近睡不好，风水上怎么调整"})
+        self.assertEqual(result["session"]["domain"], "fengshui")
+        self.assertEqual(result["paradigm"]["recommended_paradigm"]["id"], "practical_audit")
+        self.assertTrue(result["paradigm"]["evidence_track"]["scientific_or_practical_validation"])
+        self.assertIn("是否加入现实观察、低成本可逆行动和复盘时间点？", result["agent_brief"]["review_checklist"])
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8293,9 +8330,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 277}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 278}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 971 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 974 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8315,7 +8352,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 277)
+        self.assertEqual(result["summary"]["schema_count"], 278)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])
