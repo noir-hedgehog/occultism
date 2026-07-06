@@ -5,6 +5,7 @@ const state = {
   docs: null,
   activeDoc: null,
   preview: null,
+  execution: null,
   handoff: null,
   caseRecord: null,
   jsonOpen: false,
@@ -261,6 +262,47 @@ function renderCommands(session) {
     .join("");
 }
 
+function renderExecution() {
+  $("#executionBadge").textContent = state.execution ? state.execution.run_status : "待运行";
+  if (!state.execution) {
+    $("#executionPanel").innerHTML = "";
+    $("#executionOutput").textContent = "{}";
+    return;
+  }
+  const summary = state.execution.execution_summary;
+  $("#executionPanel").innerHTML = `
+    <article class="packet-card">
+      <h3>已执行</h3>
+      <div class="chips">
+        <span class="chip">${summary.executed_count} 个工具</span>
+        <span class="chip">跳过 ${summary.skipped_count}</span>
+        <span class="chip">错误 ${summary.error_count}</span>
+      </div>
+    </article>
+    <article class="packet-card">
+      <h3>接管需求</h3>
+      <div class="chips">
+        <span class="chip">结构化输入 ${summary.structured_input_count}</span>
+        <span class="chip">草稿检查 ${summary.draft_required_count}</span>
+        <span class="chip">${state.execution.agent_handoff.required ? "需要 Agent" : "可继续自动"}</span>
+      </div>
+    </article>
+  `;
+  $("#executionOutput").textContent = JSON.stringify(
+    {
+      run_status: state.execution.run_status,
+      executed_tools: state.execution.executed_tools.map((item) => item.summary),
+      skipped_tools: state.execution.skipped_tools.map((item) => ({
+        tool: item.tool,
+        reason: item.reason,
+      })),
+      next_ui_steps: state.execution.agent_handoff.next_ui_steps,
+    },
+    null,
+    2,
+  );
+}
+
 function renderPreview() {
   $("#previewBadge").textContent = state.preview ? state.preview.tool_name : "待生成";
   $("#previewOutput").textContent = JSON.stringify(state.preview || {}, null, 2);
@@ -290,6 +332,7 @@ function renderAll() {
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
+  renderExecution();
   renderPreview();
   renderHandoff();
   renderCaseRecord();
@@ -418,6 +461,32 @@ async function runPreview() {
   }
 }
 
+async function runExecution() {
+  const button = $("#executionButton");
+  button.disabled = true;
+  button.textContent = "运行中";
+  try {
+    const payload = {
+      request_text: $("#requestText").value.trim(),
+      requested_domain: $("#domainSelect").value || undefined,
+    };
+    const response = await fetch("/api/execute-safe", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || `execute failed: ${response.status}`);
+    state.execution = data;
+  } catch (error) {
+    state.execution = {tool: "consultation_execution_runner", run_status: "error", execution_summary: {executed_count: 0, skipped_count: 0, error_count: 1, structured_input_count: 0, draft_required_count: 0}, agent_handoff: {required: true, next_ui_steps: []}, executed_tools: [], skipped_tools: [], error: error.message};
+  } finally {
+    button.disabled = false;
+    button.textContent = "运行安全子集";
+    renderAll();
+  }
+}
+
 async function runHandoff() {
   const button = $("#handoffButton");
   button.disabled = true;
@@ -487,6 +556,7 @@ function syncPreviewMode() {
 }
 
 $("#runButton").addEventListener("click", runSession);
+$("#executionButton").addEventListener("click", runExecution);
 $("#previewButton").addEventListener("click", runPreview);
 $("#handoffButton").addEventListener("click", runHandoff);
 $("#caseButton").addEventListener("click", runCaseRecord);

@@ -80,6 +80,11 @@ DOMAIN_RULES = {
     "folk_custom": ("民俗", "禁忌", "节气", "节令", "祭祀", "习俗", "传统", "春节", "清明", "端午", "中元", "中秋", "冬至", "筷子插饭", "夜里吹口哨", "正月剪发"),
 }
 
+DOMAIN_ALIASES = {
+    "fengshui": "feng_shui",
+    "ritual": "ritual_safety",
+}
+
 INTENT_RULES = {
     "crisis_help": ("自杀", "自残", "伤害自己", "伤害别人", "活不下去", "被威胁", "家暴", "跟踪"),
     "talisman_reflection": ("护符", "符箓", "符咒", "灵符", "平安符", "红绳", "香囊", "amulet", "talisman", "charm"),
@@ -195,7 +200,7 @@ def matching_labels(text: str, rules: Iterable[KeywordRule]) -> list[str]:
 
 def detect_domain(text: str, requested_domain: str | None = None) -> str:
     if requested_domain:
-        normalized = requested_domain.strip()
+        normalized = DOMAIN_ALIASES.get(requested_domain.strip(), requested_domain.strip())
         if normalized in DOMAIN_RULES or normalized == "unknown":
             return normalized
     if contains_any(text, DOMAIN_RULES["consecration"]):

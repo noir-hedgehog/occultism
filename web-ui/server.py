@@ -23,6 +23,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
 import consultation_case_recorder  # noqa: E402
+import consultation_execution_runner  # noqa: E402
 import consultation_handoff_builder  # noqa: E402
 import consultation_packet_builder  # noqa: E402
 import domain_evidence_matrix_builder  # noqa: E402
@@ -446,6 +447,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json(paradigm_selector.select(payload, root=ROOT))
             elif parsed.path == "/api/packet":
                 self.send_json(consultation_packet_builder.build(payload, root=ROOT))
+            elif parsed.path == "/api/execute-safe":
+                self.send_json(consultation_execution_runner.build(payload, root=ROOT))
             elif parsed.path == "/api/tool-preview":
                 self.send_json(build_tool_preview(payload))
             elif parsed.path == "/api/handoff":

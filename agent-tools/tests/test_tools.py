@@ -12,6 +12,7 @@ from agent_tools_scripts import (
     agent_tool_registry_validator,
     agent_tool_wrapper_manifest_builder,
     consultation_case_recorder,
+    consultation_execution_runner,
     consultation_handoff_builder,
     agent_workflow_router,
     consultation_packet_builder,
@@ -1014,6 +1015,42 @@ class ConsultationPacketBuilderTests(unittest.TestCase):
         self.assertEqual(result["paradigm"]["recommended_paradigm"]["id"], "practical_audit")
         self.assertTrue(result["paradigm"]["evidence_track"]["scientific_or_practical_validation"])
         self.assertIn("是否加入现实观察、低成本可逆行动和复盘时间点？", result["agent_brief"]["review_checklist"])
+
+
+class ConsultationExecutionRunnerTests(unittest.TestCase):
+    def test_tarot_request_executes_safe_subset_and_marks_agent_handoff(self):
+        result = consultation_execution_runner.build({"request_text": "帮我做一个塔罗三张牌，看看工作状态"})
+        self.assertEqual(result["tool"], "consultation_execution_runner")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["run_status"], "safe_subset_executed_agent_handoff_required")
+        self.assertEqual(result["domain"], "tarot")
+        executed = [item["tool"] for item in result["executed_tools"]]
+        self.assertEqual(executed, ["consultation_packet_builder", "paradigm_selector", "mystic_intake_triage"])
+        skipped = {item["tool"]: item["reason"] for item in result["skipped_tools"]}
+        self.assertEqual(skipped["tarot_spread_selector"], "requires_structured_input")
+        self.assertEqual(skipped["mystic_output_lint"], "requires_draft_output")
+        self.assertTrue(result["agent_handoff"]["required"])
+
+    def test_financial_request_pauses_after_safe_tools(self):
+        result = consultation_execution_runner.build({"request_text": "用塔罗看看我明天要不要贷款梭哈股票"})
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["route_status"], "paused_for_professional_boundary")
+        self.assertEqual(result["run_status"], "paused_after_safe_tools")
+        self.assertEqual(result["execution_summary"]["skipped_count"], 0)
+        self.assertEqual(result["agent_handoff"]["next_ui_steps"], ["pause_for_safety_or_professional_boundary"])
+
+    def test_requested_domain_is_preserved_in_safe_runs(self):
+        result = consultation_execution_runner.build(
+            {"request_text": "最近睡不好，想做一个空间观察", "requested_domain": "fengshui"}
+        )
+        self.assertEqual(result["domain"], "fengshui")
+        packet_summary = result["executed_tools"][0]["summary"]
+        self.assertEqual(packet_summary["domain"], "fengshui")
+        self.assertEqual(packet_summary["route_status"], "ready_to_run_skill")
+
+    def test_missing_request_text_is_rejected(self):
+        with self.assertRaises(ValueError):
+            consultation_execution_runner.build({"request_text": ""})
 
 
 class ConsultationHandoffBuilderTests(unittest.TestCase):
@@ -8502,9 +8539,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 281}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 282}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 986 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 990 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8524,7 +8561,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 281)
+        self.assertEqual(result["summary"]["schema_count"], 282)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

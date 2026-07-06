@@ -280,6 +280,7 @@ button:disabled {
 .paradigm,
 .packet,
 .evidence-panel,
+.execution-panel,
 .context-docs,
 .commands {
   display: grid;
@@ -392,6 +393,7 @@ button:disabled {
 
 .handoff-tools,
 .case-tools,
+.execution-tools,
 .structured-form {
   display: grid;
   gap: 10px;

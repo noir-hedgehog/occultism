@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsultationExecutionRunner",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "request_text",
+    "domain",
+    "route_status",
+    "run_status",
+    "execution_summary",
+    "executed_tools",
+    "skipped_tools",
+    "errors",
+    "agent_handoff",
+    "packet",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "consultation_execution_runner"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "request_text": {"type": "string"},
+    "domain": {"type": "string"},
+    "route_status": {"type": "string"},
+    "run_status": {
+      "type": "string",
+      "enum": [
+        "safe_subset_executed_agent_handoff_required",
+        "safe_subset_complete",
+        "paused_after_safe_tools",
+        "execution_errors"
+      ]
+    },
+    "execution_summary": {
+      "type": "object",
+      "required": [
+        "tool_chain_count",
+        "executed_count",
+        "skipped_count",
+        "structured_input_count",
+        "draft_required_count",
+        "agent_required_count",
+        "error_count"
+      ],
+      "properties": {
+        "tool_chain_count": {"type": "integer", "minimum": 0},
+        "executed_count": {"type": "integer", "minimum": 0},
+        "skipped_count": {"type": "integer", "minimum": 0},
+        "structured_input_count": {"type": "integer", "minimum": 0},
+        "draft_required_count": {"type": "integer", "minimum": 0},
+        "agent_required_count": {"type": "integer", "minimum": 0},
+        "error_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "executed_tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool", "status", "is_valid", "summary", "result"],
+        "properties": {
+          "tool": {"type": "string"},
+          "status": {"type": "string", "const": "executed"},
+          "is_valid": {"type": "boolean"},
+          "summary": {"type": "object", "additionalProperties": true},
+          "result": {"type": "object", "additionalProperties": true}
+        },
+        "additionalProperties": false
+      }
+    },
+    "skipped_tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool", "execution_status", "reason", "agent_or_user_action", "command"],
+        "properties": {
+          "tool": {"type": "string"},
+          "execution_status": {"type": "string"},
+          "reason": {"type": "string"},
+          "agent_or_user_action": {"type": "string"},
+          "command": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool", "error"],
+        "properties": {
+          "tool": {"type": "string"},
+          "error": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "agent_handoff": {
+      "type": "object",
+      "required": ["required", "reasons", "next_ui_steps"],
+      "properties": {
+        "required": {"type": "boolean"},
+        "reasons": {"type": "array", "items": {"type": "string"}},
+        "next_ui_steps": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "packet": {"type": "object", "additionalProperties": true},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

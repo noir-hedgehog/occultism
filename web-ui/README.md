@@ -5,6 +5,7 @@
 - 请求路由和安全分流
 - 从具体问题推导适用范式
 - 生成给人和 Agent 共读的咨询工作单
+- 执行工作单中安全、确定、无副作用的程序化子集
 - 展示 61 个领域的证据矩阵摘要和 P0/P1/P2 工作流
 - 为塔罗和风水生成结构化工具输入并预览结果
 - 生成 Agent 交接包，并对可选草稿执行安全措辞检查
@@ -40,6 +41,9 @@ curl -X POST http://127.0.0.1:8765/api/paradigm \
 curl -X POST http://127.0.0.1:8765/api/packet \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
+curl -X POST http://127.0.0.1:8765/api/execute-safe \
+  -H 'Content-Type: application/json' \
+  -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
 curl -X POST http://127.0.0.1:8765/api/tool-preview \
   -H 'Content-Type: application/json' \
   -d '{"mode":"tarot","payload":{"question_text":"最近工作很烦，想做三张牌看看状态","spread_id":"three_card_situation","cards":[{"position":"现状","card":"魔术师","orientation":"upright"},{"position":"阻碍","card":"宝剑八","orientation":"reversed"},{"position":"建议","card":"星币三","orientation":"upright"}]}}'
@@ -60,5 +64,5 @@ curl -X POST http://127.0.0.1:8765/api/session \
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令；`/api/evidence-matrix` 只读取并分类本地知识库覆盖信息，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
+- API 不执行任意 shell 命令；`/api/evidence-matrix` 只读取并分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。
