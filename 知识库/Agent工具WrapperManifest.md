@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 276 |
-| 可包装 | 276 |
+| Wrapper | 277 |
+| 可包装 | 277 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -181,6 +181,7 @@
 | `oracle_lot_record_builder` | `oracle_lot` | `oracle-lot-symbolic-consultation` | [oracle-lot-record-builder.schema.json](../agent-tools/schemas/oracle-lot-record-builder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `oracle_lot_request_guard` | `oracle_lot` | `oracle-lot-symbolic-consultation` | [oracle-lot-request-guard.schema.json](../agent-tools/schemas/oracle-lot-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `oracle_lot_symbol_lookup` | `oracle_lot` | `oracle-lot-symbolic-consultation` | [oracle-lot-symbol-lookup.schema.json](../agent-tools/schemas/oracle-lot-symbol-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `paradigm_selector` | `shared` | - | [paradigm-selector.schema.json](../agent-tools/schemas/paradigm-selector.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `past_life_narrative_recorder` | `past_life` | `past-life-akashic-symbolic-consultation` | [past-life-narrative-recorder.schema.json](../agent-tools/schemas/past-life-narrative-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `past_life_reflection_planner` | `past_life` | `past-life-akashic-symbolic-consultation` | [past-life-reflection-planner.schema.json](../agent-tools/schemas/past-life-reflection-planner.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `past_life_request_guard` | `past_life` | `past-life-akashic-symbolic-consultation` | [past-life-request-guard.schema.json](../agent-tools/schemas/past-life-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |

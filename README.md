@@ -23,6 +23,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 - [知识库/01-安全边界.md](知识库/01-安全边界.md)：高风险请求、用户状态筛查、升级处理
 - [知识库/02-流派地图.md](知识库/02-流派地图.md)：首批流派与知识拆分方式
 - [知识库/项目目标.md](知识库/项目目标.md)：当前推进目标、阶段和近期完成标准
+- [知识库/03-主干生成发展史.md](知识库/03-主干生成发展史.md)：6 条主干从安全骨架、代表流派到范式层的生成过程
 - [知识库/SOP/09-占星星盘象征咨询.md](知识库/SOP/09-占星星盘象征咨询.md)：占星/星盘象征咨询流程
 - [知识库/SOP/10-六爻占问.md](知识库/SOP/10-六爻占问.md)：六爻占问流程
 - [知识库/SOP/11-梅花易数占问.md](知识库/SOP/11-梅花易数占问.md)：梅花易数占问流程
@@ -140,6 +141,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 - [知识库/04-质量检查清单.md](知识库/04-质量检查清单.md)：知识卡、SOP、Tool、Skill 的验收标准
 - [知识库/05-路线图.md](知识库/05-路线图.md)：分阶段建设计划
 - [知识库/06-体系盘点与主干路线.md](知识库/06-体系盘点与主干路线.md)：当前主干/分支盘点、科学化/溯源/神秘强度和案例验证优先级
+- [知识库/07-问题到范式映射.md](知识库/07-问题到范式映射.md)：从具体用户问题推导适用范式、自动化边界和 agent 分工
 - [知识库/Skill回放验证.md](知识库/Skill回放验证.md)：首批 Skill 前向回放案例
 - [知识库/Skill多轮回放验证.md](知识库/Skill多轮回放验证.md)：多轮 transcript 验证案例
 - [知识库/Agent路由冒烟验证.md](知识库/Agent路由冒烟验证.md)：跨流派运行时路由冒烟验证
@@ -187,6 +189,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 ```bash
 python3 agent-tools/scripts/mystic_intake_triage.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/agent_workflow_router.py --text "帮我做一个塔罗三张牌，看看工作状态"
+python3 agent-tools/scripts/paradigm_selector.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/agent_route_smoke_runner.py
 python3 agent-tools/scripts/agent_runtime_dry_run_runner.py
 python3 agent-tools/scripts/agent_tool_wrapper_manifest_builder.py --format markdown

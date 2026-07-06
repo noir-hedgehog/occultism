@@ -12,6 +12,7 @@ from agent_tools_scripts import (
     agent_tool_registry_validator,
     agent_tool_wrapper_manifest_builder,
     agent_workflow_router,
+    paradigm_selector,
     almanac_symbol_lookup,
     astrology_chart_record,
     astrology_compatibility_guard,
@@ -947,6 +948,32 @@ class AgentWorkflowRouterTests(unittest.TestCase):
         self.assertFalse(result["can_continue_mystic_workflow"])
         self.assertEqual(result["initial_tools"], ["mystic_intake_triage"])
         self.assertIn("offer_safe_alternative_support", result["next_steps"])
+
+
+class ParadigmSelectorTests(unittest.TestCase):
+    def test_tarot_decision_question_selects_decision_reflection(self):
+        result = paradigm_selector.select({"request_text": "帮我做一个塔罗三张牌，看看工作状态"})
+        self.assertEqual(result["tool"], "paradigm_selector")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["domain"], "tarot")
+        self.assertEqual(result["trunk"]["id"], "decision")
+        self.assertEqual(result["recommended_paradigm"]["id"], "decision_reflection")
+        self.assertEqual(result["execution_boundary"]["automation_mode"], "agent_required_for_symbolic_synthesis")
+        self.assertTrue(result["evidence_track"]["provenance_audit"])
+
+    def test_fengshui_sleep_question_selects_practical_audit(self):
+        result = paradigm_selector.select({"request_text": "卧室床对门，最近睡不好，风水上怎么调整"})
+        self.assertEqual(result["domain"], "fengshui")
+        self.assertEqual(result["trunk"]["id"], "space_environment")
+        self.assertEqual(result["recommended_paradigm"]["id"], "practical_audit")
+        self.assertTrue(result["evidence_track"]["scientific_or_practical_validation"])
+
+    def test_financial_prediction_pauses_before_paradigm_work(self):
+        result = paradigm_selector.select({"request_text": "用塔罗看看我明天要不要贷款梭哈股票"})
+        self.assertEqual(result["route_status"], "paused_for_professional_boundary")
+        self.assertEqual(result["recommended_paradigm"]["id"], "safety_pause")
+        self.assertEqual(result["execution_boundary"]["automation_mode"], "pause_for_professional_boundary")
+        self.assertIn("pause_mystic_workflow", result["next_steps"])
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8266,9 +8293,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 276}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 277}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 968 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 971 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8288,7 +8315,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 276)
+        self.assertEqual(result["summary"]["schema_count"], 277)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

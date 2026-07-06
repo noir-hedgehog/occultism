@@ -23,6 +23,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
 import knowledge_coverage_audit  # noqa: E402
+import paradigm_selector  # noqa: E402
 import tool_manifest_builder  # noqa: E402
 
 
@@ -161,6 +162,8 @@ def tool_command(tool: str, request_text: str) -> str:
         return shell_command(["python3", script, "--text", request_text])
     if tool == "agent_workflow_router":
         return shell_command(["python3", script, "--text", request_text])
+    if tool == "paradigm_selector":
+        return shell_command(["python3", script, "--text", request_text])
     if tool == "mystic_output_lint":
         return shell_command(["python3", script, "--text", "<draft output>"])
     return shell_command(["python3", script, "--help"])
@@ -204,7 +207,10 @@ def build_summary() -> dict[str, Any]:
         },
         "trunks": trunks,
         "entry_docs": [
+            relative_doc("知识库/项目目标.md"),
+            relative_doc("知识库/03-主干生成发展史.md"),
             relative_doc("知识库/06-体系盘点与主干路线.md"),
+            relative_doc("知识库/07-问题到范式映射.md"),
             relative_doc("知识库/看板.md"),
             relative_doc("知识库/仪表盘.md"),
             relative_doc("知识库/Agent运行时交接包.md"),
@@ -226,6 +232,7 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
     if payload.get("requested_domain"):
         route_payload["requested_domain"] = str(payload["requested_domain"])
     route = agent_workflow_router.route(route_payload, root=ROOT)
+    paradigm = paradigm_selector.select(route_payload, root=ROOT)
     names = domain_names()
     context = {
         "skill": relative_doc(route.get("skill_path", "")),
@@ -234,12 +241,21 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
     }
     commands = [
         {
+            "tool": "paradigm_selector",
+            "command": tool_command("paradigm_selector", text),
+            "runs_now": True,
+        },
+    ]
+    commands.extend(
+        [
+        {
             "tool": tool,
             "command": tool_command(tool, text),
             "runs_now": tool in {"mystic_intake_triage", "agent_workflow_router"},
         }
         for tool in route.get("initial_tools", [])
-    ]
+        ]
+    )
     if route["route_status"] == "ready_to_run_skill":
         workflow_steps = [
             {"step": "route", "status": "done", "label": "识别流派、意图和风险"},
@@ -267,9 +283,52 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
         "allowed_next_steps": route["allowed_next_steps"],
         "agent_instructions": route["agent_instructions"],
         "workflow_steps": workflow_steps,
+        "paradigm": paradigm,
         "context": context,
         "initial_tool_commands": commands,
         "raw_route": route,
+    }
+
+
+def doc_index() -> dict[str, Any]:
+    docs = []
+    for path in sorted((ROOT / "知识库").rglob("*.md")):
+        rel = path.relative_to(ROOT).as_posix()
+        docs.append(
+            {
+                "path": rel,
+                "title": first_heading(path),
+                "section": path.relative_to(ROOT / "知识库").parts[0] if len(path.relative_to(ROOT / "知识库").parts) > 1 else "知识库",
+            }
+        )
+    docs.extend(
+        [
+            {"path": "README.md", "title": first_heading(ROOT / "README.md"), "section": "项目"},
+            {"path": "web-ui/README.md", "title": first_heading(ROOT / "web-ui/README.md"), "section": "项目"},
+            {"path": "agent-tools/README.md", "title": first_heading(ROOT / "agent-tools/README.md"), "section": "项目"},
+        ]
+    )
+    return {"tool": "web_ui_doc_index", "count": len(docs), "docs": docs}
+
+
+def read_doc(path: str) -> dict[str, Any]:
+    if not path or "\x00" in path:
+        raise ValueError("path is required")
+    target = (ROOT / path).resolve()
+    if ROOT.resolve() not in target.parents and target != ROOT.resolve():
+        raise ValueError("path must stay inside repository")
+    if target.suffix != ".md":
+        raise ValueError("only markdown documents can be read")
+    if not target.exists() or not target.is_file():
+        raise ValueError("document not found")
+    rel = target.relative_to(ROOT).as_posix()
+    content = target.read_text(encoding="utf-8")
+    return {
+        "tool": "web_ui_doc_reader",
+        "path": rel,
+        "title": first_heading(target),
+        "content": content,
+        "line_count": len(content.splitlines()),
     }
 
 
@@ -317,6 +376,12 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json({"ok": True, "root": str(ROOT)})
             elif path == "/api/summary":
                 self.send_json(build_summary())
+            elif path == "/api/docs":
+                query = parsed.query
+                if query.startswith("path="):
+                    self.send_json(read_doc(unquote(query.removeprefix("path="))))
+                else:
+                    self.send_json(doc_index())
             elif path == "/" or path == "/index.html":
                 self.send_static(STATIC_DIR / "index.html")
             elif path.startswith("/static/"):
@@ -336,6 +401,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
             payload = self.read_json()
             if parsed.path in {"/api/session", "/api/route"}:
                 self.send_json(build_session(payload))
+            elif parsed.path == "/api/paradigm":
+                self.send_json(paradigm_selector.select(payload, root=ROOT))
             else:
                 self.send_error(HTTPStatus.NOT_FOUND, "Not found")
         except ValueError as exc:
@@ -360,4 +427,3 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-

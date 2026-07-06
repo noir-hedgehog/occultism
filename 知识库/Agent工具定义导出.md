@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 276 |
-| OpenAI-style tool | 276 |
-| 来源 wrapper | 276 |
+| Definition | 277 |
+| OpenAI-style tool | 277 |
+| 来源 wrapper | 277 |
 
 ## 定义清单
 
@@ -173,6 +173,7 @@
 | `oracle_lot_record_builder` | `agent-tools/scripts/oracle_lot_record_builder.py` | [oracle-lot-record-builder.schema.json](../agent-tools/schemas/oracle-lot-record-builder.schema.json) | `oracle_lot` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `oracle_lot_request_guard` | `agent-tools/scripts/oracle_lot_request_guard.py` | [oracle-lot-request-guard.schema.json](../agent-tools/schemas/oracle-lot-request-guard.schema.json) | `oracle_lot` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `oracle_lot_symbol_lookup` | `agent-tools/scripts/oracle_lot_symbol_lookup.py` | [oracle-lot-symbol-lookup.schema.json](../agent-tools/schemas/oracle-lot-symbol-lookup.schema.json) | `oracle_lot` | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `paradigm_selector` | `agent-tools/scripts/paradigm_selector.py` | [paradigm-selector.schema.json](../agent-tools/schemas/paradigm-selector.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `past_life_narrative_recorder` | `agent-tools/scripts/past_life_narrative_recorder.py` | [past-life-narrative-recorder.schema.json](../agent-tools/schemas/past-life-narrative-recorder.schema.json) | `past_life` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `past_life_reflection_planner` | `agent-tools/scripts/past_life_reflection_planner.py` | [past-life-reflection-planner.schema.json](../agent-tools/schemas/past-life-reflection-planner.schema.json) | `past_life` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `past_life_request_guard` | `agent-tools/scripts/past_life_request_guard.py` | [past-life-request-guard.schema.json](../agent-tools/schemas/past-life-request-guard.schema.json) | `past_life` | `professional_boundary_required`, `symbolic_interpretation_only` |

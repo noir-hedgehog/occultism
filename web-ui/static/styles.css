@@ -271,6 +271,7 @@ button:disabled {
 
 .trunks,
 .workflow,
+.paradigm,
 .context-docs,
 .commands {
   display: grid;
@@ -338,6 +339,58 @@ button:disabled {
   border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
 }
 
+.panel-wide {
+  grid-column: 1 / -1;
+}
+
+.doc-browser {
+  display: grid;
+  grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.doc-index {
+  display: grid;
+  gap: 6px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.doc-button {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 52px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  padding: 8px;
+}
+
+.doc-button.active {
+  border-color: var(--accent);
+}
+
+.doc-button strong,
+.doc-button span {
+  display: block;
+}
+
+.doc-button span {
+  color: var(--muted);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.doc-content {
+  max-height: 520px;
+  background: #fff;
+  color: var(--ink);
+  white-space: pre-wrap;
+}
+
 .json-panel {
   margin-top: 16px;
 }
@@ -370,7 +423,8 @@ pre {
 @media (max-width: 980px) {
   .workspace,
   .content-grid,
-  .status-strip {
+  .status-strip,
+  .doc-browser {
     grid-template-columns: 1fr;
   }
 
@@ -389,4 +443,3 @@ pre {
     grid-template-columns: 1fr;
   }
 }
-

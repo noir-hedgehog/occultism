@@ -8,7 +8,7 @@
 | --- | --- |
 | 状态 | `ready_for_runtime_dry_run` |
 | Skill | 61 |
-| Tool | 276 |
+| Tool | 277 |
 | 外部开放项 | 3 |
 
 ## 运行时入口
@@ -23,12 +23,12 @@
 
 | Check | Passed | Summary |
 | --- | --- | --- |
-| `tool_manifest` | True | 276 tools, 61 skills |
-| `tool_wrapper_manifest` | True | 276/276 wrappers ready |
-| `tool_definition_export` | True | 276 tool definitions exported |
-| `tool_definition_validation` | True | 276/276 definitions valid |
-| `tool_registry` | True | 276 tools ready for runtime registration |
-| `tool_registry_validation` | True | 276 tools, 0 failed skill checks |
+| `tool_manifest` | True | 277 tools, 61 skills |
+| `tool_wrapper_manifest` | True | 277/277 wrappers ready |
+| `tool_definition_export` | True | 277 tool definitions exported |
+| `tool_definition_validation` | True | 277/277 definitions valid |
+| `tool_registry` | True | 277 tools ready for runtime registration |
+| `tool_registry_validation` | True | 277 tools, 0 failed skill checks |
 | `route_smoke` | True | 63/63 route cases passed |
 | `runtime_dry_run` | True | 63/63 runtime dry-run cases passed |
 | `skill_install_readiness` | True | ready_for_install_approval |
@@ -119,9 +119,9 @@ python3 agent-tools/scripts/agent_tool_definition_exporter.py --format openai
 python3 agent-tools/scripts/agent_tool_definition_validator.py
 python3 agent-tools/scripts/agent_tool_registry_builder.py
 python3 agent-tools/scripts/agent_tool_registry_validator.py
-python3 agent-tools/scripts/skill_install_readiness_report.py --codex-home /private/tmp/mystic-codex-home-preview --format markdown
-python3 agent-tools/scripts/external_evidence_intake_builder.py --codex-home /private/tmp/mystic-codex-home-preview --format markdown
-python3 agent-tools/scripts/pilot_readiness_report.py --codex-home /private/tmp/mystic-codex-home-preview --format markdown
+python3 agent-tools/scripts/skill_install_readiness_report.py --codex-home /Users/uriah/.codex --format markdown
+python3 agent-tools/scripts/external_evidence_intake_builder.py --codex-home /Users/uriah/.codex --format markdown
+python3 agent-tools/scripts/pilot_readiness_report.py --codex-home /Users/uriah/.codex --format markdown
 ```
 
 ## 验证命令

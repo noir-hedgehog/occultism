@@ -60,6 +60,14 @@
 
             <section class="panel">
               <div class="panel-heading">
+                <h2>范式</h2>
+                <span id="paradigmBadge"></span>
+              </div>
+              <div id="paradigmPanel" class="paradigm"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
                 <h2>上下文</h2>
                 <span id="contextBadge"></span>
               </div>
@@ -72,6 +80,17 @@
                 <span id="toolBadge"></span>
               </div>
               <div id="toolCommands" class="commands"></div>
+            </section>
+
+            <section class="panel panel-wide">
+              <div class="panel-heading">
+                <h2>文档站</h2>
+                <span id="docBadge"></span>
+              </div>
+              <div class="doc-browser">
+                <div id="docIndex" class="doc-index"></div>
+                <pre id="docContent" class="doc-content">选择一篇文档</pre>
+              </div>
             </section>
           </div>
 
@@ -88,4 +107,3 @@
     <script src="/static/app.js"></script>
   </body>
 </html>
-

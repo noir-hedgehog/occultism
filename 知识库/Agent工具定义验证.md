@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 276/276 |
-| OpenAI-style tool | 276/276 |
+| Definition | 277/277 |
+| OpenAI-style tool | 277/277 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -174,6 +174,7 @@
 | `oracle_lot_record_builder` | True | `oracle_lot` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `oracle_lot_request_guard` | True | `oracle_lot` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `oracle_lot_symbol_lookup` | True | `oracle_lot` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
+| `paradigm_selector` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `past_life_narrative_recorder` | True | `past_life` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `past_life_reflection_planner` | True | `past_life` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `past_life_request_guard` | True | `past_life` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

@@ -1,6 +1,8 @@
 const state = {
   summary: null,
   session: null,
+  docs: null,
+  activeDoc: null,
   jsonOpen: false,
 };
 
@@ -26,13 +28,19 @@ function renderDocs(docs) {
   $("#docs").innerHTML = docs
     .map(
       (doc) => `
-        <a href="#" title="${doc.path}">
+        <a href="#" data-doc-path="${doc.path}" title="${doc.path}">
           <strong>${doc.title || doc.path}</strong>
           <span>${doc.path}</span>
         </a>
       `,
     )
     .join("");
+  document.querySelectorAll("[data-doc-path]").forEach((item) => {
+    item.addEventListener("click", (event) => {
+      event.preventDefault();
+      loadDoc(item.dataset.docPath);
+    });
+  });
 }
 
 function renderTrunks(trunks) {
@@ -91,6 +99,36 @@ function renderWorkflow(session) {
     .join("");
 }
 
+function renderParadigm(session) {
+  if (!session || !session.paradigm) {
+    $("#paradigmBadge").textContent = "";
+    $("#paradigmPanel").innerHTML = "";
+    return;
+  }
+  const p = session.paradigm;
+  $("#paradigmBadge").textContent = p.recommended_paradigm.id;
+  const evidence = p.evidence_track;
+  $("#paradigmPanel").innerHTML = `
+    <article class="trunk">
+      <h3>${p.recommended_paradigm.title}</h3>
+      <p>${p.recommended_paradigm.why}</p>
+      <div class="chips">
+        <span class="chip">${p.trunk.title}</span>
+        <span class="chip">${p.question_type}</span>
+        <span class="chip">${p.execution_boundary.automation_mode}</span>
+      </div>
+    </article>
+    <article class="trunk">
+      <h3>证据轨道</h3>
+      <div class="chips">
+        <span class="chip">科学/实用 ${evidence.scientific_or_practical_validation ? "是" : "否"}</span>
+        <span class="chip">溯源 ${evidence.provenance_audit ? "是" : "否"}</span>
+        <span class="chip">神秘边界 ${evidence.mystical_boundary_priority ? "优先" : "常规"}</span>
+      </div>
+    </article>
+  `;
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -112,6 +150,28 @@ function renderContext(session) {
       `,
     )
     .join("");
+}
+
+function renderDocIndex() {
+  if (!state.docs) return;
+  $("#docBadge").textContent = `${state.docs.count} 篇`;
+  const selected = state.activeDoc?.path;
+  $("#docIndex").innerHTML = state.docs.docs
+    .map(
+      (doc) => `
+        <button class="doc-button ${selected === doc.path ? "active" : ""}" data-read-doc="${doc.path}" type="button">
+          <strong>${doc.title || doc.path}</strong>
+          <span>${doc.section} · ${doc.path}</span>
+        </button>
+      `,
+    )
+    .join("");
+  document.querySelectorAll("[data-read-doc]").forEach((button) => {
+    button.addEventListener("click", () => loadDoc(button.dataset.readDoc));
+  });
+  if (state.activeDoc) {
+    $("#docContent").textContent = state.activeDoc.content;
+  }
 }
 
 function renderCommands(session) {
@@ -141,8 +201,10 @@ function renderAll() {
   }
   renderStatus(state.session);
   renderWorkflow(state.session);
+  renderParadigm(state.session);
   renderContext(state.session);
   renderCommands(state.session);
+  renderDocIndex();
   setJson(state.session || state.summary || {});
 }
 
@@ -150,6 +212,20 @@ async function loadSummary() {
   const response = await fetch("/api/summary");
   if (!response.ok) throw new Error(`summary failed: ${response.status}`);
   state.summary = await response.json();
+  renderAll();
+}
+
+async function loadDocs() {
+  const response = await fetch("/api/docs");
+  if (!response.ok) throw new Error(`docs failed: ${response.status}`);
+  state.docs = await response.json();
+  renderAll();
+}
+
+async function loadDoc(path) {
+  const response = await fetch(`/api/docs?path=${encodeURIComponent(path)}`);
+  if (!response.ok) throw new Error(`doc failed: ${response.status}`);
+  state.activeDoc = await response.json();
   renderAll();
 }
 
@@ -179,6 +255,7 @@ async function runSession() {
       domain_display_name: "错误",
       can_continue_mystic_workflow: false,
       workflow_steps: [{step: "error", status: "next", label: error.message}],
+      paradigm: null,
       context: {skill: {}, sop: [], knowledge: []},
       initial_tool_commands: [],
     };
@@ -197,7 +274,13 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-loadSummary().then(renderAll).catch((error) => {
-  setJson({error: error.message});
-});
-
+Promise.all([loadSummary(), loadDocs()])
+  .then(() => {
+    const first = state.summary?.entry_docs?.[0]?.path;
+    if (first) return loadDoc(first);
+    return null;
+  })
+  .then(renderAll)
+  .catch((error) => {
+    setJson({error: error.message});
+  });
