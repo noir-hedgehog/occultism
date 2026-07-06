@@ -25,6 +25,7 @@ import agent_runtime_dry_run_runner  # noqa: E402
 import consultation_case_recorder  # noqa: E402
 import consultation_handoff_builder  # noqa: E402
 import consultation_packet_builder  # noqa: E402
+import domain_evidence_matrix_builder  # noqa: E402
 import fengshui_observation_recorder  # noqa: E402
 import fengshui_space_checklist  # noqa: E402
 import knowledge_coverage_audit  # noqa: E402
@@ -217,6 +218,7 @@ def build_summary() -> dict[str, Any]:
             relative_doc("知识库/03-主干生成发展史.md"),
             relative_doc("知识库/06-体系盘点与主干路线.md"),
             relative_doc("知识库/07-问题到范式映射.md"),
+            relative_doc("知识库/证据矩阵.md"),
             relative_doc("知识库/看板.md"),
             relative_doc("知识库/仪表盘.md"),
             relative_doc("知识库/Agent运行时交接包.md"),
@@ -413,6 +415,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json({"ok": True, "root": str(ROOT)})
             elif path == "/api/summary":
                 self.send_json(build_summary())
+            elif path == "/api/evidence-matrix":
+                self.send_json(domain_evidence_matrix_builder.build(ROOT))
             elif path == "/api/docs":
                 query = parsed.query
                 if query.startswith("path="):

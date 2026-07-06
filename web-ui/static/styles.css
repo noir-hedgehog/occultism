@@ -279,6 +279,7 @@ button:disabled {
 .workflow,
 .paradigm,
 .packet,
+.evidence-panel,
 .context-docs,
 .commands {
   display: grid;
@@ -288,6 +289,7 @@ button:disabled {
 .trunk,
 .workflow-step,
 .packet-card,
+.evidence-stream,
 .doc-row,
 .command-row {
   border: 1px solid var(--line);
@@ -299,10 +301,23 @@ button:disabled {
 .trunk h3,
 .workflow-step h3,
 .packet-card h3,
+.evidence-stream strong,
 .doc-row strong,
 .command-row strong {
   margin: 0 0 6px;
   font-size: 14px;
+}
+
+.evidence-stream p,
+.evidence-stream span {
+  display: block;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.evidence-stream span {
+  margin-top: 4px;
 }
 
 .packet-card ul {

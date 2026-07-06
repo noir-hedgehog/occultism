@@ -1,5 +1,6 @@
 const state = {
   summary: null,
+  evidence: null,
   session: null,
   docs: null,
   activeDoc: null,
@@ -160,6 +161,42 @@ function renderPacket(session) {
   `;
 }
 
+function renderEvidence() {
+  if (!state.evidence) {
+    $("#evidenceBadge").textContent = "";
+    $("#evidencePanel").innerHTML = "";
+    return;
+  }
+  $("#evidenceBadge").textContent = `${state.evidence.domain_count} 个领域`;
+  const priorities = Object.entries(state.evidence.priority_counts)
+    .map(([key, value]) => `<span class="chip">${key} ${value}</span>`)
+    .join("");
+  const modes = Object.entries(state.evidence.evidence_mode_counts)
+    .map(([key, value]) => `<span class="chip">${key} ${value}</span>`)
+    .join("");
+  $("#evidencePanel").innerHTML = `
+    <article class="packet-card">
+      <h3>优先级</h3>
+      <div class="chips">${priorities}</div>
+    </article>
+    <article class="packet-card">
+      <h3>证据模式</h3>
+      <div class="chips">${modes}</div>
+    </article>
+    ${state.evidence.workstreams
+      .map(
+        (stream) => `
+          <article class="evidence-stream">
+            <strong>${stream.id}</strong>
+            <p>${stream.description}</p>
+            <span>${stream.domain_count} 个领域</span>
+          </article>
+        `,
+      )
+      .join("")}
+  `;
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -249,6 +286,7 @@ function renderAll() {
   renderWorkflow(state.session);
   renderParadigm(state.session);
   renderPacket(state.session);
+  renderEvidence();
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
@@ -269,6 +307,13 @@ async function loadDocs() {
   const response = await fetch("/api/docs");
   if (!response.ok) throw new Error(`docs failed: ${response.status}`);
   state.docs = await response.json();
+  renderAll();
+}
+
+async function loadEvidence() {
+  const response = await fetch("/api/evidence-matrix");
+  if (!response.ok) throw new Error(`evidence matrix failed: ${response.status}`);
+  state.evidence = await response.json();
   renderAll();
 }
 
@@ -453,7 +498,7 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-Promise.all([loadSummary(), loadDocs()])
+Promise.all([loadSummary(), loadDocs(), loadEvidence()])
   .then(() => {
     const first = state.summary?.entry_docs?.[0]?.path;
     if (first) return loadDoc(first);

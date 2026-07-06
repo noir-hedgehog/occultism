@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DomainEvidenceMatrixBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "domain_count",
+    "trunk_count",
+    "priority_counts",
+    "evidence_mode_counts",
+    "mystical_intensity_counts",
+    "track_counts",
+    "domains",
+    "workstreams",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "domain_evidence_matrix_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "domain_count": {"type": "integer", "minimum": 0},
+    "trunk_count": {"type": "integer", "minimum": 0},
+    "priority_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "evidence_mode_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "mystical_intensity_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "track_counts": {
+      "type": "object",
+      "required": [
+        "scientific_or_practical_validation",
+        "provenance_audit",
+        "mystical_boundary_priority",
+        "case_validation_recommended"
+      ],
+      "properties": {
+        "scientific_or_practical_validation": {"type": "integer", "minimum": 0},
+        "provenance_audit": {"type": "integer", "minimum": 0},
+        "mystical_boundary_priority": {"type": "integer", "minimum": 0},
+        "case_validation_recommended": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "domain",
+          "display_name",
+          "trunk",
+          "evidence_mode",
+          "priority",
+          "mystical_intensity",
+          "tracks",
+          "case_template",
+          "next_action",
+          "docs",
+          "tool_count"
+        ],
+        "properties": {
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "trunk": {
+            "type": "object",
+            "required": ["id", "title"],
+            "properties": {
+              "id": {"type": "string"},
+              "title": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
+          "evidence_mode": {
+            "type": "string",
+            "enum": ["scientific_or_practical", "provenance_correction", "mystical_boundary", "mixed"]
+          },
+          "priority": {"type": "string", "enum": ["P0", "P1", "P2"]},
+          "mystical_intensity": {"type": "string", "enum": ["low", "medium", "medium_high", "high"]},
+          "tracks": {
+            "type": "object",
+            "required": [
+              "scientific_or_practical_validation",
+              "provenance_audit",
+              "mystical_boundary_priority",
+              "case_validation_recommended"
+            ],
+            "properties": {
+              "scientific_or_practical_validation": {"type": "boolean"},
+              "provenance_audit": {"type": "boolean"},
+              "mystical_boundary_priority": {"type": "boolean"},
+              "case_validation_recommended": {"type": "boolean"}
+            },
+            "additionalProperties": false
+          },
+          "case_template": {"type": "string"},
+          "next_action": {"type": "string"},
+          "docs": {
+            "type": "object",
+            "required": ["sop", "knowledge", "skill"],
+            "properties": {
+              "sop": {"type": "array", "items": {"type": "string"}},
+              "knowledge": {"type": "array", "items": {"type": "string"}},
+              "skill": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          },
+          "tool_count": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "workstreams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "priority", "description", "domain_count"],
+        "properties": {
+          "id": {"type": "string"},
+          "priority": {"type": "string"},
+          "description": {"type": "string"},
+          "domain_count": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

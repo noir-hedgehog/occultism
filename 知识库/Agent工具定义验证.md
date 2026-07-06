@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 280/280 |
-| OpenAI-style tool | 280/280 |
+| Definition | 281/281 |
+| OpenAI-style tool | 281/281 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -96,6 +96,7 @@
 | `dice_request_guard` | True | `dice` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `dice_roll_recorder` | True | `dice` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `dice_symbol_lookup` | True | `dice` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
+| `domain_evidence_matrix_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `dowsing_context_recorder` | True | `dowsing` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `dowsing_practice_planner` | True | `dowsing` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `dowsing_request_guard` | True | `dowsing` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

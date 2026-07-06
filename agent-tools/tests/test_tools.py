@@ -34,6 +34,7 @@ from agent_tools_scripts import (
     dream_interpretation_planner,
     dream_record_builder,
     dream_symbol_lookup,
+    domain_evidence_matrix_builder,
     external_evidence_intake_builder,
     folk_custom_lookup,
     folk_source_recorder,
@@ -1145,6 +1146,43 @@ class ConsultationCaseRecorderTests(unittest.TestCase):
         self.assertEqual(result["case_status"], "blocked_or_pause_case")
         self.assertEqual(result["handoff_status"], "blocked_by_lint")
         self.assertFalse(result["is_valid"])
+
+
+class DomainEvidenceMatrixBuilderTests(unittest.TestCase):
+    def test_builds_all_domain_evidence_tracks(self):
+        result = domain_evidence_matrix_builder.build()
+        self.assertEqual(result["tool"], "domain_evidence_matrix_builder")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["domain_count"], 61)
+        self.assertEqual(result["trunk_count"], 6)
+        self.assertEqual(result["track_counts"]["case_validation_recommended"], 61)
+        self.assertGreaterEqual(result["track_counts"]["provenance_audit"], 30)
+
+    def test_classifies_practical_provenance_and_mystical_tracks(self):
+        result = domain_evidence_matrix_builder.build()
+        by_domain = {item["domain"]: item for item in result["domains"]}
+        self.assertEqual(by_domain["fengshui"]["priority"], "P0")
+        self.assertEqual(by_domain["fengshui"]["evidence_mode"], "scientific_or_practical")
+        self.assertEqual(by_domain["tarot"]["priority"], "P1")
+        self.assertEqual(by_domain["tarot"]["evidence_mode"], "provenance_correction")
+        self.assertEqual(by_domain["spirit_message"]["priority"], "P2")
+        self.assertEqual(by_domain["spirit_message"]["evidence_mode"], "mystical_boundary")
+
+    def test_workstreams_partition_priorities(self):
+        result = domain_evidence_matrix_builder.build()
+        priority_total = sum(result["priority_counts"].values())
+        workstream_total = sum(item["domain_count"] for item in result["workstreams"])
+        self.assertEqual(priority_total, result["domain_count"])
+        self.assertEqual(workstream_total, result["domain_count"])
+        self.assertEqual({item["priority"] for item in result["workstreams"]}, {"P0", "P1", "P2"})
+
+    def test_generated_markdown_lists_matrix_and_limits(self):
+        result = domain_evidence_matrix_builder.build()
+        markdown = domain_evidence_matrix_builder.render_markdown(result)
+        self.assertIn("# 证据矩阵", markdown)
+        self.assertIn("## 领域矩阵", markdown)
+        self.assertIn("风水 (`fengshui`)", markdown)
+        self.assertIn("神秘叙事边界优先", markdown)
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8464,9 +8502,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 280}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 281}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 982 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 986 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8486,7 +8524,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 280)
+        self.assertEqual(result["summary"]["schema_count"], 281)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

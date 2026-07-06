@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 280 |
-| 可包装 | 280 |
+| Wrapper | 281 |
+| 可包装 | 281 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -103,6 +103,7 @@
 | `dice_request_guard` | `dice` | `dice-symbolic-consultation` | [dice-request-guard.schema.json](../agent-tools/schemas/dice-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dice_roll_recorder` | `dice` | `dice-symbolic-consultation` | [dice-roll-recorder.schema.json](../agent-tools/schemas/dice-roll-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dice_symbol_lookup` | `dice` | `dice-symbolic-consultation` | [dice-symbol-lookup.schema.json](../agent-tools/schemas/dice-symbol-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `domain_evidence_matrix_builder` | `shared` | - | [domain-evidence-matrix-builder.schema.json](../agent-tools/schemas/domain-evidence-matrix-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `dowsing_context_recorder` | `dowsing` | `dowsing-symbolic-consultation` | [dowsing-context-recorder.schema.json](../agent-tools/schemas/dowsing-context-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dowsing_practice_planner` | `dowsing` | `dowsing-symbolic-consultation` | [dowsing-practice-planner.schema.json](../agent-tools/schemas/dowsing-practice-planner.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dowsing_request_guard` | `dowsing` | `dowsing-symbolic-consultation` | [dowsing-request-guard.schema.json](../agent-tools/schemas/dowsing-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |

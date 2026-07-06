@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 280 |
-| OpenAI-style tool | 280 |
-| 来源 wrapper | 280 |
+| Definition | 281 |
+| OpenAI-style tool | 281 |
+| 来源 wrapper | 281 |
 
 ## 定义清单
 
@@ -95,6 +95,7 @@
 | `dice_request_guard` | `agent-tools/scripts/dice_request_guard.py` | [dice-request-guard.schema.json](../agent-tools/schemas/dice-request-guard.schema.json) | `dice` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dice_roll_recorder` | `agent-tools/scripts/dice_roll_recorder.py` | [dice-roll-recorder.schema.json](../agent-tools/schemas/dice-roll-recorder.schema.json) | `dice` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dice_symbol_lookup` | `agent-tools/scripts/dice_symbol_lookup.py` | [dice-symbol-lookup.schema.json](../agent-tools/schemas/dice-symbol-lookup.schema.json) | `dice` | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `domain_evidence_matrix_builder` | `agent-tools/scripts/domain_evidence_matrix_builder.py` | [domain-evidence-matrix-builder.schema.json](../agent-tools/schemas/domain-evidence-matrix-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `dowsing_context_recorder` | `agent-tools/scripts/dowsing_context_recorder.py` | [dowsing-context-recorder.schema.json](../agent-tools/schemas/dowsing-context-recorder.schema.json) | `dowsing` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dowsing_practice_planner` | `agent-tools/scripts/dowsing_practice_planner.py` | [dowsing-practice-planner.schema.json](../agent-tools/schemas/dowsing-practice-planner.schema.json) | `dowsing` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `dowsing_request_guard` | `agent-tools/scripts/dowsing_request_guard.py` | [dowsing-request-guard.schema.json](../agent-tools/schemas/dowsing-request-guard.schema.json) | `dowsing` | `professional_boundary_required`, `symbolic_interpretation_only` |
