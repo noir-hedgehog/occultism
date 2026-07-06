@@ -375,6 +375,7 @@ button:disabled {
   gap: 12px;
 }
 
+.handoff-tools,
 .structured-form {
   display: grid;
   gap: 10px;

@@ -22,6 +22,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
+import consultation_handoff_builder  # noqa: E402
 import consultation_packet_builder  # noqa: E402
 import fengshui_observation_recorder  # noqa: E402
 import fengshui_space_checklist  # noqa: E402
@@ -442,6 +443,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json(consultation_packet_builder.build(payload, root=ROOT))
             elif parsed.path == "/api/tool-preview":
                 self.send_json(build_tool_preview(payload))
+            elif parsed.path == "/api/handoff":
+                self.send_json(consultation_handoff_builder.build(payload, root=ROOT))
             else:
                 self.send_error(HTTPStatus.NOT_FOUND, "Not found")
         except ValueError as exc:

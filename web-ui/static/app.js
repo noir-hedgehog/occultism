@@ -4,6 +4,7 @@ const state = {
   docs: null,
   activeDoc: null,
   preview: null,
+  handoff: null,
   jsonOpen: false,
 };
 
@@ -227,6 +228,11 @@ function renderPreview() {
   $("#previewOutput").textContent = JSON.stringify(state.preview || {}, null, 2);
 }
 
+function renderHandoff() {
+  $("#handoffBadge").textContent = state.handoff ? state.handoff.handoff_status : "待生成";
+  $("#handoffOutput").textContent = JSON.stringify(state.handoff || {}, null, 2);
+}
+
 function renderAll() {
   if (state.summary) {
     renderMetrics(state.summary.metrics);
@@ -241,6 +247,7 @@ function renderAll() {
   renderCommands(state.session);
   renderDocIndex();
   renderPreview();
+  renderHandoff();
   setJson(state.session || state.summary || {});
 }
 
@@ -359,6 +366,34 @@ async function runPreview() {
   }
 }
 
+async function runHandoff() {
+  const button = $("#handoffButton");
+  button.disabled = true;
+  button.textContent = "生成中";
+  try {
+    const payload = {
+      request_text: $("#requestText").value.trim(),
+      requested_domain: $("#domainSelect").value || undefined,
+      preview_result: state.preview || undefined,
+      draft_output: $("#draftOutput").value.trim(),
+    };
+    const response = await fetch("/api/handoff", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || `handoff failed: ${response.status}`);
+    state.handoff = data;
+  } catch (error) {
+    state.handoff = {tool: "consultation_handoff_builder", is_valid: false, error: error.message};
+  } finally {
+    button.disabled = false;
+    button.textContent = "生成交接包";
+    renderAll();
+  }
+}
+
 function syncPreviewMode() {
   const mode = $("#previewMode").value;
   $("#tarotFields").hidden = mode !== "tarot";
@@ -367,6 +402,7 @@ function syncPreviewMode() {
 
 $("#runButton").addEventListener("click", runSession);
 $("#previewButton").addEventListener("click", runPreview);
+$("#handoffButton").addEventListener("click", runHandoff);
 $("#previewMode").addEventListener("change", syncPreviewMode);
 
 $("#toggleJson").addEventListener("click", () => {

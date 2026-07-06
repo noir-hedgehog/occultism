@@ -163,6 +163,21 @@
 
             <section class="panel panel-wide">
               <div class="panel-heading">
+                <h2>Agent 交接</h2>
+                <span id="handoffBadge">待生成</span>
+              </div>
+              <div class="handoff-tools">
+                <div class="field-row">
+                  <label for="draftOutput">草稿</label>
+                  <textarea id="draftOutput" rows="4">这次牌面更适合当作工作状态的反思：先把事实、猜测和下一步拆开，再选一个 24 小时内能推进的小动作；它不保证结果，也不替代现实沟通。</textarea>
+                </div>
+                <button id="handoffButton" type="button">生成交接包</button>
+                <pre id="handoffOutput" class="preview-output">{}</pre>
+              </div>
+            </section>
+
+            <section class="panel panel-wide">
+              <div class="panel-heading">
                 <h2>文档站</h2>
                 <span id="docBadge"></span>
               </div>

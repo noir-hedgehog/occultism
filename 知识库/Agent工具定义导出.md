@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 278 |
-| OpenAI-style tool | 278 |
-| 来源 wrapper | 278 |
+| Definition | 279 |
+| OpenAI-style tool | 279 |
+| 来源 wrapper | 279 |
 
 ## 定义清单
 
@@ -75,6 +75,7 @@
 | `consecration_context_recorder` | `agent-tools/scripts/consecration_context_recorder.py` | [consecration-context-recorder.schema.json](../agent-tools/schemas/consecration-context-recorder.schema.json) | `consecration` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `consecration_request_guard` | `agent-tools/scripts/consecration_request_guard.py` | [consecration-request-guard.schema.json](../agent-tools/schemas/consecration-request-guard.schema.json) | `consecration` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `consecration_symbol_lookup` | `agent-tools/scripts/consecration_symbol_lookup.py` | [consecration-symbol-lookup.schema.json](../agent-tools/schemas/consecration-symbol-lookup.schema.json) | `consecration` | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `consultation_handoff_builder` | `agent-tools/scripts/consultation_handoff_builder.py` | [consultation-handoff-builder.schema.json](../agent-tools/schemas/consultation-handoff-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `consultation_packet_builder` | `agent-tools/scripts/consultation_packet_builder.py` | [consultation-packet-builder.schema.json](../agent-tools/schemas/consultation-packet-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `content_review_feedback_recorder` | `agent-tools/scripts/content_review_feedback_recorder.py` | [content-review-feedback-recorder.schema.json](../agent-tools/schemas/content-review-feedback-recorder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `content_review_packet_builder` | `agent-tools/scripts/content_review_packet_builder.py` | [content-review-packet-builder.schema.json](../agent-tools/schemas/content-review-packet-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |

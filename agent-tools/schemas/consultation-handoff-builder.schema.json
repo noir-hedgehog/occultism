@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsultationHandoffBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "request_text",
+    "handoff_status",
+    "packet",
+    "preview",
+    "preview_result",
+    "input_status",
+    "draft_output",
+    "lint_result",
+    "agent_resume_prompt",
+    "review_checklist",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "consultation_handoff_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "request_text": {"type": "string"},
+    "handoff_status": {
+      "type": "string",
+      "enum": [
+        "pause_required",
+        "needs_structured_tool_results",
+        "ready_for_agent_synthesis",
+        "ready_for_review",
+        "rewrite_required",
+        "blocked_by_lint"
+      ]
+    },
+    "packet": {"type": "object", "additionalProperties": true},
+    "preview": {
+      "type": "object",
+      "required": ["present", "mode", "tool_name", "is_valid", "result_keys"],
+      "properties": {
+        "present": {"type": "boolean"},
+        "mode": {"type": "string"},
+        "tool_name": {"type": "string"},
+        "is_valid": {"type": "boolean"},
+        "result_keys": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "preview_result": {"type": "object", "additionalProperties": true},
+    "input_status": {
+      "type": "object",
+      "required": ["required_structured_tools", "has_structured_preview", "remaining_structured_input_needed"],
+      "properties": {
+        "required_structured_tools": {"type": "array", "items": {"type": "string"}},
+        "has_structured_preview": {"type": "boolean"},
+        "remaining_structured_input_needed": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "draft_output": {"type": "string"},
+    "lint_result": {"type": "object", "additionalProperties": true},
+    "agent_resume_prompt": {"type": "array", "items": {"type": "string"}},
+    "review_checklist": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

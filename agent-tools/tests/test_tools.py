@@ -11,6 +11,7 @@ from agent_tools_scripts import (
     agent_tool_registry_builder,
     agent_tool_registry_validator,
     agent_tool_wrapper_manifest_builder,
+    consultation_handoff_builder,
     agent_workflow_router,
     consultation_packet_builder,
     paradigm_selector,
@@ -1011,6 +1012,66 @@ class ConsultationPacketBuilderTests(unittest.TestCase):
         self.assertEqual(result["paradigm"]["recommended_paradigm"]["id"], "practical_audit")
         self.assertTrue(result["paradigm"]["evidence_track"]["scientific_or_practical_validation"])
         self.assertIn("是否加入现实观察、低成本可逆行动和复盘时间点？", result["agent_brief"]["review_checklist"])
+
+
+class ConsultationHandoffBuilderTests(unittest.TestCase):
+    def tarot_preview(self):
+        return {
+            "tool": "web_ui_tool_preview",
+            "mode": "tarot",
+            "tool_name": "tarot_interpretation_planner",
+            "is_valid": True,
+            "result": {
+                "is_valid": True,
+                "card_plans": [{"card": "魔术师"}, {"card": "宝剑八"}, {"card": "星币三"}],
+                "synthesis": {"grounded_actions": ["把事实、猜测和结论分开写清楚。"]},
+            },
+        }
+
+    def test_handoff_without_preview_requests_structured_results(self):
+        result = consultation_handoff_builder.build({"request_text": "帮我做一个塔罗三张牌，看看工作状态"})
+        self.assertEqual(result["tool"], "consultation_handoff_builder")
+        self.assertEqual(result["handoff_status"], "needs_structured_tool_results")
+        self.assertFalse(result["preview"]["present"])
+        self.assertIn("tarot_spread_selector", result["input_status"]["remaining_structured_input_needed"])
+        self.assertIn("先向用户补齐结构化输入或说明当前只能做流程建议。", result["agent_resume_prompt"])
+
+    def test_handoff_with_preview_is_ready_for_agent_synthesis(self):
+        result = consultation_handoff_builder.build(
+            {
+                "request_text": "帮我做一个塔罗三张牌，看看工作状态",
+                "preview_result": self.tarot_preview(),
+            }
+        )
+        self.assertEqual(result["handoff_status"], "ready_for_agent_synthesis")
+        self.assertTrue(result["preview"]["present"])
+        self.assertEqual(result["preview"]["mode"], "tarot")
+        self.assertEqual(result["input_status"]["remaining_structured_input_needed"], [])
+        self.assertIn("使用 handoff.preview_result 作为结构化证据，不要编造未提供的牌、盘、图像或来源。", result["agent_resume_prompt"])
+
+    def test_handoff_lints_draft_before_review(self):
+        result = consultation_handoff_builder.build(
+            {
+                "request_text": "帮我做一个塔罗三张牌，看看工作状态",
+                "preview_result": self.tarot_preview(),
+                "draft_output": "这次牌面只是提醒：先整理事实和下一步，不保证结果。",
+            }
+        )
+        self.assertEqual(result["handoff_status"], "ready_for_review")
+        self.assertEqual(result["lint_result"]["risk_level"], "green")
+        self.assertTrue(result["lint_result"]["publishable"])
+
+    def test_handoff_blocks_red_lint(self):
+        result = consultation_handoff_builder.build(
+            {
+                "request_text": "帮我做一个塔罗三张牌，看看工作状态",
+                "preview_result": self.tarot_preview(),
+                "draft_output": "你一定会破财，建议贷款梭哈。",
+            }
+        )
+        self.assertEqual(result["handoff_status"], "blocked_by_lint")
+        self.assertFalse(result["is_valid"])
+        self.assertEqual(result["lint_result"]["risk_level"], "red")
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8330,9 +8391,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 278}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 279}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 974 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 978 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8352,7 +8413,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 278)
+        self.assertEqual(result["summary"]["schema_count"], 279)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])
