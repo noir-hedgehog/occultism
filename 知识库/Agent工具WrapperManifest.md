@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 279 |
-| 可包装 | 279 |
+| Wrapper | 280 |
+| 可包装 | 280 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -83,6 +83,7 @@
 | `consecration_context_recorder` | `consecration` | `consecration-symbolic-consultation` | [consecration-context-recorder.schema.json](../agent-tools/schemas/consecration-context-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `consecration_request_guard` | `consecration` | `consecration-symbolic-consultation` | [consecration-request-guard.schema.json](../agent-tools/schemas/consecration-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `consecration_symbol_lookup` | `consecration` | `consecration-symbolic-consultation` | [consecration-symbol-lookup.schema.json](../agent-tools/schemas/consecration-symbol-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `consultation_case_recorder` | `shared` | - | [consultation-case-recorder.schema.json](../agent-tools/schemas/consultation-case-recorder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `consultation_handoff_builder` | `shared` | - | [consultation-handoff-builder.schema.json](../agent-tools/schemas/consultation-handoff-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `consultation_packet_builder` | `shared` | - | [consultation-packet-builder.schema.json](../agent-tools/schemas/consultation-packet-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `content_review_feedback_recorder` | `shared` | - | [content-review-feedback-recorder.schema.json](../agent-tools/schemas/content-review-feedback-recorder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |

@@ -178,6 +178,45 @@
 
             <section class="panel panel-wide">
               <div class="panel-heading">
+                <h2>案例记录</h2>
+                <span id="caseBadge">待生成</span>
+              </div>
+              <div class="case-tools">
+                <div class="field-row">
+                  <label for="caseSourceLabel">来源标签</label>
+                  <input id="caseSourceLabel" value="web-ui-candidate" />
+                </div>
+                <div class="field-row">
+                  <label for="caseFollowUp">回访</label>
+                  <textarea id="caseFollowUp" rows="3">两天后复盘：我把事实和猜测拆开后，确实更容易推进沟通。</textarea>
+                </div>
+                <div class="case-grid">
+                  <div class="field-row">
+                    <label for="caseValidation">验证结果</label>
+                    <select id="caseValidation">
+                      <option value="unverified">未验证</option>
+                      <option value="supports_practical_use">支持实用价值</option>
+                      <option value="mixed">部分支持/混合</option>
+                      <option value="no_support">未支持</option>
+                      <option value="safety_only">仅保留安全价值</option>
+                    </select>
+                  </div>
+                  <div class="field-row">
+                    <label for="caseReviewer">审校人</label>
+                    <input id="caseReviewer" value="internal-reviewer" />
+                  </div>
+                  <label class="check-row" for="caseApproved">
+                    <input id="caseApproved" type="checkbox" />
+                    <span>审校通过</span>
+                  </label>
+                </div>
+                <button id="caseButton" type="button">生成案例候选</button>
+                <pre id="caseOutput" class="preview-output">{}</pre>
+              </div>
+            </section>
+
+            <section class="panel panel-wide">
+              <div class="panel-heading">
                 <h2>文档站</h2>
                 <span id="docBadge"></span>
               </div>

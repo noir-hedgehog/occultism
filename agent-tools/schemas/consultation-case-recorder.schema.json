@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsultationCaseRecorder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "case_id",
+    "source_label",
+    "domain",
+    "case_status",
+    "ready_for_case_library",
+    "ready_for_replay",
+    "handoff_status",
+    "lint_summary",
+    "outcome",
+    "review",
+    "anonymized_transcript",
+    "evidence_summary",
+    "case_tags",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "consultation_case_recorder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "case_id": {"type": "string"},
+    "source_label": {"type": "string"},
+    "domain": {"type": "string"},
+    "case_status": {
+      "type": "string",
+      "enum": [
+        "blocked_or_pause_case",
+        "needs_follow_up",
+        "needs_anonymization_review",
+        "needs_human_review",
+        "ready_for_case_library"
+      ]
+    },
+    "ready_for_case_library": {"type": "boolean"},
+    "ready_for_replay": {"type": "boolean"},
+    "handoff_status": {"type": "string"},
+    "lint_summary": {
+      "type": "object",
+      "required": ["present", "risk_level", "publishable", "finding_count"],
+      "properties": {
+        "present": {"type": "boolean"},
+        "risk_level": {"type": "string"},
+        "publishable": {"type": "boolean"},
+        "finding_count": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "outcome": {
+      "type": "object",
+      "required": ["follow_up_window_days", "follow_up_text", "observed_changes", "validation_result", "case_notes"],
+      "properties": {
+        "follow_up_window_days": {"type": "integer", "minimum": 0},
+        "follow_up_text": {"type": "string"},
+        "observed_changes": {"type": "array", "items": {"type": "string"}},
+        "validation_result": {
+          "type": "string",
+          "enum": ["unverified", "supports_practical_use", "mixed", "no_support", "safety_only"]
+        },
+        "case_notes": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "review": {
+      "type": "object",
+      "required": ["reviewer", "approved", "required_before_library"],
+      "properties": {
+        "reviewer": {"type": "string"},
+        "approved": {"type": "boolean"},
+        "required_before_library": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "anonymized_transcript": {
+      "type": "object",
+      "required": ["turn_count", "turns", "risk_flags", "privacy_flags", "residual_flags", "can_enter_validation_set"],
+      "properties": {
+        "turn_count": {"type": "integer", "minimum": 1},
+        "turns": {"type": "array", "items": {"type": "object", "additionalProperties": true}},
+        "risk_flags": {"type": "array", "items": {"type": "string"}},
+        "privacy_flags": {"type": "array", "items": {"type": "string"}},
+        "residual_flags": {"type": "object", "additionalProperties": true},
+        "can_enter_validation_set": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "evidence_summary": {"type": "object", "additionalProperties": true},
+    "case_tags": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

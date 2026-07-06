@@ -5,6 +5,7 @@ const state = {
   activeDoc: null,
   preview: null,
   handoff: null,
+  caseRecord: null,
   jsonOpen: false,
 };
 
@@ -233,6 +234,11 @@ function renderHandoff() {
   $("#handoffOutput").textContent = JSON.stringify(state.handoff || {}, null, 2);
 }
 
+function renderCaseRecord() {
+  $("#caseBadge").textContent = state.caseRecord ? state.caseRecord.case_status : "待生成";
+  $("#caseOutput").textContent = JSON.stringify(state.caseRecord || {}, null, 2);
+}
+
 function renderAll() {
   if (state.summary) {
     renderMetrics(state.summary.metrics);
@@ -248,6 +254,7 @@ function renderAll() {
   renderDocIndex();
   renderPreview();
   renderHandoff();
+  renderCaseRecord();
   setJson(state.session || state.summary || {});
 }
 
@@ -394,6 +401,40 @@ async function runHandoff() {
   }
 }
 
+async function runCaseRecord() {
+  const button = $("#caseButton");
+  button.disabled = true;
+  button.textContent = "生成中";
+  try {
+    const payload = {
+      request_text: $("#requestText").value.trim(),
+      requested_domain: $("#domainSelect").value || undefined,
+      preview_result: state.preview || undefined,
+      handoff_result: state.handoff || undefined,
+      draft_output: $("#draftOutput").value.trim(),
+      source_label: $("#caseSourceLabel").value.trim() || "web-ui-candidate",
+      follow_up_text: $("#caseFollowUp").value.trim(),
+      validation_result: $("#caseValidation").value,
+      reviewer: $("#caseReviewer").value.trim(),
+      review_approved: $("#caseApproved").checked,
+    };
+    const response = await fetch("/api/case-record", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(payload),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || `case record failed: ${response.status}`);
+    state.caseRecord = data;
+  } catch (error) {
+    state.caseRecord = {tool: "consultation_case_recorder", is_valid: false, error: error.message};
+  } finally {
+    button.disabled = false;
+    button.textContent = "生成案例候选";
+    renderAll();
+  }
+}
+
 function syncPreviewMode() {
   const mode = $("#previewMode").value;
   $("#tarotFields").hidden = mode !== "tarot";
@@ -403,6 +444,7 @@ function syncPreviewMode() {
 $("#runButton").addEventListener("click", runSession);
 $("#previewButton").addEventListener("click", runPreview);
 $("#handoffButton").addEventListener("click", runHandoff);
+$("#caseButton").addEventListener("click", runCaseRecord);
 $("#previewMode").addEventListener("change", syncPreviewMode);
 
 $("#toggleJson").addEventListener("click", () => {

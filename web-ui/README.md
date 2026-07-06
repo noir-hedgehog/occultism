@@ -7,6 +7,7 @@
 - 生成给人和 Agent 共读的咨询工作单
 - 为塔罗和风水生成结构化工具输入并预览结果
 - 生成 Agent 交接包，并对可选草稿执行安全措辞检查
+- 生成回访、审校和脱敏后的案例候选记录
 - 领域、Skill、SOP、知识卡和初始工具链展示
 - 知识库文档站浏览
 - 当前覆盖度、工具数量和验证状态概览
@@ -46,6 +47,9 @@ curl -X POST http://127.0.0.1:8765/api/tool-preview \
 curl -X POST http://127.0.0.1:8765/api/handoff \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态","draft_output":"这只是工作状态反思：先整理事实和下一步，不保证结果。"}'
+curl -X POST http://127.0.0.1:8765/api/case-record \
+  -H 'Content-Type: application/json' \
+  -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态","draft_output":"这只是工作状态反思：先整理事实和下一步，不保证结果。","follow_up_text":"两天后复盘：建议有部分可用。","validation_result":"mixed","reviewer":"internal-reviewer"}'
 curl -X POST http://127.0.0.1:8765/api/session \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
@@ -54,5 +58,5 @@ curl -X POST http://127.0.0.1:8765/api/session \
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令；`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint。
+- API 不执行任意 shell 命令；`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。

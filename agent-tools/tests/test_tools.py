@@ -11,6 +11,7 @@ from agent_tools_scripts import (
     agent_tool_registry_builder,
     agent_tool_registry_validator,
     agent_tool_wrapper_manifest_builder,
+    consultation_case_recorder,
     consultation_handoff_builder,
     agent_workflow_router,
     consultation_packet_builder,
@@ -1072,6 +1073,78 @@ class ConsultationHandoffBuilderTests(unittest.TestCase):
         self.assertEqual(result["handoff_status"], "blocked_by_lint")
         self.assertFalse(result["is_valid"])
         self.assertEqual(result["lint_result"]["risk_level"], "red")
+
+
+class ConsultationCaseRecorderTests(unittest.TestCase):
+    def tarot_preview(self):
+        return {
+            "tool": "web_ui_tool_preview",
+            "mode": "tarot",
+            "tool_name": "tarot_interpretation_planner",
+            "is_valid": True,
+            "result": {
+                "is_valid": True,
+                "card_plans": [{"card": "魔术师"}, {"card": "宝剑八"}, {"card": "星币三"}],
+                "synthesis": {"grounded_actions": ["把事实、猜测和结论分开写清楚。"]},
+            },
+        }
+
+    def safe_payload(self):
+        return {
+            "request_text": "帮我做一个塔罗三张牌，看看工作状态",
+            "requested_domain": "tarot",
+            "preview_result": self.tarot_preview(),
+            "draft_output": "这次牌面只是提醒：先整理事实和下一步，不保证结果。",
+            "source_label": "unit-test",
+        }
+
+    def test_unverified_case_waits_for_follow_up(self):
+        result = consultation_case_recorder.build(self.safe_payload())
+        self.assertEqual(result["tool"], "consultation_case_recorder")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["case_status"], "needs_follow_up")
+        self.assertFalse(result["ready_for_case_library"])
+        self.assertIn("non_unverified_outcome", result["review"]["required_before_library"])
+
+    def test_approved_follow_up_can_enter_case_library_candidate_set(self):
+        payload = self.safe_payload()
+        payload.update(
+            {
+                "follow_up_text": "两天后复盘：我把事实和猜测拆开后，确实更容易推进沟通。",
+                "observed_changes": ["完成了一次现实沟通", "焦虑感下降"],
+                "validation_result": "supports_practical_use",
+                "reviewer": "reviewer-a",
+                "review_approved": True,
+            }
+        )
+        result = consultation_case_recorder.build(payload)
+        self.assertEqual(result["case_status"], "ready_for_case_library")
+        self.assertTrue(result["ready_for_case_library"])
+        self.assertTrue(result["ready_for_replay"])
+        self.assertEqual(result["lint_summary"]["risk_level"], "green")
+        self.assertEqual(result["outcome"]["validation_result"], "supports_practical_use")
+
+    def test_non_unverified_outcome_still_requires_human_review(self):
+        payload = self.safe_payload()
+        payload.update(
+            {
+                "follow_up_text": "回访显示建议有一部分可用。",
+                "validation_result": "mixed",
+            }
+        )
+        result = consultation_case_recorder.build(payload)
+        self.assertEqual(result["case_status"], "needs_human_review")
+        self.assertIn("human_review_approved", result["review"]["required_before_library"])
+
+    def test_blocked_handoff_cannot_be_valid_case(self):
+        payload = self.safe_payload()
+        payload["draft_output"] = "你一定会破财，建议贷款梭哈。"
+        payload["validation_result"] = "supports_practical_use"
+        payload["review_approved"] = True
+        result = consultation_case_recorder.build(payload)
+        self.assertEqual(result["case_status"], "blocked_or_pause_case")
+        self.assertEqual(result["handoff_status"], "blocked_by_lint")
+        self.assertFalse(result["is_valid"])
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8391,9 +8464,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 279}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 280}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 978 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 982 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8413,7 +8486,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 279)
+        self.assertEqual(result["summary"]["schema_count"], 280)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

@@ -192,6 +192,7 @@ python3 agent-tools/scripts/agent_workflow_router.py --text "帮我做一个塔�
 python3 agent-tools/scripts/paradigm_selector.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/consultation_packet_builder.py --text "帮我做一个塔罗三张牌，看看工作状态"
 python3 agent-tools/scripts/consultation_handoff_builder.py --text "帮我做一个塔罗三张牌，看看工作状态"
+python3 agent-tools/scripts/consultation_case_recorder.py --text "帮我做一个塔罗三张牌，看看工作状态" --follow-up "两天后复盘：建议有部分可用" --validation-result mixed --reviewer internal-reviewer
 python3 agent-tools/scripts/agent_route_smoke_runner.py
 python3 agent-tools/scripts/agent_runtime_dry_run_runner.py
 python3 agent-tools/scripts/agent_tool_wrapper_manifest_builder.py --format markdown

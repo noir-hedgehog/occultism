@@ -376,9 +376,32 @@ button:disabled {
 }
 
 .handoff-tools,
+.case-tools,
 .structured-form {
   display: grid;
   gap: 10px;
+}
+
+.case-grid {
+  display: grid;
+  grid-template-columns: minmax(160px, 220px) minmax(160px, 1fr) minmax(120px, auto);
+  gap: 10px;
+  align-items: end;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.check-row input {
+  width: auto;
+  min-height: auto;
 }
 
 .field-row {
@@ -485,7 +508,8 @@ pre {
   .workspace,
   .content-grid,
   .status-strip,
-  .doc-browser {
+  .doc-browser,
+  .case-grid {
     grid-template-columns: 1fr;
   }
 
