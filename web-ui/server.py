@@ -23,8 +23,11 @@ if str(SCRIPTS_DIR) not in sys.path:
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
 import consultation_packet_builder  # noqa: E402
+import fengshui_observation_recorder  # noqa: E402
+import fengshui_space_checklist  # noqa: E402
 import knowledge_coverage_audit  # noqa: E402
 import paradigm_selector  # noqa: E402
+import tarot_interpretation_planner  # noqa: E402
 import tool_manifest_builder  # noqa: E402
 
 
@@ -335,6 +338,35 @@ def read_doc(path: str) -> dict[str, Any]:
     }
 
 
+def build_tool_preview(payload: dict[str, Any]) -> dict[str, Any]:
+    mode = str(payload.get("mode", "")).strip()
+    tool_payload = payload.get("payload", {})
+    if not isinstance(tool_payload, dict):
+        raise ValueError("payload must be an object")
+    if mode == "tarot":
+        result = tarot_interpretation_planner.plan(tool_payload)
+        tool_name = "tarot_interpretation_planner"
+    elif mode == "fengshui":
+        observation = fengshui_observation_recorder.record(tool_payload)
+        checklist = fengshui_space_checklist.build_checklist(tool_payload)
+        result = {"observation_record": observation, "space_checklist": checklist}
+        tool_name = "fengshui_observation_recorder+fengshui_space_checklist"
+    else:
+        raise ValueError("mode must be tarot or fengshui")
+    return {
+        "tool": "web_ui_tool_preview",
+        "mode": mode,
+        "tool_name": tool_name,
+        "is_valid": bool(result.get("is_valid", True)) if isinstance(result, dict) else True,
+        "input_payload": tool_payload,
+        "result": result,
+        "limits": [
+            "工具预览只运行白名单内的结构化函数，不执行任意 shell 命令。",
+            "预览结果仍需 Agent 按 SOP 综合，并在输出前执行或等价执行 mystic_output_lint。",
+        ],
+    }
+
+
 class MysticUIHandler(BaseHTTPRequestHandler):
     server_version = "MysticUI/0.1"
 
@@ -408,6 +440,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json(paradigm_selector.select(payload, root=ROOT))
             elif parsed.path == "/api/packet":
                 self.send_json(consultation_packet_builder.build(payload, root=ROOT))
+            elif parsed.path == "/api/tool-preview":
+                self.send_json(build_tool_preview(payload))
             else:
                 self.send_error(HTTPStatus.NOT_FOUND, "Not found")
         except ValueError as exc:

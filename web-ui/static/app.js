@@ -3,6 +3,7 @@ const state = {
   session: null,
   docs: null,
   activeDoc: null,
+  preview: null,
   jsonOpen: false,
 };
 
@@ -221,6 +222,11 @@ function renderCommands(session) {
     .join("");
 }
 
+function renderPreview() {
+  $("#previewBadge").textContent = state.preview ? state.preview.tool_name : "待生成";
+  $("#previewOutput").textContent = JSON.stringify(state.preview || {}, null, 2);
+}
+
 function renderAll() {
   if (state.summary) {
     renderMetrics(state.summary.metrics);
@@ -234,6 +240,7 @@ function renderAll() {
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
+  renderPreview();
   setJson(state.session || state.summary || {});
 }
 
@@ -296,7 +303,71 @@ async function runSession() {
   }
 }
 
+function tarotPayload() {
+  const positionsBySpread = {
+    three_card_situation: ["现状", "阻碍", "建议"],
+    past_present_tendency: ["过去影响", "当前状态", "趋势提醒"],
+  };
+  const spreadId = $("#tarotSpread").value;
+  const cards = [1, 2, 3].map((index) => ({
+    position: positionsBySpread[spreadId][index - 1],
+    card: $(`#tarotCard${index}`).value.trim(),
+    orientation: $(`#tarotOrientation${index}`).value,
+  }));
+  return {
+    question_text: $("#tarotQuestion").value.trim(),
+    spread_id: spreadId,
+    cards,
+  };
+}
+
+function fengshuiPayload() {
+  const concerns = $("#fengshuiConcerns").value
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+  return {
+    request_text: $("#requestText").value.trim(),
+    space_type: $("#fengshuiSpaceType").value,
+    space_description: $("#fengshuiDescription").value.trim(),
+    observation_text: $("#fengshuiDescription").value.trim(),
+    concerns,
+  };
+}
+
+async function runPreview() {
+  const button = $("#previewButton");
+  button.disabled = true;
+  button.textContent = "生成中";
+  try {
+    const mode = $("#previewMode").value;
+    const payload = mode === "tarot" ? tarotPayload() : fengshuiPayload();
+    const response = await fetch("/api/tool-preview", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({mode, payload}),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || `preview failed: ${response.status}`);
+    state.preview = data;
+  } catch (error) {
+    state.preview = {tool: "web_ui_tool_preview", is_valid: false, error: error.message};
+  } finally {
+    button.disabled = false;
+    button.textContent = "生成预览";
+    renderAll();
+  }
+}
+
+function syncPreviewMode() {
+  const mode = $("#previewMode").value;
+  $("#tarotFields").hidden = mode !== "tarot";
+  $("#fengshuiFields").hidden = mode !== "fengshui";
+}
+
 $("#runButton").addEventListener("click", runSession);
+$("#previewButton").addEventListener("click", runPreview);
+$("#previewMode").addEventListener("change", syncPreviewMode);
 
 $("#toggleJson").addEventListener("click", () => {
   state.jsonOpen = !state.jsonOpen;
@@ -314,3 +385,5 @@ Promise.all([loadSummary(), loadDocs()])
   .catch((error) => {
     setJson({error: error.message});
   });
+
+syncPreviewMode();

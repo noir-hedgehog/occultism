@@ -28,8 +28,8 @@
             <div class="controls">
               <select id="domainSelect" aria-label="指定流派">
                 <option value="">自动识别流派</option>
-                <option value="tarot">塔罗</option>
-                <option value="fengshui">风水</option>
+                        <option value="tarot">塔罗</option>
+                        <option value="fengshui">风水</option>
                 <option value="yijing">易经</option>
                 <option value="ritual">空间净化/驱邪</option>
                 <option value="dream">解梦</option>
@@ -88,6 +88,77 @@
                 <span id="toolBadge"></span>
               </div>
               <div id="toolCommands" class="commands"></div>
+            </section>
+
+            <section class="panel panel-wide">
+              <div class="panel-heading">
+                <h2>结构化输入</h2>
+                <span id="previewBadge">待生成</span>
+              </div>
+              <div class="structured-tools">
+                <div class="structured-form">
+                  <div class="field-row">
+                    <label for="previewMode">类型</label>
+                    <select id="previewMode">
+                      <option value="tarot">塔罗</option>
+                      <option value="fengshui">风水</option>
+                    </select>
+                  </div>
+                  <div id="tarotFields" class="mode-fields">
+                    <div class="field-row">
+                      <label for="tarotQuestion">问题</label>
+                      <textarea id="tarotQuestion" rows="2">最近工作很烦，想做三张牌看看状态</textarea>
+                    </div>
+                    <div class="field-row">
+                      <label for="tarotSpread">牌阵</label>
+                      <select id="tarotSpread">
+                        <option value="three_card_situation">三张状态牌阵</option>
+                        <option value="past_present_tendency">过去-现在-趋势</option>
+                      </select>
+                    </div>
+                    <div class="card-inputs">
+                      <input id="tarotCard1" value="魔术师" aria-label="第一张牌" />
+                      <select id="tarotOrientation1" aria-label="第一张方向">
+                        <option value="upright">正位</option>
+                        <option value="reversed">逆位</option>
+                      </select>
+                      <input id="tarotCard2" value="宝剑八" aria-label="第二张牌" />
+                      <select id="tarotOrientation2" aria-label="第二张方向">
+                        <option value="upright">正位</option>
+                        <option value="reversed">逆位</option>
+                      </select>
+                      <input id="tarotCard3" value="星币三" aria-label="第三张牌" />
+                      <select id="tarotOrientation3" aria-label="第三张方向">
+                        <option value="upright">正位</option>
+                        <option value="reversed">逆位</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div id="fengshuiFields" class="mode-fields" hidden>
+                    <div class="field-row">
+                      <label for="fengshuiSpaceType">空间</label>
+                      <select id="fengshuiSpaceType">
+                        <option value="bedroom">卧室</option>
+                        <option value="office">书房/办公室</option>
+                        <option value="living_room">客厅</option>
+                        <option value="kitchen">厨房</option>
+                        <option value="entrance">玄关/入口</option>
+                        <option value="shop">店铺</option>
+                      </select>
+                    </div>
+                    <div class="field-row">
+                      <label for="fengshuiDescription">描述</label>
+                      <textarea id="fengshuiDescription" rows="3">卧室床尾正对门，镜子在床侧，晚上容易被通知灯打扰，最近睡不好</textarea>
+                    </div>
+                    <div class="field-row">
+                      <label for="fengshuiConcerns">困扰</label>
+                      <input id="fengshuiConcerns" value="sleep, pressure" />
+                    </div>
+                  </div>
+                  <button id="previewButton" type="button">生成预览</button>
+                </div>
+                <pre id="previewOutput" class="preview-output">{}</pre>
+              </div>
             </section>
 
             <section class="panel panel-wide">

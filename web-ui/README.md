@@ -5,6 +5,7 @@
 - 请求路由和安全分流
 - 从具体问题推导适用范式
 - 生成给人和 Agent 共读的咨询工作单
+- 为塔罗和风水生成结构化工具输入并预览结果
 - 领域、Skill、SOP、知识卡和初始工具链展示
 - 知识库文档站浏览
 - 当前覆盖度、工具数量和验证状态概览
@@ -35,6 +36,12 @@ curl -X POST http://127.0.0.1:8765/api/paradigm \
 curl -X POST http://127.0.0.1:8765/api/packet \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
+curl -X POST http://127.0.0.1:8765/api/tool-preview \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"tarot","payload":{"question_text":"最近工作很烦，想做三张牌看看状态","spread_id":"three_card_situation","cards":[{"position":"现状","card":"魔术师","orientation":"upright"},{"position":"阻碍","card":"宝剑八","orientation":"reversed"},{"position":"建议","card":"星币三","orientation":"upright"}]}}'
+curl -X POST http://127.0.0.1:8765/api/tool-preview \
+  -H 'Content-Type: application/json' \
+  -d '{"mode":"fengshui","payload":{"request_text":"卧室床对门，最近睡不好","space_type":"bedroom","space_description":"卧室床尾正对门，镜子在床侧，晚上容易被通知灯打扰，最近睡不好","observation_text":"卧室床尾正对门，镜子在床侧，晚上容易被通知灯打扰，最近睡不好","concerns":["sleep","pressure"]}}'
 curl -X POST http://127.0.0.1:8765/api/session \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
@@ -43,5 +50,5 @@ curl -X POST http://127.0.0.1:8765/api/session \
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令，只返回当前路由、范式、咨询工作单、上下文文件和建议命令。
+- API 不执行任意 shell 命令；`/api/tool-preview` 只运行塔罗和风水白名单函数。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。

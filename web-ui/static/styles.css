@@ -17,6 +17,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -175,7 +179,8 @@ h2 {
 }
 
 textarea,
-select {
+select,
+input {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -188,7 +193,8 @@ textarea {
   padding: 12px;
 }
 
-select {
+select,
+input {
   min-height: 40px;
   padding: 0 10px;
 }
@@ -361,6 +367,46 @@ button:disabled {
   display: grid;
   grid-template-columns: minmax(220px, 340px) minmax(0, 1fr);
   gap: 12px;
+}
+
+.structured-tools {
+  display: grid;
+  grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.structured-form {
+  display: grid;
+  gap: 10px;
+}
+
+.field-row {
+  display: grid;
+  gap: 5px;
+}
+
+.field-row label {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mode-fields {
+  display: grid;
+  gap: 10px;
+}
+
+.card-inputs {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 112px;
+  gap: 8px;
+}
+
+.preview-output {
+  max-height: 520px;
+  background: #fff;
+  color: var(--ink);
+  white-space: pre-wrap;
 }
 
 .doc-index {
