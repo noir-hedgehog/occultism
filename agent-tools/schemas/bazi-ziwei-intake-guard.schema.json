@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BaziZiweiIntakeGuard",
+  "type": "object",
+  "required": [
+    "request_text",
+    "domain",
+    "analysis_focus",
+    "data_status",
+    "missing_fields",
+    "privacy_flags",
+    "risk_flags",
+    "can_continue_mingli",
+    "reframed_question",
+    "allowed_scope",
+    "limits",
+    "warnings",
+    "next_steps"
+  ],
+  "properties": {
+    "request_text": {"type": "string"},
+    "domain": {
+      "type": "string",
+      "enum": ["bazi", "ziwei", "mingli"]
+    },
+    "analysis_focus": {
+      "type": "string",
+      "enum": ["career", "relationship", "self_understanding", "timing", "family", "health", "finance", "legal", "general"]
+    },
+    "data_status": {
+      "type": "string",
+      "enum": ["complete", "partial", "minimal"]
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["birth_date", "birth_time", "birth_place", "calendar_type", "analysis_focus", "subject_consent"]
+      }
+    },
+    "privacy_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["exact_birth_data", "third_party_subject", "minor_subject", "sensitive_identity"]
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["crisis", "professional_health", "professional_finance", "professional_legal", "fatalistic_harm", "coercion"]
+      }
+    },
+    "can_continue_mingli": {"type": "boolean"},
+    "reframed_question": {"type": "string"},
+    "allowed_scope": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "limits": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

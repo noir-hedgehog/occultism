@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CrystalUsePlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "intention_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "items": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "crystals": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "use_context": { "type": "string" },
+    "source": { "type": "string" },
+    "budget_note": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["intention_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

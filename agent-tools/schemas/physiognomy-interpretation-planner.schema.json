@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhysiognomyInterpretationPlanner",
+  "type": "object",
+  "required": ["tool", "is_valid", "can_continue_physiognomy", "observation_text", "modality", "risk_flags", "feature_plans", "interpretation_layers", "synthesis", "limits", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "physiognomy_interpretation_planner"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_physiognomy": {"type": "boolean"},
+    "observation_text": {"type": "string"},
+    "modality": {"type": "string"},
+    "consent_state": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "feature_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["feature_code", "symbol", "symbol_layer", "keywords", "interpretation_prompt", "reflection_questions", "action_guidance"],
+        "properties": {
+          "feature_code": {"type": "string"},
+          "symbol": {"type": "string"},
+          "symbol_layer": {"type": "string"},
+          "keywords": {"type": "array", "items": {"type": "string"}},
+          "interpretation_prompt": {"type": "string"},
+          "reflection_questions": {"type": "array", "items": {"type": "string"}},
+          "action_guidance": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "interpretation_layers": {"type": "array", "items": {"type": "string"}},
+    "synthesis": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

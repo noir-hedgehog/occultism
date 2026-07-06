@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BodyOmenReflectionPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "omen_type": { "type": "string" },
+    "body_signal": { "type": "string" },
+    "body_location": { "type": "string" },
+    "location": { "type": "string" },
+    "timing": { "type": "string" },
+    "time_context": { "type": "string" },
+    "duration": { "type": "string" },
+    "frequency": { "type": "string" },
+    "sensation_notes": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "sensations": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "health_context": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "medical_context": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "mundane_context": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "daily_context": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "focus": { "type": "string" },
+    "reality_constraints": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "constraints": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "stop_condition": { "type": "string" },
+    "stop": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["question_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

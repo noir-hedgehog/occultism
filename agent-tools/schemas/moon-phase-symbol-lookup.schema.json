@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MoonPhaseSymbolLookup",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "query": { "type": "string" },
+    "phase": { "type": "string" },
+    "symbol": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["query"] },
+    { "required": ["phase"] },
+    { "required": ["symbol"] }
+  ]
+}

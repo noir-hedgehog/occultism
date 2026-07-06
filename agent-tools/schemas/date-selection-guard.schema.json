@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DateSelectionGuard",
+  "type": "object",
+  "required": [
+    "tool",
+    "request_text",
+    "event_type",
+    "can_continue_date_selection",
+    "risk_flags",
+    "required_boundaries",
+    "clarifying_questions",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "date_selection_guard"},
+    "request_text": {"type": "string"},
+    "event_type": {"type": "string"},
+    "can_continue_date_selection": {"type": "boolean"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "required_boundaries": {"type": "array", "items": {"type": "string"}},
+    "clarifying_questions": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

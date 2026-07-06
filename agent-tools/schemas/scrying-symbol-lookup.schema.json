@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScryingSymbolLookup",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "query": { "type": "string" },
+    "symbol": { "type": "string" },
+    "observation": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["query"] },
+    { "required": ["symbol"] },
+    { "required": ["observation"] }
+  ]
+}

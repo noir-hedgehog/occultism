@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MeihuaOmenRecorder",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "question_text",
+    "recorded_at",
+    "source_type",
+    "timing_relation",
+    "observation_count",
+    "observations",
+    "risk_flags",
+    "missing_fields",
+    "is_valid",
+    "can_use_as_meihua_omen",
+    "warnings",
+    "grounding_questions",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "meihua_omen_recorder" },
+    "system": { "const": "meihua_yishu" },
+    "question_text": { "type": "string" },
+    "recorded_at": { "type": "string" },
+    "source_type": {
+      "type": "string",
+      "enum": ["self_observed", "image_notes", "audio_notes", "third_party_report", "dream", "online_claim", "unknown"]
+    },
+    "timing_relation": {
+      "type": "string",
+      "enum": ["before_question", "during_question", "after_question", "unknown"]
+    },
+    "observation_count": { "type": "integer", "minimum": 0 },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "text",
+          "source_type",
+          "timing_relation",
+          "category",
+          "symbol_tags",
+          "direction",
+          "location",
+          "is_direct_observation",
+          "interpretation_boundary"
+        ],
+        "properties": {
+          "index": { "type": "integer", "minimum": 1 },
+          "text": { "type": "string" },
+          "source_type": { "type": "string" },
+          "timing_relation": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": ["sound", "movement", "object", "light_weather", "person_message", "direction_place", "body_feeling", "unclear"]
+          },
+          "symbol_tags": { "type": "array", "items": { "type": "string" } },
+          "direction": { "type": "string" },
+          "location": { "type": "string" },
+          "is_direct_observation": { "type": "boolean" },
+          "interpretation_boundary": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "professional_finance",
+          "medical_or_crisis",
+          "legal_or_emergency",
+          "coercion_or_privacy",
+          "deterministic_claim",
+          "supernatural_fear"
+        ]
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["question_text", "omen_text", "source_type"]
+      }
+    },
+    "is_valid": { "type": "boolean" },
+    "can_use_as_meihua_omen": { "type": "boolean" },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "grounding_questions": { "type": "array", "items": { "type": "string" } },
+    "next_steps": { "type": "array", "items": { "type": "string" } },
+    "limits": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

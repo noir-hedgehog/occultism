@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CastingLotsInterpretationPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "casting_system": { "type": "string" },
+    "casting_surface": { "type": "string" },
+    "layout_source": { "type": "string" },
+    "objects": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "items": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "zones": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "relationships": { "type": "string" },
+    "layout_notes": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["question_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

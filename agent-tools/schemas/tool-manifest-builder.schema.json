@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ToolManifestBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "tool_count",
+    "skill_count",
+    "is_valid",
+    "tools",
+    "skills",
+    "missing",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "tool_manifest_builder"},
+    "root": {"type": "string"},
+    "tool_count": {"type": "integer"},
+    "skill_count": {"type": "integer"},
+    "is_valid": {"type": "boolean"},
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "script", "schema", "spec", "summary", "skills", "domains", "status", "missing"],
+        "properties": {
+          "name": {"type": "string"},
+          "script": {"type": "string"},
+          "schema": {"type": "string"},
+          "spec": {"type": "string"},
+          "summary": {"type": "string"},
+          "skills": {"type": "array", "items": {"type": "string"}},
+          "domains": {"type": "array", "items": {"type": "string"}},
+          "status": {"type": "string", "enum": ["ready", "incomplete"]},
+          "missing": {
+            "type": "array",
+            "items": {"type": "string", "enum": ["script", "schema", "spec"]}
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill", "role", "tools", "index_path"],
+        "properties": {
+          "skill": {"type": "string"},
+          "role": {"type": "string"},
+          "tools": {"type": "array", "items": {"type": "string"}},
+          "index_path": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["tool", "artifact", "path"],
+        "properties": {
+          "tool": {"type": "string"},
+          "artifact": {"type": "string", "enum": ["script", "schema", "spec"]},
+          "path": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

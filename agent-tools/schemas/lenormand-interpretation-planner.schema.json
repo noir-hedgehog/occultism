@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LenormandInterpretationPlanner",
+  "type": "object",
+  "required": ["tool", "is_valid", "can_continue_lenormand", "question_text", "spread_type", "positions", "cards", "risk_flags", "missing_fields", "card_plans", "pair_plans", "interpretation_layers", "synthesis", "limits", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "lenormand_interpretation_planner"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_lenormand": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "spread_type": {"type": "string"},
+    "positions": {"type": "array", "items": {"type": "string"}},
+    "cards": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "card_plans": {"type": "array", "items": {"type": "object"}},
+    "pair_plans": {"type": "array", "items": {"type": "object"}},
+    "interpretation_layers": {"type": "array", "items": {"type": "string"}},
+    "synthesis": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

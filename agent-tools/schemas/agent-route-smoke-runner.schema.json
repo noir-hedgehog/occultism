@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentRouteSmokeRunner",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "case_count",
+    "passed_count",
+    "failed_count",
+    "domain_count",
+    "domains",
+    "case_ids",
+    "results",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_route_smoke_runner"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "case_count": {"type": "integer"},
+    "passed_count": {"type": "integer"},
+    "failed_count": {"type": "integer"},
+    "domain_count": {"type": "integer"},
+    "domains": {"type": "array", "items": {"type": "string"}},
+    "case_ids": {"type": "array", "items": {"type": "string"}},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["case_id", "request_text", "passed", "errors", "expected", "actual"],
+        "properties": {
+          "case_id": {"type": "string"},
+          "request_text": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}},
+          "expected": {"$ref": "#/$defs/routeSummary"},
+          "actual": {
+            "type": "object",
+            "required": ["domain", "skill", "route_status", "can_continue", "risk_level"],
+            "properties": {
+              "domain": {"type": "string"},
+              "skill": {"type": "string"},
+              "route_status": {"type": "string"},
+              "can_continue": {"type": "boolean"},
+              "risk_level": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "routeSummary": {
+      "type": "object",
+      "required": ["domain", "skill", "route_status", "can_continue"],
+      "properties": {
+        "domain": {"type": "string"},
+        "skill": {"type": "string"},
+        "route_status": {"type": "string"},
+        "can_continue": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

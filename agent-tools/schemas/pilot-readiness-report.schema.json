@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PilotReadinessReport",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "pilot_status",
+    "public_release_status",
+    "automated_ready",
+    "automated_checks",
+    "external_blocker_count",
+    "external_blockers",
+    "summary",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "pilot_readiness_report"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "pilot_status": {"type": "string", "enum": ["ready_for_internal_dry_run", "blocked_by_automated_checks"]},
+    "public_release_status": {"type": "string", "enum": ["blocked_by_external_evidence"]},
+    "automated_ready": {"type": "boolean"},
+    "automated_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check", "passed", "summary"],
+        "properties": {
+          "check": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "summary": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "external_blocker_count": {"type": "integer"},
+    "external_blockers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["blocker", "owner", "required_evidence"],
+        "properties": {
+          "blocker": {"type": "string"},
+          "owner": {"type": "string"},
+          "required_evidence": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "domain_count",
+        "complete_domain_count",
+        "route_case_count",
+        "route_passed_count",
+        "traceable_domain_count",
+        "skill_install_readiness",
+        "content_review_ready_count",
+        "content_review_approved_count"
+      ],
+      "properties": {
+        "domain_count": {"type": "integer"},
+        "complete_domain_count": {"type": "integer"},
+        "route_case_count": {"type": "integer"},
+        "route_passed_count": {"type": "integer"},
+        "traceable_domain_count": {"type": "integer"},
+        "skill_install_readiness": {"type": "string"},
+        "content_review_ready_count": {"type": "integer"},
+        "content_review_approved_count": {"type": "integer"}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

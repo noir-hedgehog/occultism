@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentToolDefinitionExporter",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "definition_count",
+    "openai_tool_count",
+    "source_wrapper_count",
+    "definitions",
+    "openai_tools",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_tool_definition_exporter"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "definition_count": {"type": "integer"},
+    "openai_tool_count": {"type": "integer"},
+    "source_wrapper_count": {"type": "integer"},
+    "definitions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "description", "input_schema", "command", "metadata"],
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "input_schema": {"type": "object"},
+          "command": {"type": "array", "items": {"type": "string"}},
+          "metadata": {
+            "type": "object",
+            "required": ["script_path", "schema_path", "spec_path", "domains", "skills", "safety_tags"],
+            "properties": {
+              "script_path": {"type": "string"},
+              "schema_path": {"type": "string"},
+              "spec_path": {"type": "string"},
+              "domains": {"type": "array", "items": {"type": "string"}},
+              "skills": {"type": "array", "items": {"type": "string"}},
+              "safety_tags": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "openai_tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "function"],
+        "properties": {
+          "type": {"type": "string", "const": "function"},
+          "function": {
+            "type": "object",
+            "required": ["name", "description", "parameters"],
+            "properties": {
+              "name": {"type": "string"},
+              "description": {"type": "string"},
+              "parameters": {"type": "object"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentRuntimeDryRunRunner",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "case_count",
+    "passed_count",
+    "failed_count",
+    "ready_case_count",
+    "paused_or_blocked_case_count",
+    "case_ids",
+    "results",
+    "runtime_invariants",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_runtime_dry_run_runner"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "case_count": {"type": "integer"},
+    "passed_count": {"type": "integer"},
+    "failed_count": {"type": "integer"},
+    "ready_case_count": {"type": "integer"},
+    "paused_or_blocked_case_count": {"type": "integer"},
+    "case_ids": {"type": "array", "items": {"type": "string"}},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "request_text",
+          "passed",
+          "failed_checks",
+          "missing_assets",
+          "route_status",
+          "domain",
+          "skill",
+          "can_continue_mystic_workflow",
+          "initial_tools",
+          "next_steps",
+          "invariant_checks"
+        ],
+        "properties": {
+          "case_id": {"type": "string"},
+          "request_text": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "failed_checks": {"type": "array", "items": {"type": "string"}},
+          "missing_assets": {"type": "array", "items": {"type": "string"}},
+          "route_status": {"type": "string"},
+          "domain": {"type": "string"},
+          "skill": {"type": "string"},
+          "can_continue_mystic_workflow": {"type": "boolean"},
+          "initial_tools": {"type": "array", "items": {"type": "string"}},
+          "next_steps": {"type": "array", "items": {"type": "string"}},
+          "invariant_checks": {
+            "type": "object",
+            "additionalProperties": {"type": "boolean"}
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "runtime_invariants": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TarotInterpretationPlanner",
+  "type": "object",
+  "required": [
+    "question_text",
+    "spread",
+    "is_valid",
+    "errors",
+    "warnings",
+    "card_plans",
+    "patterns",
+    "reversal_strategy",
+    "synthesis",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "question_text": {"type": "string"},
+    "spread": {
+      "type": "object",
+      "required": ["spread_id", "name", "position_count", "positions"],
+      "properties": {
+        "spread_id": {"type": "string"},
+        "name": {"type": "string"},
+        "position_count": {"type": "integer", "minimum": 1},
+        "positions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "is_valid": {"type": "boolean"},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "card_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "position",
+          "position_lens",
+          "card",
+          "english_name",
+          "orientation",
+          "active_keywords",
+          "interpretation_prompt",
+          "reflection_prompt",
+          "action_prompt"
+        ],
+        "properties": {
+          "index": {"type": "integer", "minimum": 1},
+          "position": {"type": "string"},
+          "position_lens": {"type": "string"},
+          "card": {"type": "string"},
+          "english_name": {"type": "string"},
+          "orientation": {"type": "string", "enum": ["upright", "reversed"]},
+          "active_keywords": {"type": "array", "items": {"type": "string"}},
+          "interpretation_prompt": {"type": "string"},
+          "reflection_prompt": {"type": "string"},
+          "action_prompt": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "patterns": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "reversal_strategy": {"type": "string"},
+    "synthesis": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

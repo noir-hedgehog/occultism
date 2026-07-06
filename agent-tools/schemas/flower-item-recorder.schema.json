@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FlowerItemRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "intention_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "flowers": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "items": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "colors": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "scene": { "type": "string" },
+    "recipient": { "type": "string" },
+    "source": { "type": "string" },
+    "budget_note": { "type": "string" },
+    "safety_constraints": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["intention_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

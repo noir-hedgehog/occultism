@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ExternalEvidenceIntakeBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "status",
+    "intake_count",
+    "open_intake_count",
+    "codex_home",
+    "intake_items",
+    "summary",
+    "recommended_sequence",
+    "limits",
+    "next_steps",
+    "command_templates"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "external_evidence_intake_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "status": {"type": "string", "enum": ["ready_for_external_collection", "blocked_by_automated_checks"]},
+    "intake_count": {"type": "integer"},
+    "open_intake_count": {"type": "integer"},
+    "codex_home": {"type": "string"},
+    "intake_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "intake_id",
+          "blocker",
+          "title",
+          "owner",
+          "status",
+          "target_artifact",
+          "required_fields",
+          "evidence_acceptance",
+          "commands",
+          "kanban_ids"
+        ],
+        "properties": {
+          "intake_id": {"type": "string"},
+          "blocker": {"type": "string"},
+          "title": {"type": "string"},
+          "owner": {"type": "string"},
+          "status": {"type": "string"},
+          "target_artifact": {"type": "string"},
+          "required_fields": {"type": "array", "items": {"type": "string"}},
+          "evidence_acceptance": {"type": "array", "items": {"type": "string"}},
+          "commands": {"type": "array", "items": {"type": "string"}},
+          "kanban_ids": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": [
+        "coverage_is_valid",
+        "install_readiness",
+        "review_ready_count",
+        "review_approved_count"
+      ],
+      "properties": {
+        "coverage_is_valid": {"type": "boolean"},
+        "install_readiness": {"type": "string"},
+        "review_ready_count": {"type": "integer"},
+        "review_approved_count": {"type": "integer"}
+      },
+      "additionalProperties": false
+    },
+    "recommended_sequence": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "command_templates": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

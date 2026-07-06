@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DateOptionRanker",
+  "type": "object",
+  "required": [
+    "tool",
+    "is_valid",
+    "can_rank_dates",
+    "event_type",
+    "ranked_dates",
+    "risk_flags",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "date_option_ranker"},
+    "is_valid": {"type": "boolean"},
+    "can_rank_dates": {"type": "boolean"},
+    "event_type": {"type": "string"},
+    "candidate_count": {"type": "integer"},
+    "ranked_dates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["date", "weekday", "score", "reasons", "cautions"],
+        "properties": {
+          "date": {"type": "string"},
+          "weekday": {"type": "string"},
+          "score": {"type": "integer"},
+          "reasons": {"type": "array", "items": {"type": "string"}},
+          "cautions": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "selection_guidance": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

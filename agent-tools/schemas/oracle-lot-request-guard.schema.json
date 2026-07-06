@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OracleLotRequestGuard",
+  "type": "object",
+  "required": ["tool", "request_text", "system", "reading_intent", "risk_flags", "can_continue_oracle_lot", "reframed_question", "required_boundaries", "clarifying_questions", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "oracle_lot_request_guard"},
+    "request_text": {"type": "string"},
+    "system": {"type": "string"},
+    "reading_intent": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "can_continue_oracle_lot": {"type": "boolean"},
+    "reframed_question": {"type": "string"},
+    "required_boundaries": {"type": "array", "items": {"type": "string"}},
+    "clarifying_questions": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

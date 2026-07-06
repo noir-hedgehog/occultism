@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Mingli School Reference Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "query",
+    "comparison_mode",
+    "schools",
+    "school_profiles",
+    "conflict_points",
+    "required_method_fields",
+    "risk_flags",
+    "warnings",
+    "safe_usage",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": { "const": "mingli_school_reference" },
+    "system": { "const": "mingli" },
+    "query": { "type": "string" },
+    "comparison_mode": { "type": "string", "enum": ["single_school", "comparison", "cross_system", "unknown"] },
+    "schools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "bazi_ziping",
+          "bazi_traditional",
+          "bazi_modern_synthesis",
+          "bazi_unspecified",
+          "ziwei_sanhe",
+          "ziwei_sihua",
+          "ziwei_zhongzhou",
+          "ziwei_modern_synthesis",
+          "ziwei_unspecified",
+          "unspecified"
+        ]
+      }
+    },
+    "school_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["school", "system", "display_name", "category", "core_difference", "affects", "required_fields", "conflicts_with", "safe_use"],
+        "properties": {
+          "school": { "type": "string" },
+          "system": { "type": "string", "enum": ["bazi", "ziwei", "mingli"] },
+          "display_name": { "type": "string" },
+          "category": { "type": "string" },
+          "core_difference": { "type": "string" },
+          "affects": { "type": "array", "items": { "type": "string" } },
+          "required_fields": { "type": "array", "items": { "type": "string" } },
+          "conflicts_with": { "type": "array", "items": { "type": "string" } },
+          "safe_use": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conflict_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["schools", "reason"],
+        "properties": {
+          "schools": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_method_fields": { "type": "array", "items": { "type": "string" } },
+    "risk_flags": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "safe_usage": { "type": "array", "items": { "type": "string" } },
+    "limits": { "type": "array", "items": { "type": "string" } },
+    "next_steps": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

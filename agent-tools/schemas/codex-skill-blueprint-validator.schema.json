@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodexSkillBlueprintValidator",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "skill_count",
+    "valid_skill_count",
+    "invalid_skill_count",
+    "is_valid",
+    "skills",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "codex_skill_blueprint_validator"},
+    "root": {"type": "string"},
+    "skill_count": {"type": "integer", "minimum": 0},
+    "valid_skill_count": {"type": "integer", "minimum": 0},
+    "invalid_skill_count": {"type": "integer", "minimum": 0},
+    "is_valid": {"type": "boolean"},
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "skill",
+          "path",
+          "is_valid",
+          "frontmatter_keys",
+          "description_length",
+          "referenced_tools",
+          "index_declared_tools",
+          "references",
+          "missing_references",
+          "missing_tool_scripts",
+          "errors",
+          "warnings"
+        ],
+        "properties": {
+          "skill": {"type": "string"},
+          "path": {"type": "string"},
+          "is_valid": {"type": "boolean"},
+          "frontmatter_keys": {"type": "array", "items": {"type": "string"}},
+          "description_length": {"type": "integer", "minimum": 0},
+          "referenced_tools": {"type": "array", "items": {"type": "string"}},
+          "index_declared_tools": {"type": "array", "items": {"type": "string"}},
+          "references": {"type": "array", "items": {"type": "string"}},
+          "missing_references": {"type": "array", "items": {"type": "string"}},
+          "missing_tool_scripts": {"type": "array", "items": {"type": "string"}},
+          "errors": {"type": "array", "items": {"type": "string"}},
+          "warnings": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

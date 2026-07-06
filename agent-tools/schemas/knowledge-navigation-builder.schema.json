@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KnowledgeNavigationBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "document_count",
+    "domain_count",
+    "complete_domain_count",
+    "tool_count",
+    "skill_count",
+    "kanban_counts",
+    "primary_navigation",
+    "sections",
+    "domains",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "knowledge_navigation_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "document_count": {"type": "integer"},
+    "domain_count": {"type": "integer"},
+    "complete_domain_count": {"type": "integer"},
+    "tool_count": {"type": "integer"},
+    "skill_count": {"type": "integer"},
+    "kanban_counts": {
+      "type": "object",
+      "required": ["Backlog", "Doing", "Review", "Done"],
+      "properties": {
+        "Backlog": {"type": "integer"},
+        "Doing": {"type": "integer"},
+        "Review": {"type": "integer"},
+        "Done": {"type": "integer"}
+      },
+      "additionalProperties": false
+    },
+    "primary_navigation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "path"],
+        "properties": {
+          "title": {"type": "string"},
+          "path": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "sections": {
+      "type": "object",
+      "required": ["sop", "schools", "templates"],
+      "properties": {
+        "sop": {"$ref": "#/$defs/navigationItems"},
+        "schools": {"$ref": "#/$defs/navigationItems"},
+        "templates": {"$ref": "#/$defs/navigationItems"}
+      },
+      "additionalProperties": false
+    },
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "display_name", "level", "sop", "knowledge", "skill", "tools"],
+        "properties": {
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "level": {"type": "string"},
+          "sop": {"type": "array", "items": {"type": "string"}},
+          "knowledge": {"type": "array", "items": {"type": "string"}},
+          "skill": {"type": "array", "items": {"type": "string"}},
+          "tools": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "$defs": {
+    "navigationItems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["title", "path"],
+        "properties": {
+          "title": {"type": "string"},
+          "path": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false
+}

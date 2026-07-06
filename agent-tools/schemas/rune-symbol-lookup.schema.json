@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RuneSymbolLookup",
+  "type": "object",
+  "required": ["tool", "query", "canonical_name", "system", "symbol_code", "symbol_family", "keywords", "interpretation_prompt", "reflection_questions", "action_guidance", "prohibited_uses", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "rune_symbol_lookup"},
+    "query": {"type": "string"},
+    "canonical_name": {"type": "string"},
+    "system": {"type": "string"},
+    "symbol_code": {"type": "string"},
+    "symbol_family": {"type": "string"},
+    "keywords": {"type": "array", "items": {"type": "string"}},
+    "interpretation_prompt": {"type": "string"},
+    "reflection_questions": {"type": "array", "items": {"type": "string"}},
+    "action_guidance": {"type": "string"},
+    "prohibited_uses": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

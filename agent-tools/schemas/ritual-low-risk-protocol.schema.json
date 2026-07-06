@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RitualLowRiskProtocol",
+  "type": "object",
+  "required": [
+    "request_text",
+    "scenario_id",
+    "scenario_name",
+    "risk_level",
+    "can_continue_symbolic_support",
+    "goal",
+    "protocol_steps",
+    "do_not_do",
+    "monitoring",
+    "safety_result",
+    "source_guard",
+    "escalation",
+    "next_steps"
+  ],
+  "properties": {
+    "request_text": {"type": "string"},
+    "scenario_id": {"type": "string", "enum": ["moving_home", "sleep_grounding", "relationship_closure", "space_pressure"]},
+    "scenario_name": {"type": "string"},
+    "risk_level": {"type": "string", "enum": ["green", "yellow", "orange", "red"]},
+    "can_continue_symbolic_support": {"type": "boolean"},
+    "goal": {"type": "string"},
+    "protocol_steps": {"type": "array", "items": {"type": "string"}},
+    "do_not_do": {"type": "array", "items": {"type": "string"}},
+    "monitoring": {"type": "string"},
+    "safety_result": {"type": "object", "additionalProperties": true},
+    "source_guard": {
+      "type": "object",
+      "required": ["source_type", "source_claim_level", "missing_source_fields", "certainty_flags"],
+      "properties": {
+        "source_type": {"type": "string"},
+        "source_claim_level": {"type": "string"},
+        "missing_source_fields": {"type": "array", "items": {"type": "string"}},
+        "certainty_flags": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "escalation": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

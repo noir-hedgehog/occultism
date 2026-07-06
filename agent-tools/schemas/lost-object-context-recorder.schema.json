@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LostObjectContextRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "context_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "item_description": { "type": "string" },
+    "last_seen": { "type": "string" },
+    "route_context": { "type": "string" },
+    "possible_areas": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "checked_areas": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "contact_channels": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "practical_actions": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "risk_notes": { "type": "string" },
+    "review_time": { "type": "string" },
+    "stop_condition": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["context_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

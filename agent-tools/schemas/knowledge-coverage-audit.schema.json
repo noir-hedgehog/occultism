@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "KnowledgeCoverageAudit",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "domain_count",
+    "complete_domain_count",
+    "failed_domain_count",
+    "is_valid",
+    "domains",
+    "common",
+    "quality_gates",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "knowledge_coverage_audit"},
+    "root": {"type": "string"},
+    "domain_count": {"type": "integer", "minimum": 0},
+    "complete_domain_count": {"type": "integer", "minimum": 0},
+    "failed_domain_count": {"type": "integer", "minimum": 0},
+    "is_valid": {"type": "boolean"},
+    "domains": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "display_name", "level", "is_complete", "sections", "missing", "next_steps"],
+        "properties": {
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "level": {"type": "string"},
+          "is_complete": {"type": "boolean"},
+          "sections": {"type": "object"},
+          "missing": {"type": "array", "items": {"type": "string"}},
+          "next_steps": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "common": {
+      "type": "object",
+      "required": ["is_complete", "sections", "missing"],
+      "properties": {
+        "is_complete": {"type": "boolean"},
+        "sections": {"type": "object"},
+        "missing": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "quality_gates": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

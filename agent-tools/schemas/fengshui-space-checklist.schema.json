@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FengshuiSpaceChecklist",
+  "type": "object",
+  "required": [
+    "space_type",
+    "concerns",
+    "safety_flags",
+    "can_continue_fengshui",
+    "checklist",
+    "safety_notes",
+    "output_sections",
+    "next_steps"
+  ],
+  "properties": {
+    "space_type": {
+      "type": "string",
+      "enum": ["bedroom", "office", "living_room", "kitchen", "shop", "entrance", "general"]
+    },
+    "concerns": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["sleep", "focus", "relationship", "money", "pressure", "safety", "general"]
+      }
+    },
+    "safety_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["gas_or_fire", "mold_or_air", "electrical", "security", "health_sleep"]
+      }
+    },
+    "can_continue_fengshui": {
+      "type": "boolean"
+    },
+    "checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "item_id",
+          "category",
+          "priority",
+          "prompt",
+          "traditional_terms",
+          "practical_reason",
+          "low_risk_adjustments"
+        ],
+        "properties": {
+          "item_id": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "priority": {
+            "type": "string",
+            "enum": ["high", "medium"]
+          },
+          "prompt": {
+            "type": "string"
+          },
+          "traditional_terms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "practical_reason": {
+            "type": "string"
+          },
+          "low_risk_adjustments": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety_notes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "output_sections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}
+

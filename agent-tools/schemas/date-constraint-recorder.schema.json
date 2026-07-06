@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DateConstraintRecorder",
+  "type": "object",
+  "required": [
+    "tool",
+    "is_valid",
+    "event_type",
+    "can_continue_date_selection",
+    "candidate_dates",
+    "unavailable_dates",
+    "participant_count",
+    "participants",
+    "practical_constraints",
+    "source_notes",
+    "risk_flags",
+    "missing_fields",
+    "questions_to_ask",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "date_constraint_recorder"},
+    "is_valid": {"type": "boolean"},
+    "event_type": {"type": "string"},
+    "can_continue_date_selection": {"type": "boolean"},
+    "candidate_dates": {"type": "array", "items": {"type": "string"}},
+    "unavailable_dates": {"type": "array", "items": {"type": "string"}},
+    "participant_count": {"type": "integer"},
+    "participants": {"type": "array", "items": {"type": "string"}},
+    "practical_constraints": {"type": "array", "items": {"type": "string"}},
+    "source_notes": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "questions_to_ask": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

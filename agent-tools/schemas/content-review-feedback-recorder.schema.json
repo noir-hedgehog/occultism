@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContentReviewFeedbackRecorder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "domain",
+    "display_name",
+    "reviewer",
+    "review_date",
+    "decision",
+    "status",
+    "can_count_as_content_approval",
+    "approved_scope",
+    "required_corrections",
+    "residual_risks",
+    "notes",
+    "errors",
+    "kanban_updates",
+    "evidence",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "content_review_feedback_recorder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "domain": {"type": "string"},
+    "display_name": {"type": "string"},
+    "reviewer": {"type": "string"},
+    "review_date": {"type": "string"},
+    "decision": {"type": "string", "enum": ["approved", "changes_requested", "rejected", ""]},
+    "status": {"type": "string", "enum": ["approved", "needs_revision", "not_approved"]},
+    "can_count_as_content_approval": {"type": "boolean"},
+    "approved_scope": {"type": "array", "items": {"type": "string"}},
+    "required_corrections": {"type": "array", "items": {"type": "string"}},
+    "residual_risks": {"type": "array", "items": {"type": "string"}},
+    "notes": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "kanban_updates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["suggested_id", "task", "target_column", "reason"],
+        "properties": {
+          "suggested_id": {"type": "string"},
+          "task": {"type": "string"},
+          "target_column": {"type": "string"},
+          "reason": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["packet_status", "packet_level", "packet_open_items"],
+      "properties": {
+        "packet_status": {"type": "string"},
+        "packet_level": {"type": "string"},
+        "packet_open_items": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

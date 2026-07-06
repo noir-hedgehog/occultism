@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Folk Taboo Reframer Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "request_text",
+    "taboo_name",
+    "taboo_code",
+    "source_type",
+    "region",
+    "risk_flags",
+    "context_flags",
+    "fear_level",
+    "can_reframe_taboo",
+    "reframed_question",
+    "response_layers",
+    "family_safe_wording",
+    "grounding_steps",
+    "warnings",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "folk_taboo_reframer" },
+    "system": { "const": "chinese_folk_custom" },
+    "request_text": { "type": "string" },
+    "taboo_name": { "type": "string" },
+    "taboo_code": { "type": "string" },
+    "source_type": {
+      "type": "string",
+      "enum": ["family", "regional", "religious", "internet", "commercial", "unknown"]
+    },
+    "region": { "type": "string" },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "deterministic_disaster_claim",
+          "supernatural_confirmation",
+          "coercive_family_pressure",
+          "professional_replacement",
+          "dangerous_ritual"
+        ]
+      }
+    },
+    "context_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["pregnancy", "infant_or_child", "illness", "travel_or_fire_safety"]
+      }
+    },
+    "fear_level": {
+      "type": "string",
+      "enum": ["low", "medium", "medium_high", "high"]
+    },
+    "can_reframe_taboo": { "type": "boolean" },
+    "reframed_question": { "type": "string" },
+    "response_layers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["layer", "prompt"],
+        "properties": {
+          "layer": {
+            "type": "string",
+            "enum": ["source_boundary", "cultural_symbolism", "real_world_safety", "low_risk_translation"]
+          },
+          "prompt": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "family_safe_wording": { "type": "string" },
+    "grounding_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

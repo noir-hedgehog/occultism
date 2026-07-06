@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DreamRecordBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "is_valid",
+    "can_continue_dream_reflection",
+    "dream_excerpt",
+    "user_goal",
+    "waking_context",
+    "emotion_labels",
+    "symbol_candidates",
+    "risk_flags",
+    "missing_fields",
+    "clarifying_questions",
+    "safety_notes",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "dream_record_builder"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_dream_reflection": {"type": "boolean"},
+    "dream_excerpt": {"type": "string"},
+    "user_goal": {"type": "string"},
+    "waking_context": {"type": "string"},
+    "emotion_labels": {"type": "array", "items": {"type": "string"}},
+    "symbol_candidates": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "clarifying_questions": {"type": "array", "items": {"type": "string"}},
+    "safety_notes": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

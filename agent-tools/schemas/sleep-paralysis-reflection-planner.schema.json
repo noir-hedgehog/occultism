@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SleepParalysisReflectionPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "context_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "episode_pattern": { "type": "string" },
+    "wake_state": { "type": "string" },
+    "body_sensations": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "perceived_images": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "room_context": { "type": "string" },
+    "recent_stressors": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "sleep_context": { "type": "string" },
+    "grounding_actions": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "daytime_impact": { "type": "string" },
+    "review_time": { "type": "string" },
+    "stop_condition": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["context_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

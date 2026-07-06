@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YijingQuestionGuard",
+  "type": "object",
+  "required": [
+    "question_text",
+    "question_domain",
+    "risk_flags",
+    "is_repeat_question",
+    "is_single_matter",
+    "can_continue_yijing",
+    "reframed_question",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "question_text": {"type": "string"},
+    "question_domain": {
+      "type": "string",
+      "enum": [
+        "relationship",
+        "career",
+        "decision",
+        "timing",
+        "self_cultivation",
+        "health",
+        "finance",
+        "legal",
+        "general"
+      ]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "crisis",
+          "professional_health",
+          "professional_legal",
+          "professional_finance",
+          "coercion"
+        ]
+      }
+    },
+    "is_repeat_question": {"type": "boolean"},
+    "is_single_matter": {"type": "boolean"},
+    "can_continue_yijing": {"type": "boolean"},
+    "reframed_question": {"type": "string"},
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "limits": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}
+

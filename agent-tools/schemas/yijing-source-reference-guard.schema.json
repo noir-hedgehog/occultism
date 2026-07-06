@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YijingSourceReferenceGuard",
+  "type": "object",
+  "required": [
+    "tool",
+    "source_type",
+    "source_label",
+    "source_level",
+    "can_use_as_reference",
+    "risk_flags",
+    "quote_policy",
+    "use_scope",
+    "required_attribution",
+    "safe_reframes",
+    "citation_template",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "yijing_source_reference_guard"},
+    "source_type": {"type": "string"},
+    "source_label": {"type": "string"},
+    "source_level": {"type": "string"},
+    "can_use_as_reference": {"type": "boolean"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "quote_policy": {
+      "type": "object",
+      "required": ["can_quote", "max_quote_chars", "policy"],
+      "properties": {
+        "can_quote": {"type": "boolean"},
+        "max_quote_chars": {"type": "integer", "minimum": 0},
+        "policy": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "use_scope": {"type": "string"},
+    "required_attribution": {"type": "array", "items": {"type": "string"}},
+    "safe_reframes": {"type": "array", "items": {"type": "string"}},
+    "citation_template": {"type": "string"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

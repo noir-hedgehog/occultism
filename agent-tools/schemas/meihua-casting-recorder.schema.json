@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Meihua Casting Recorder Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "question_text",
+    "casting_method",
+    "trigger_source",
+    "body_trigram",
+    "use_trigram",
+    "moving_line",
+    "base_hexagram",
+    "mutual_hexagram",
+    "changed_hexagram",
+    "body_use_relation",
+    "computed_body_use_relation",
+    "trigram_elements",
+    "risk_flags",
+    "missing_fields",
+    "is_valid",
+    "can_interpret_meihua",
+    "warnings",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "meihua_casting_recorder" },
+    "system": { "const": "meihua_yishu" },
+    "question_text": { "type": "string" },
+    "casting_method": {
+      "type": "string",
+      "enum": ["number_casting", "time_casting", "external_omen", "direction_symbol", "external_chart", "manual_record"]
+    },
+    "trigger_source": {
+      "type": "object",
+      "required": ["numbers", "cast_time", "timezone", "external_omen", "direction", "chart_source", "notes"],
+      "properties": {
+        "numbers": {
+          "type": "array",
+          "items": { "type": "integer" }
+        },
+        "cast_time": { "type": "string" },
+        "timezone": { "type": "string" },
+        "external_omen": { "type": "string" },
+        "direction": { "type": "string" },
+        "chart_source": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "body_trigram": { "type": "string" },
+    "use_trigram": { "type": "string" },
+    "moving_line": { "type": ["integer", "null"], "minimum": 1, "maximum": 6 },
+    "base_hexagram": { "type": "string" },
+    "mutual_hexagram": { "type": "string" },
+    "changed_hexagram": { "type": "string" },
+    "body_use_relation": { "type": "string" },
+    "computed_body_use_relation": { "type": "string" },
+    "trigram_elements": {
+      "type": "object",
+      "required": ["body", "use"],
+      "properties": {
+        "body": { "type": "string" },
+        "use": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "professional_finance",
+          "medical_or_crisis",
+          "legal_or_emergency",
+          "coercion_or_privacy",
+          "deterministic_claim",
+          "supernatural_fear"
+        ]
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "numbers",
+          "cast_time",
+          "timezone",
+          "external_omen",
+          "direction",
+          "chart_source",
+          "trigger_source",
+          "body_trigram",
+          "use_trigram",
+          "moving_line",
+          "body_use_relation"
+        ]
+      }
+    },
+    "is_valid": { "type": "boolean" },
+    "can_interpret_meihua": { "type": "boolean" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

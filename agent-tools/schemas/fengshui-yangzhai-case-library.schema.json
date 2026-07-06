@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FengshuiYangzhaiCaseLibrary",
+  "type": "object",
+  "required": [
+    "tool",
+    "query",
+    "filters",
+    "case_count",
+    "cases",
+    "can_continue_fengshui",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "fengshui_yangzhai_case_library"},
+    "query": {"type": "string"},
+    "filters": {
+      "type": "object",
+      "required": ["space_type", "concern", "limit"],
+      "properties": {
+        "space_type": {"type": "string"},
+        "concern": {"type": "string"},
+        "limit": {"type": "integer", "minimum": 1, "maximum": 10}
+      },
+      "additionalProperties": false
+    },
+    "case_count": {"type": "integer", "minimum": 0},
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "title",
+          "space_type",
+          "concern_tags",
+          "query_terms",
+          "observable_facts",
+          "traditional_terms",
+          "practical_mapping",
+          "low_risk_adjustments",
+          "avoid_language",
+          "recommended_tools",
+          "review_questions",
+          "safety_boundary"
+        ],
+        "properties": {
+          "case_id": {"type": "string"},
+          "title": {"type": "string"},
+          "space_type": {"type": "string"},
+          "concern_tags": {"type": "array", "items": {"type": "string"}},
+          "query_terms": {"type": "array", "items": {"type": "string"}},
+          "observable_facts": {"type": "array", "items": {"type": "string"}},
+          "traditional_terms": {"type": "array", "items": {"type": "string"}},
+          "practical_mapping": {"type": "array", "items": {"type": "string"}},
+          "low_risk_adjustments": {"type": "array", "items": {"type": "string"}},
+          "avoid_language": {"type": "array", "items": {"type": "string"}},
+          "recommended_tools": {"type": "array", "items": {"type": "string"}},
+          "review_questions": {"type": "array", "items": {"type": "string"}},
+          "safety_boundary": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "can_continue_fengshui": {"type": "boolean"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

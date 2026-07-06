@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PastLifeNarrativeRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "narrative_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "scenes": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "roles": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "symbols": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "emotions": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "source_context": { "type": "string" },
+    "focus": { "type": "string" },
+    "reality_anchor": { "type": "string" },
+    "consent_notes": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["narrative_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

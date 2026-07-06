@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CartomancyInterpretationPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "cards": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
+    },
+    "drawn_cards": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
+    },
+    "spread_type": { "type": "string" },
+    "deck_type": { "type": "string" },
+    "draw_source": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["question_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

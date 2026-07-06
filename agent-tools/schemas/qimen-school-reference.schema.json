@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Qimen School Reference Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "query",
+    "comparison_mode",
+    "schools",
+    "school_profiles",
+    "conflict_points",
+    "required_method_fields",
+    "risk_flags",
+    "warnings",
+    "safe_usage",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": { "const": "qimen_school_reference" },
+    "system": { "const": "qimen_dunjia" },
+    "query": { "type": "string" },
+    "comparison_mode": { "type": "string", "enum": ["single_school", "comparison", "unknown"] },
+    "schools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["zhirun", "chaibu", "maoshan", "feipan", "turning_plate", "unspecified"]
+      }
+    },
+    "school_profiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["school", "display_name", "category", "core_difference", "affects", "required_fields", "conflicts_with", "safe_use"],
+        "properties": {
+          "school": { "type": "string" },
+          "display_name": { "type": "string" },
+          "category": { "type": "string" },
+          "core_difference": { "type": "string" },
+          "affects": { "type": "array", "items": { "type": "string" } },
+          "required_fields": { "type": "array", "items": { "type": "string" } },
+          "conflicts_with": { "type": "array", "items": { "type": "string" } },
+          "safe_use": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "conflict_points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["schools", "reason"],
+        "properties": {
+          "schools": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "required_method_fields": { "type": "array", "items": { "type": "string" } },
+    "risk_flags": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "safe_usage": { "type": "array", "items": { "type": "string" } },
+    "limits": { "type": "array", "items": { "type": "string" } },
+    "next_steps": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

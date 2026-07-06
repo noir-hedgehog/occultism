@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SigilPracticePlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "intention_text": { "type": "string" },
+    "intention": { "type": "string" },
+    "symbol_elements": { "type": ["string", "array"], "items": { "type": "string" } },
+    "elements": { "type": ["string", "array"], "items": { "type": "string" } },
+    "symbols": { "type": ["string", "array"], "items": { "type": "string" } },
+    "source_context": { "type": "string" },
+    "source": { "type": "string" },
+    "medium": { "type": "string" },
+    "material": { "type": "string" },
+    "activation_mode": { "type": "string" },
+    "use_mode": { "type": "string" },
+    "display_location": { "type": "string" },
+    "location": { "type": "string" },
+    "duration": { "type": "string" },
+    "time_limit": { "type": "string" },
+    "focus": { "type": "string" },
+    "safety_context": { "type": ["string", "array"], "items": { "type": "string" } },
+    "safety_notes": { "type": ["string", "array"], "items": { "type": "string" } },
+    "reality_constraints": { "type": ["string", "array"], "items": { "type": "string" } },
+    "constraints": { "type": ["string", "array"], "items": { "type": "string" } },
+    "notes": { "type": "string" },
+    "context_notes": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["question_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

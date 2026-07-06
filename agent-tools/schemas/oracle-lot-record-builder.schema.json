@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OracleLotRecordBuilder",
+  "type": "object",
+  "required": ["tool", "system", "is_valid", "can_continue_oracle_lot", "question_text", "lot_text", "source_type", "source_label", "lot_number", "lot_grade", "draw_method", "risk_flags", "missing_fields", "safety_notes", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "oracle_lot_record_builder"},
+    "system": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_oracle_lot": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "lot_text": {"type": "string"},
+    "source_type": {"type": "string"},
+    "source_label": {"type": "string"},
+    "lot_number": {"type": "string"},
+    "lot_grade": {"type": "string"},
+    "draw_method": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "safety_notes": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

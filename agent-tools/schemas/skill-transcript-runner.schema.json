@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SkillTranscriptRunner",
+  "type": "object",
+  "required": [
+    "suite",
+    "transcript_count",
+    "passed_count",
+    "failed_count",
+    "is_valid",
+    "transcript_ids",
+    "transcripts",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "suite": {"type": "string", "const": "skill_transcript_runner"},
+    "transcript_count": {"type": "integer", "minimum": 0},
+    "passed_count": {"type": "integer", "minimum": 0},
+    "failed_count": {"type": "integer", "minimum": 0},
+    "is_valid": {"type": "boolean"},
+    "transcript_ids": {"type": "array", "items": {"type": "string"}},
+    "transcripts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "transcript_id",
+          "skill",
+          "scenario",
+          "turn_count",
+          "turns",
+          "passed",
+          "checks",
+          "errors",
+          "tool_trace",
+          "final_state",
+          "limits"
+        ],
+        "properties": {
+          "transcript_id": {"type": "string"},
+          "skill": {"type": "string"},
+          "scenario": {
+            "type": "string",
+            "enum": ["normal_multiturn", "blocked_then_safe", "boundary_reframed", "blocked_then_cultural"]
+          },
+          "turn_count": {"type": "integer", "minimum": 1},
+          "turns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["role", "text"],
+              "properties": {
+                "role": {"type": "string", "enum": ["user", "assistant"]},
+                "text": {"type": "string"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "passed": {"type": "boolean"},
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["message", "passed", "actual"],
+              "properties": {
+                "message": {"type": "string"},
+                "passed": {"type": "boolean"},
+                "actual": {}
+              },
+              "additionalProperties": false
+            }
+          },
+          "errors": {"type": "array", "items": {"type": "string"}},
+          "tool_trace": {"type": "array", "items": {"type": "string"}},
+          "final_state": {"type": "object", "additionalProperties": true},
+          "limits": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

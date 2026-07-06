@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentToolDefinitionValidator",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "definition_count",
+    "valid_definition_count",
+    "failed_definition_count",
+    "openai_tool_count",
+    "valid_openai_tool_count",
+    "failed_openai_tool_count",
+    "duplicate_names",
+    "definition_results",
+    "openai_results",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_tool_definition_validator"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "definition_count": {"type": "integer"},
+    "valid_definition_count": {"type": "integer"},
+    "failed_definition_count": {"type": "integer"},
+    "openai_tool_count": {"type": "integer"},
+    "valid_openai_tool_count": {"type": "integer"},
+    "failed_openai_tool_count": {"type": "integer"},
+    "duplicate_names": {"type": "array", "items": {"type": "string"}},
+    "definition_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "is_valid", "errors", "schema_title", "domains", "safety_tags"],
+        "properties": {
+          "name": {"type": "string"},
+          "is_valid": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}},
+          "schema_title": {"type": "string"},
+          "domains": {"type": "array", "items": {"type": "string"}},
+          "safety_tags": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "openai_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "is_valid", "errors"],
+        "properties": {
+          "name": {"type": "string"},
+          "is_valid": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

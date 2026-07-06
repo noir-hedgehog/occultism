@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AlmanacSymbolLookup",
+  "type": "object",
+  "required": [
+    "tool",
+    "query",
+    "canonical_name",
+    "system",
+    "symbol_layer",
+    "keywords",
+    "source_type",
+    "interpretation_prompt",
+    "action_guidance",
+    "prohibited_uses",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "almanac_symbol_lookup"},
+    "query": {"type": "string"},
+    "canonical_name": {"type": "string"},
+    "system": {"type": "string", "const": "almanac_symbolic_date_selection"},
+    "symbol_layer": {"type": "string"},
+    "keywords": {"type": "array", "items": {"type": "string"}},
+    "source_type": {"type": "string"},
+    "interpretation_prompt": {"type": "string"},
+    "action_guidance": {"type": "string"},
+    "prohibited_uses": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

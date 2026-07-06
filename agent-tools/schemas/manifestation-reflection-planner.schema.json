@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ManifestationReflectionPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "intention_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "wish_theme": { "type": "string" },
+    "intention_statement": { "type": "string" },
+    "symbols": { "type": ["string", "array"], "items": { "type": "string" } },
+    "emotions": { "type": ["string", "array"], "items": { "type": "string" } },
+    "reality_anchor": { "type": "string" },
+    "controllable_actions": { "type": ["string", "array"], "items": { "type": "string" } },
+    "review_time": { "type": "string" },
+    "stop_condition": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["intention_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

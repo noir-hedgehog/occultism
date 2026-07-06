@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LenormandDrawRecorder",
+  "type": "object",
+  "required": ["tool", "system", "is_valid", "can_continue_lenormand", "question_text", "spread_type", "positions", "cards", "card_count", "source", "risk_flags", "missing_fields", "safety_notes", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "lenormand_draw_recorder"},
+    "system": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_lenormand": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "spread_type": {"type": "string"},
+    "positions": {"type": "array", "items": {"type": "string"}},
+    "cards": {"type": "array", "items": {"type": "string"}},
+    "card_count": {"type": "integer"},
+    "source": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "safety_notes": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

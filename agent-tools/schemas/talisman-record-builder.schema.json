@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TalismanRecordBuilder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "intention_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "items": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "talismans": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "source_type": { "type": "string" },
+    "source_label": { "type": "string" },
+    "use_context": { "type": "string" },
+    "budget_note": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["intention_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

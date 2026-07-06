@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TarotDrawSimulator",
+  "type": "object",
+  "required": [
+    "question_text",
+    "spread_id",
+    "seed",
+    "seed_generated",
+    "deck_size",
+    "orientation_mode",
+    "reversal_probability",
+    "cards",
+    "recorded_draw",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "question_text": {"type": "string"},
+    "spread_id": {"type": "string"},
+    "seed": {"type": "string"},
+    "seed_generated": {"type": "boolean"},
+    "deck_size": {"type": "integer", "minimum": 78, "maximum": 78},
+    "orientation_mode": {"type": "string", "enum": ["upright_only", "mixed", "reversed_allowed"]},
+    "reversal_probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["card", "orientation", "position"],
+        "properties": {
+          "card": {"type": "string"},
+          "orientation": {"type": "string", "enum": ["upright", "reversed"]},
+          "position": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "recorded_draw": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

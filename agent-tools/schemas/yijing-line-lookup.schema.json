@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YijingLineLookup",
+  "type": "object",
+  "required": [
+    "hexagram",
+    "line",
+    "line_label",
+    "line_stage",
+    "line_focus",
+    "line_nature",
+    "position_nature",
+    "fit_note",
+    "changing_to",
+    "interpretation_scaffold",
+    "source_level",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "hexagram": {
+      "type": "object",
+      "required": ["number", "name", "short_name", "keywords", "bits_bottom_to_top"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1, "maximum": 64},
+        "name": {"type": "string"},
+        "short_name": {"type": "string"},
+        "keywords": {"type": "array", "items": {"type": "string"}},
+        "bits_bottom_to_top": {"type": "string", "pattern": "^[01]{6}$"}
+      },
+      "additionalProperties": false
+    },
+    "line": {"type": "integer", "minimum": 1, "maximum": 6},
+    "line_label": {"type": "string"},
+    "line_stage": {"type": "string"},
+    "line_focus": {"type": "string"},
+    "line_nature": {"type": "string", "enum": ["yin", "yang"]},
+    "position_nature": {"type": "string", "enum": ["yin_position", "yang_position"]},
+    "fit_note": {"type": "string"},
+    "changing_to": {
+      "type": "object",
+      "required": ["number", "name", "short_name", "keywords", "bits_bottom_to_top"],
+      "properties": {
+        "number": {"type": "integer", "minimum": 1, "maximum": 64},
+        "name": {"type": "string"},
+        "short_name": {"type": "string"},
+        "keywords": {"type": "array", "items": {"type": "string"}},
+        "bits_bottom_to_top": {"type": "string", "pattern": "^[01]{6}$"}
+      },
+      "additionalProperties": false
+    },
+    "interpretation_scaffold": {
+      "type": "object",
+      "required": ["line_question", "line_action", "change_direction", "compare_prompt"],
+      "properties": {
+        "line_question": {"type": "string"},
+        "line_action": {"type": "string"},
+        "change_direction": {"type": "string"},
+        "compare_prompt": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "source_level": {"type": "string", "enum": ["modern_line_index_not_classical_text"]},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

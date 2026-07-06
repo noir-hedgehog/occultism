@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentToolWrapperManifestBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "wrapper_count",
+    "wrappable_count",
+    "blocked_count",
+    "skill_count",
+    "wrappers",
+    "runtime_contract",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_tool_wrapper_manifest_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "wrapper_count": {"type": "integer"},
+    "wrappable_count": {"type": "integer"},
+    "blocked_count": {"type": "integer"},
+    "skill_count": {"type": "integer"},
+    "wrappers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "command",
+          "script_path",
+          "input_schema_path",
+          "input_schema_title",
+          "spec_path",
+          "domains",
+          "skills",
+          "safety_tags",
+          "status",
+          "wrapper_notes"
+        ],
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "command": {"type": "array", "items": {"type": "string"}},
+          "script_path": {"type": "string"},
+          "input_schema_path": {"type": "string"},
+          "input_schema_title": {"type": "string"},
+          "spec_path": {"type": "string"},
+          "domains": {"type": "array", "items": {"type": "string"}},
+          "skills": {"type": "array", "items": {"type": "string"}},
+          "safety_tags": {"type": "array", "items": {"type": "string"}},
+          "status": {"type": "string", "enum": ["wrappable", "blocked"]},
+          "wrapper_notes": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "runtime_contract": {
+      "type": "object",
+      "required": ["invocation", "input_contract", "output_contract", "error_contract"],
+      "properties": {
+        "invocation": {"type": "string"},
+        "input_contract": {"type": "string"},
+        "output_contract": {"type": "string"},
+        "error_contract": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

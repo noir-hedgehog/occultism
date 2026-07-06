@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Folk Source Recorder Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "claim_text",
+    "custom_name",
+    "source_type",
+    "source_reliability",
+    "usage_context",
+    "risk_flags",
+    "missing_fields",
+    "can_use_as_context",
+    "can_treat_as_tradition",
+    "source_record",
+    "recommended_framing",
+    "questions_to_ask",
+    "authority_warnings",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "folk_source_recorder" },
+    "system": { "const": "chinese_folk_custom" },
+    "claim_text": { "type": "string" },
+    "custom_name": { "type": "string" },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "family_oral",
+        "regional_oral",
+        "religious_context",
+        "published_reference",
+        "internet_claim",
+        "commercial_claim",
+        "personal_preference",
+        "unknown"
+      ]
+    },
+    "source_reliability": {
+      "type": "string",
+      "enum": [
+        "local_oral_context",
+        "regional_oral_context",
+        "bounded_religious_context",
+        "documented_reference",
+        "unverified_internet_claim",
+        "commercial_interest_claim",
+        "personal_preference",
+        "unknown"
+      ]
+    },
+    "usage_context": {
+      "type": "string",
+      "enum": ["cultural_learning", "family_communication", "event_planning", "writing", "self_soothing", "source_audit"]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "dangerous_action",
+          "supernatural_certainty",
+          "professional_replacement",
+          "commercial_interest",
+          "universal_authority_claim"
+        ]
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "custom_name",
+          "source_type",
+          "region",
+          "community_or_lineage",
+          "informant_or_source_label",
+          "source_date_or_generation",
+          "evidence_items"
+        ]
+      }
+    },
+    "can_use_as_context": { "type": "boolean" },
+    "can_treat_as_tradition": { "type": "boolean" },
+    "source_record": {
+      "type": "object",
+      "required": [
+        "custom_name",
+        "claim_summary",
+        "source_type",
+        "region",
+        "community",
+        "informant_or_source_label",
+        "source_date_or_generation",
+        "usage_context",
+        "evidence_items",
+        "status"
+      ],
+      "properties": {
+        "custom_name": { "type": "string" },
+        "claim_summary": { "type": "string" },
+        "source_type": {
+          "type": "string",
+          "enum": [
+            "family_oral",
+            "regional_oral",
+            "religious_context",
+            "published_reference",
+            "internet_claim",
+            "commercial_claim",
+            "personal_preference",
+            "unknown"
+          ]
+        },
+        "region": { "type": "string" },
+        "community": { "type": "string" },
+        "informant_or_source_label": { "type": "string" },
+        "source_date_or_generation": { "type": "string" },
+        "usage_context": {
+          "type": "string",
+          "enum": ["cultural_learning", "family_communication", "event_planning", "writing", "self_soothing", "source_audit"]
+        },
+        "evidence_items": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["usable_context", "safety_review_needed"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "recommended_framing": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "questions_to_ask": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "authority_warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

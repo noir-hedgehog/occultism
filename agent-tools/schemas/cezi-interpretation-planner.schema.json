@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CeziInterpretationPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "character": { "type": "string" },
+    "zi": { "type": "string" },
+    "word": { "type": "string" },
+    "character_source": { "type": "string" },
+    "components": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "radicals": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "visible_features": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "features": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "user_association": { "type": "string" },
+    "association": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["question_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

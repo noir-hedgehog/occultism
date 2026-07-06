@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhysiognomyObservationRecorder",
+  "type": "object",
+  "required": ["tool", "system", "is_valid", "can_continue_physiognomy", "observation_text", "modality", "consent_state", "feature_codes", "observations", "risk_flags", "missing_fields", "safety_notes", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "physiognomy_observation_recorder"},
+    "system": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_physiognomy": {"type": "boolean"},
+    "observation_text": {"type": "string"},
+    "modality": {"type": "string"},
+    "consent_state": {"type": "string"},
+    "feature_codes": {"type": "array", "items": {"type": "string"}},
+    "observations": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "safety_notes": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

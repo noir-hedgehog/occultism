@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseManifestBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "release_id",
+    "version",
+    "release_type",
+    "generated_at",
+    "root",
+    "status",
+    "summary",
+    "quality_evidence",
+    "open_items",
+    "maintenance_cadence",
+    "release_notes",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "release_manifest_builder"},
+    "release_id": {"type": "string"},
+    "version": {"type": "string"},
+    "release_type": {"type": "string"},
+    "generated_at": {"type": "string"},
+    "root": {"type": "string"},
+    "status": {"type": "string"},
+    "summary": {
+      "type": "object",
+      "required": ["domain_count", "complete_domain_count", "gate_count", "passed_gate_count", "failed_gate_count"],
+      "properties": {
+        "domain_count": {"type": ["integer", "null"]},
+        "complete_domain_count": {"type": ["integer", "null"]},
+        "gate_count": {"type": ["integer", "null"]},
+        "passed_gate_count": {"type": ["integer", "null"]},
+        "failed_gate_count": {"type": ["integer", "null"]},
+        "schema_count": {"type": ["integer", "null"]},
+        "markdown_file_count": {"type": ["integer", "null"]},
+        "unit_test_tail": {"type": "string"},
+        "skill_install_dry_run_count": {"type": ["integer", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "quality_evidence": {
+      "type": "object",
+      "required": ["release_gate_is_valid", "knowledge_coverage_is_valid", "gate_ids", "failed_gates"],
+      "properties": {
+        "release_gate_is_valid": {"type": "boolean"},
+        "knowledge_coverage_is_valid": {"type": "boolean"},
+        "gate_ids": {"type": "array", "items": {"type": "string"}},
+        "failed_gates": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "open_items": {"type": "array", "items": {"type": "string"}},
+    "maintenance_cadence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["cadence", "actions"],
+        "properties": {
+          "cadence": {"type": "string"},
+          "actions": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "release_notes": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

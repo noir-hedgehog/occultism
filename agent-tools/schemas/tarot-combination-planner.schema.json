@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TarotCombinationPlanner",
+  "type": "object",
+  "required": [
+    "tool",
+    "question_text",
+    "spread",
+    "card_count",
+    "can_continue_combination",
+    "risk_flags",
+    "errors",
+    "warnings",
+    "normalized_cards",
+    "combination_patterns",
+    "position_links",
+    "synthesis_prompt",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "tarot_combination_planner"},
+    "question_text": {"type": "string"},
+    "spread": {
+      "type": "object",
+      "required": ["spread_id", "name", "position_count", "positions"],
+      "properties": {
+        "spread_id": {"type": "string"},
+        "name": {"type": "string"},
+        "position_count": {"type": "integer", "minimum": 1},
+        "positions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "card_count": {"type": "integer", "minimum": 0},
+    "can_continue_combination": {"type": "boolean"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "normalized_cards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "index",
+          "position",
+          "card",
+          "english_name",
+          "orientation",
+          "arcana",
+          "suit",
+          "element",
+          "active_keywords"
+        ],
+        "properties": {
+          "index": {"type": "integer", "minimum": 1},
+          "position": {"type": "string"},
+          "card": {"type": "string"},
+          "english_name": {"type": "string"},
+          "orientation": {"type": "string", "enum": ["upright", "reversed"]},
+          "arcana": {"type": "string", "enum": ["major", "minor"]},
+          "suit": {"type": "string"},
+          "element": {"type": "string"},
+          "active_keywords": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "combination_patterns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "pattern_id",
+          "label",
+          "evidence",
+          "interpretation_prompt",
+          "safe_language",
+          "avoid_language"
+        ],
+        "properties": {
+          "pattern_id": {"type": "string"},
+          "label": {"type": "string"},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "interpretation_prompt": {"type": "string"},
+          "safe_language": {"type": "string"},
+          "avoid_language": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "position_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from_position",
+          "from_card",
+          "to_position",
+          "to_card",
+          "relationship",
+          "bridge_prompt"
+        ],
+        "properties": {
+          "from_position": {"type": "string"},
+          "from_card": {"type": "string"},
+          "to_position": {"type": "string"},
+          "to_card": {"type": "string"},
+          "relationship": {"type": "string"},
+          "bridge_prompt": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "synthesis_prompt": {"type": "object", "additionalProperties": true},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentRuntimeHandoffBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "handoff_status",
+    "runtime_scope",
+    "entrypoints",
+    "skill_count",
+    "tool_count",
+    "skills",
+    "readiness_checks",
+    "safety_invariants",
+    "required_runtime_assets",
+    "integration_contract",
+    "verification_commands",
+    "open_external_items",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_runtime_handoff_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "handoff_status": {"type": "string", "enum": ["ready_for_runtime_dry_run", "blocked_by_readiness_checks"]},
+    "runtime_scope": {"type": "string"},
+    "entrypoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["entrypoint", "tool", "contract"],
+        "properties": {
+          "entrypoint": {"type": "string"},
+          "tool": {"type": "string"},
+          "contract": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "skill_count": {"type": "integer"},
+    "tool_count": {"type": "integer"},
+    "skills": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill", "role", "tools", "index_path"],
+        "properties": {
+          "skill": {"type": "string"},
+          "role": {"type": "string"},
+          "tools": {"type": "array", "items": {"type": "string"}},
+          "index_path": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "readiness_checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check", "passed", "summary"],
+        "properties": {
+          "check": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "summary": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety_invariants": {"type": "array", "items": {"type": "string"}},
+    "required_runtime_assets": {"type": "array", "items": {"type": "string"}},
+    "integration_contract": {
+      "type": "object",
+      "required": [
+        "router_command",
+        "manifest_command",
+        "wrapper_manifest_command",
+        "tool_definition_export_command",
+        "tool_definition_validation_command",
+        "tool_registry_command",
+        "tool_registry_validation_command",
+        "install_readiness_command",
+        "external_intake_command",
+        "pilot_readiness_command"
+      ],
+      "properties": {
+        "router_command": {"type": "string"},
+        "manifest_command": {"type": "string"},
+        "wrapper_manifest_command": {"type": "string"},
+        "tool_definition_export_command": {"type": "string"},
+        "tool_definition_validation_command": {"type": "string"},
+        "tool_registry_command": {"type": "string"},
+        "tool_registry_validation_command": {"type": "string"},
+        "install_readiness_command": {"type": "string"},
+        "external_intake_command": {"type": "string"},
+        "pilot_readiness_command": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "verification_commands": {"type": "array", "items": {"type": "string"}},
+    "open_external_items": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

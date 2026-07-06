@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RuneCastRecorder",
+  "type": "object",
+  "required": ["tool", "system", "is_valid", "can_continue_rune", "question_text", "spread_type", "positions", "runes", "rune_count", "orientation_policy", "source", "risk_flags", "missing_fields", "safety_notes", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "rune_cast_recorder"},
+    "system": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_rune": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "spread_type": {"type": "string"},
+    "positions": {"type": "array", "items": {"type": "string"}},
+    "runes": {"type": "array", "items": {"type": "string"}},
+    "rune_count": {"type": "integer"},
+    "orientation_policy": {"type": "string"},
+    "source": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "safety_notes": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

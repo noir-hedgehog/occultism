@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SkyOmenObservationRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "observation_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "phenomena": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "shapes": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "colors": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "location_time": { "type": "string" },
+    "weather_context": { "type": "string" },
+    "emotions": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "reality_anchor": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["observation_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

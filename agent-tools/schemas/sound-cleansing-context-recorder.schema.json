@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SoundCleansingContextRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "context_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "space_context": { "type": "string" },
+    "sound_tools": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "practice_intention": { "type": "string" },
+    "volume_duration": { "type": "string" },
+    "safety_boundaries": { "type": "string" },
+    "sensory_notes": { "type": "string" },
+    "grounding_actions": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "review_time": { "type": "string" },
+    "stop_condition": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["context_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

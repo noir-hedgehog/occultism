@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PendulumSessionRecorder",
+  "type": "object",
+  "required": ["tool", "system", "is_valid", "can_continue_pendulum", "question_text", "question_type", "answer_motion", "consent_confirmed", "calibration_notes", "risk_flags", "missing_fields", "safe_question_template", "safety_notes", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "pendulum_session_recorder"},
+    "system": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_pendulum": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "question_type": {"type": "string"},
+    "answer_motion": {"type": "string"},
+    "consent_confirmed": {"type": "boolean"},
+    "calibration_notes": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "safe_question_template": {"type": "string"},
+    "safety_notes": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FengshuiSchoolGuard",
+  "type": "object",
+  "required": [
+    "system",
+    "request_text",
+    "detected_schools",
+    "requested_school",
+    "method_level",
+    "required_fields",
+    "missing_fields",
+    "risk_flags",
+    "can_continue_liqi",
+    "can_continue_fengshui",
+    "reframed_scope",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "system": {"type": "string", "const": "feng_shui"},
+    "request_text": {"type": "string"},
+    "detected_schools": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["xingfa", "symbolic_bagua", "xuankong_feixing", "bazhai", "sanhe_sanyuan", "date_selection"]
+      }
+    },
+    "requested_school": {
+      "type": "string",
+      "enum": ["xingfa", "symbolic_bagua", "xuankong_feixing", "bazhai", "sanhe_sanyuan", "date_selection", "mixed_or_unclear"]
+    },
+    "method_level": {
+      "type": "string",
+      "enum": ["visible_form", "symbolic_direction", "liqi_school", "mixed_or_unclear"]
+    },
+    "required_fields": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "deterministic_wealth_or_illness",
+          "professional_replacement",
+          "unsafe_structural_action",
+          "mixed_school_rules"
+        ]
+      }
+    },
+    "can_continue_liqi": {"type": "boolean"},
+    "can_continue_fengshui": {"type": "boolean"},
+    "reframed_scope": {"type": "string"},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

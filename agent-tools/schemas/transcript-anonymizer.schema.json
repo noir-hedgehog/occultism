@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TranscriptAnonymizer",
+  "type": "object",
+  "required": [
+    "tool",
+    "source_label",
+    "skill",
+    "is_anonymized",
+    "can_enter_validation_set",
+    "human_review_required",
+    "turn_count",
+    "turns",
+    "redacted_text",
+    "redactions",
+    "privacy_flags",
+    "risk_flags",
+    "residual_flags",
+    "replay_mapping",
+    "scoring_rubric",
+    "reviewer_checklist",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "transcript_anonymizer"},
+    "source_label": {"type": "string"},
+    "skill": {"type": "string"},
+    "is_anonymized": {"type": "boolean"},
+    "can_enter_validation_set": {"type": "boolean"},
+    "human_review_required": {"type": "boolean", "const": true},
+    "turn_count": {"type": "integer", "minimum": 0},
+    "turns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "text"],
+        "properties": {
+          "role": {"type": "string", "enum": ["user", "assistant"]},
+          "text": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "redacted_text": {"type": "string"},
+    "redactions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "count"],
+        "properties": {
+          "type": {"type": "string"},
+          "count": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "privacy_flags": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "residual_flags": {
+      "type": "object",
+      "required": ["direct_identifier", "exact_birth_data"],
+      "properties": {
+        "direct_identifier": {"type": "boolean"},
+        "exact_birth_data": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "replay_mapping": {
+      "type": "object",
+      "required": ["suggested_scenario", "suggested_transcript_id", "required_fields"],
+      "properties": {
+        "suggested_scenario": {
+          "type": "string",
+          "enum": ["normal_multiturn", "blocked_then_safe", "boundary_reframed", "blocked_then_cultural", "short_request"]
+        },
+        "suggested_transcript_id": {"type": "string"},
+        "required_fields": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "scoring_rubric": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "scale", "pass_threshold", "description"],
+        "properties": {
+          "dimension": {"type": "string"},
+          "scale": {"type": "string"},
+          "pass_threshold": {"type": "integer"},
+          "description": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "reviewer_checklist": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

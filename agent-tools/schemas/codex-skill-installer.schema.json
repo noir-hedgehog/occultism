@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CodexSkillInstaller",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "codex_home",
+    "target_root",
+    "dry_run",
+    "overwrite",
+    "skill_count",
+    "copied_count",
+    "conflict_count",
+    "is_valid",
+    "actions",
+    "validation_summary",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {
+      "type": "string",
+      "const": "codex_skill_installer"
+    },
+    "root": {
+      "type": "string"
+    },
+    "codex_home": {
+      "type": "string"
+    },
+    "target_root": {
+      "type": "string"
+    },
+    "dry_run": {
+      "type": "boolean"
+    },
+    "overwrite": {
+      "type": "boolean"
+    },
+    "skill_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "copied_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "conflict_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "is_valid": {
+      "type": "boolean"
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill", "source", "target", "action", "reason", "conflict", "copied", "errors"],
+        "properties": {
+          "skill": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "target": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "conflict": {
+            "type": "boolean"
+          },
+          "copied": {
+            "type": "boolean"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "validation_summary": {
+      "type": "object",
+      "required": ["skill_count", "valid_skill_count", "invalid_skill_count", "is_valid"],
+      "properties": {
+        "skill_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "valid_skill_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "invalid_skill_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "is_valid": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

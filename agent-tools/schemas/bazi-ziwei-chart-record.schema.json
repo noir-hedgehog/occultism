@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BaziZiweiChartRecord",
+  "type": "object",
+  "required": [
+    "system",
+    "birth_data",
+    "method",
+    "privacy_flags",
+    "is_valid",
+    "errors",
+    "warnings",
+    "assumptions",
+    "required_before_interpretation",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "system": {"type": "string", "enum": ["bazi", "ziwei", "mingli"]},
+    "birth_data": {
+      "type": "object",
+      "required": ["birth_date", "birth_time", "birth_place", "calendar_type", "timezone", "solar_time_strategy"],
+      "properties": {
+        "birth_date": {"type": "string"},
+        "birth_time": {"type": "string"},
+        "birth_place": {"type": "string"},
+        "calendar_type": {"type": "string", "enum": ["solar", "lunar", "unknown"]},
+        "timezone": {"type": "string"},
+        "solar_time_strategy": {"type": "string", "enum": ["not_applied", "true_solar_time", "local_mean_time", "unknown"]}
+      },
+      "additionalProperties": false
+    },
+    "method": {
+      "type": "object",
+      "required": ["system", "school", "chart_source", "analysis_focus", "gender_policy"],
+      "properties": {
+        "system": {"type": "string", "enum": ["bazi", "ziwei", "mingli"]},
+        "school": {"type": "string"},
+        "chart_source": {
+          "type": "string",
+          "enum": ["manual_user_provided", "external_calculator", "future_tool_generated", "cultural_explanation_only"]
+        },
+        "analysis_focus": {
+          "type": "string",
+          "enum": ["career", "relationship", "self_understanding", "timing", "family", "general"]
+        },
+        "gender_policy": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "privacy_flags": {
+      "type": "array",
+      "items": {"type": "string", "enum": ["exact_birth_data", "third_party_subject", "minor_subject", "sensitive_identity"]}
+    },
+    "is_valid": {"type": "boolean"},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "assumptions": {"type": "array", "items": {"type": "string"}},
+    "required_before_interpretation": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

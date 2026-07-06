@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TarotDrawRecorder",
+  "type": "object",
+  "required": ["question_text", "spread", "draw", "is_valid", "errors", "warnings", "recorded_at", "next_steps"],
+  "properties": {
+    "question_text": {
+      "type": "string"
+    },
+    "spread": {
+      "type": "object",
+      "required": ["spread_id", "name", "position_count", "positions"],
+      "properties": {
+        "spread_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "position_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "draw": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["index", "position", "card", "orientation", "note"],
+        "properties": {
+          "index": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "position": {
+            "type": "string"
+          },
+          "card": {
+            "type": "string"
+          },
+          "orientation": {
+            "type": "string",
+            "enum": ["upright", "reversed", "unknown"]
+          },
+          "note": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "is_valid": {
+      "type": "boolean"
+    },
+    "errors": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "recorded_at": {
+      "type": "string"
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

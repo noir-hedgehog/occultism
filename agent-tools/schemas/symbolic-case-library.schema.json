@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SymbolicCaseLibrary",
+  "type": "object",
+  "required": [
+    "tool",
+    "query",
+    "domain",
+    "scenario",
+    "case_count",
+    "cases",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "symbolic_case_library"},
+    "query": {"type": "string"},
+    "domain": {"type": "string"},
+    "scenario": {"type": "string"},
+    "case_count": {"type": "integer", "minimum": 0},
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "domain",
+          "skill",
+          "scenario",
+          "prompt_pattern",
+          "symbol_stack",
+          "safe_interpretation",
+          "sample_language",
+          "avoid_language",
+          "recommended_tools",
+          "review_questions"
+        ],
+        "properties": {
+          "case_id": {"type": "string"},
+          "domain": {"type": "string", "enum": ["fengshui", "mingli", "qimen", "ritual", "tarot", "yijing"]},
+          "skill": {"type": "string"},
+          "scenario": {"type": "string"},
+          "prompt_pattern": {"type": "string"},
+          "symbol_stack": {"type": "array", "items": {"type": "string"}},
+          "safe_interpretation": {"type": "array", "items": {"type": "string"}},
+          "sample_language": {"type": "string"},
+          "avoid_language": {"type": "array", "items": {"type": "string"}},
+          "recommended_tools": {"type": "array", "items": {"type": "string"}},
+          "review_questions": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

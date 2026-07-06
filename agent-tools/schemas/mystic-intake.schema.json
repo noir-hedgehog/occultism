@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MysticIntake",
+  "type": "object",
+  "required": ["request_text", "domain", "intent", "risk_level"],
+  "properties": {
+    "request_text": {
+      "type": "string",
+      "description": "User's original request."
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["tarot", "feng_shui", "yijing", "liuyao", "meihua", "qimen", "mingli", "naming", "astrology", "ritual_safety", "folk_custom", "unknown"]
+    },
+    "intent": {
+      "type": "string",
+      "enum": ["reflection", "decision_support", "prediction", "space_review", "ritual_help", "chart_reflection", "cultural_learning", "crisis_help"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["green", "yellow", "orange", "red"]
+    },
+    "risk_signals": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "required_clarifications": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "allowed_next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}

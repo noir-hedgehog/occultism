@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>玄学大典 Agent 工作台</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="workspace">
+        <aside class="sidebar" aria-label="项目概览">
+          <div class="brand">
+            <span class="mark">玄</span>
+            <div>
+              <h1>玄学大典</h1>
+              <p>Agent 工作台</p>
+            </div>
+          </div>
+          <div class="metric-grid" id="metrics"></div>
+          <nav class="doc-list" id="docs" aria-label="知识库入口"></nav>
+        </aside>
+
+        <section class="main-panel">
+          <div class="request-bar">
+            <label for="requestText">请求</label>
+            <textarea id="requestText" rows="4">帮我做一个塔罗三张牌，看看工作状态</textarea>
+            <div class="controls">
+              <select id="domainSelect" aria-label="指定流派">
+                <option value="">自动识别流派</option>
+                <option value="tarot">塔罗</option>
+                <option value="fengshui">风水</option>
+                <option value="yijing">易经</option>
+                <option value="ritual">空间净化/驱邪</option>
+                <option value="dream">解梦</option>
+                <option value="lost_object">失物寻物</option>
+              </select>
+              <button id="runButton" type="button">运行路由</button>
+            </div>
+          </div>
+
+          <section class="status-strip" id="statusStrip"></section>
+
+          <div class="content-grid">
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>主干</h2>
+                <span id="trunkCount"></span>
+              </div>
+              <div class="trunks" id="trunks"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>执行流程</h2>
+                <span id="routeBadge">待运行</span>
+              </div>
+              <div id="workflow" class="workflow"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>上下文</h2>
+                <span id="contextBadge"></span>
+              </div>
+              <div id="contextDocs" class="context-docs"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-heading">
+                <h2>工具链</h2>
+                <span id="toolBadge"></span>
+              </div>
+              <div id="toolCommands" class="commands"></div>
+            </section>
+          </div>
+
+          <section class="json-panel">
+            <div class="panel-heading">
+              <h2>JSON</h2>
+              <button id="toggleJson" type="button">展开</button>
+            </div>
+            <pre id="jsonOutput" hidden>{}</pre>
+          </section>
+        </section>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
+

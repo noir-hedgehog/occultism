@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RuneInterpretationPlanner",
+  "type": "object",
+  "required": ["tool", "is_valid", "can_continue_rune", "question_text", "risk_flags", "symbol_plans", "interpretation_layers", "synthesis", "limits", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "rune_interpretation_planner"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_rune": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "spread_type": {"type": "string"},
+    "positions": {"type": "array", "items": {"type": "string"}},
+    "runes": {"type": "array", "items": {"type": "string"}},
+    "orientation_policy": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "symbol_plans": {"type": "array", "items": {"type": "object"}},
+    "interpretation_layers": {"type": "array", "items": {"type": "string"}},
+    "synthesis": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

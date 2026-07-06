@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ColorProfileRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "intention_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "scene": { "type": "string" },
+    "colors": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "candidate_colors": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "desired_element": { "type": "string" },
+    "existing_items": { "type": "string" },
+    "budget_note": { "type": "string" },
+    "practical_constraints": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    }
+  },
+  "anyOf": [
+    { "required": ["intention_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

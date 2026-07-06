@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Astrology Chart Record",
+  "type": "object",
+  "required": [
+    "system",
+    "chart_source",
+    "analysis_focus",
+    "subject",
+    "placements",
+    "privacy_flags",
+    "is_valid",
+    "errors",
+    "warnings",
+    "required_before_interpretation",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "system": { "const": "western_astrology" },
+    "chart_source": {
+      "type": "string",
+      "enum": ["external_calculator", "manual_user_provided", "user_memory", "cultural_explanation_only"]
+    },
+    "analysis_focus": {
+      "type": "string",
+      "enum": ["self_understanding", "career", "relationship", "daily_prompt", "creative_reflection", "general"]
+    },
+    "subject": {
+      "type": "object",
+      "required": ["subject_is_self", "subject_consent", "subject_is_minor"],
+      "properties": {
+        "subject_is_self": { "type": ["boolean", "null"] },
+        "subject_consent": { "type": "boolean" },
+        "subject_is_minor": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    },
+    "placements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["type", "name", "sign", "house", "aspect", "aspect_to", "notes"],
+        "properties": {
+          "type": { "type": "string" },
+          "name": { "type": "string" },
+          "sign": { "type": "string" },
+          "house": { "type": "string" },
+          "aspect": { "type": "string" },
+          "aspect_to": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "privacy_flags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "is_valid": { "type": "boolean" },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "required_before_interpretation": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

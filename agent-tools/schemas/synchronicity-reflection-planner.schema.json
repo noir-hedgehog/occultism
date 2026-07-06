@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SynchronicityReflectionPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "event_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "repeated_signs": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "frequency_context": { "type": "string" },
+    "situation_context": { "type": "string" },
+    "emotions": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "reality_anchor": { "type": "string" },
+    "practical_actions": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "stop_condition": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["event_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LiuyaoFocusSelector",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "question_text",
+    "question_domain",
+    "risk_flags",
+    "can_select_focus",
+    "can_continue_liuyao_focus",
+    "chart_provided",
+    "chart_is_valid",
+    "chart_errors",
+    "missing_fields",
+    "focus_candidates",
+    "interpretation_order",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": { "const": "liuyao_focus_selector" },
+    "system": { "const": "liuyao" },
+    "question_text": { "type": "string" },
+    "question_domain": {
+      "type": "string",
+      "enum": [
+        "project_career",
+        "relationship",
+        "money_resources",
+        "documents_study",
+        "health_safety",
+        "legal_dispute",
+        "lost_item",
+        "travel_move",
+        "general"
+      ]
+    },
+    "risk_flags": { "type": "array", "items": { "type": "string" } },
+    "can_select_focus": { "type": "boolean" },
+    "can_continue_liuyao_focus": { "type": "boolean" },
+    "chart_provided": { "type": "boolean" },
+    "chart_is_valid": { "type": "boolean" },
+    "chart_errors": { "type": "array", "items": { "type": "string" } },
+    "missing_fields": { "type": "array", "items": { "type": "string" } },
+    "focus_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "kinship_or_role",
+          "selector",
+          "confidence",
+          "reason",
+          "line_matches",
+          "changing_positions",
+          "interpretation_lens",
+          "method_notes"
+        ],
+        "properties": {
+          "label": { "type": "string" },
+          "kinship_or_role": { "type": "string" },
+          "selector": { "type": "string" },
+          "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+          "reason": { "type": "string" },
+          "line_matches": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["position", "position_label", "kinship", "spirit", "roles", "changing"],
+              "properties": {
+                "position": { "type": "integer", "minimum": 0, "maximum": 6 },
+                "position_label": { "type": "string" },
+                "kinship": { "type": "string" },
+                "spirit": { "type": "string" },
+                "roles": { "type": "array", "items": { "type": "string" } },
+                "changing": { "type": "boolean" }
+              },
+              "additionalProperties": false
+            }
+          },
+          "changing_positions": { "type": "array", "items": { "type": "integer", "minimum": 1, "maximum": 6 } },
+          "interpretation_lens": { "type": "string" },
+          "method_notes": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      }
+    },
+    "interpretation_order": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "limits": { "type": "array", "items": { "type": "string" } },
+    "next_steps": { "type": "array", "items": { "type": "string" } }
+  },
+  "additionalProperties": false
+}

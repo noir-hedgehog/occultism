@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentToolRegistryValidator",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "registry_status",
+    "tool_count",
+    "domain_count",
+    "skill_count",
+    "error_count",
+    "errors",
+    "bootstrap_prefix",
+    "safety_bootstrap",
+    "skill_results",
+    "failed_skill_count",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_tool_registry_validator"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "registry_status": {"type": "string"},
+    "tool_count": {"type": "integer"},
+    "domain_count": {"type": "integer"},
+    "skill_count": {"type": "integer"},
+    "error_count": {"type": "integer"},
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "bootstrap_prefix": {"type": "array", "items": {"type": "string"}},
+    "safety_bootstrap": {"type": "array", "items": {"type": "string"}},
+    "skill_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill", "is_valid", "missing_required_tools", "invalid_tools"],
+        "properties": {
+          "skill": {"type": "string"},
+          "is_valid": {"type": "boolean"},
+          "missing_required_tools": {"type": "array", "items": {"type": "string"}},
+          "invalid_tools": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "failed_skill_count": {"type": "integer"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

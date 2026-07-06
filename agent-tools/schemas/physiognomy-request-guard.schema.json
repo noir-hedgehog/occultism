@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PhysiognomyRequestGuard",
+  "type": "object",
+  "required": ["tool", "request_text", "system", "reading_intent", "consent_state", "risk_flags", "can_continue_physiognomy", "reframed_question", "required_boundaries", "clarifying_questions", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "physiognomy_request_guard"},
+    "request_text": {"type": "string"},
+    "system": {"type": "string"},
+    "reading_intent": {"type": "string"},
+    "consent_state": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "can_continue_physiognomy": {"type": "boolean"},
+    "reframed_question": {"type": "string"},
+    "required_boundaries": {"type": "array", "items": {"type": "string"}},
+    "clarifying_questions": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

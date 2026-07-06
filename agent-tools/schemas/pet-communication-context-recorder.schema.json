@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PetCommunicationContextRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "context_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "pet_type": { "type": "string" },
+    "relationship": { "type": "string" },
+    "observations": { "type": ["string", "array"], "items": { "type": "string" } },
+    "time_context": { "type": "string" },
+    "health_context": { "type": "string" },
+    "emotions": { "type": ["string", "array"], "items": { "type": "string" } },
+    "care_actions": { "type": ["string", "array"], "items": { "type": "string" } },
+    "reality_anchor": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["context_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

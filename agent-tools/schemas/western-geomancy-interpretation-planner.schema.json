@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WesternGeomancyInterpretationPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "question_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "chart_source": { "type": "string" },
+    "generation_method": { "type": "string" },
+    "mothers": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "mother_figures": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "daughters": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "daughter_figures": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "nieces": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "niece_figures": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "witnesses": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "judge": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "chart_notes": { "type": "string" },
+    "notes": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["question_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

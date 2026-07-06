@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AgentToolRegistryBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "registry_status",
+    "tool_count",
+    "domain_count",
+    "skill_count",
+    "registration_order",
+    "entries",
+    "by_domain",
+    "by_skill",
+    "safety_bootstrap",
+    "runtime_contract",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "agent_tool_registry_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "registry_status": {"type": "string", "enum": ["ready_for_runtime_registration", "blocked_by_definition_validation"]},
+    "tool_count": {"type": "integer"},
+    "domain_count": {"type": "integer"},
+    "skill_count": {"type": "integer"},
+    "registration_order": {"type": "array", "items": {"type": "string"}},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "command",
+          "schema_path",
+          "script_path",
+          "spec_path",
+          "domains",
+          "skills",
+          "safety_tags",
+          "registration_priority"
+        ],
+        "properties": {
+          "name": {"type": "string"},
+          "description": {"type": "string"},
+          "command": {"type": "array", "items": {"type": "string"}},
+          "schema_path": {"type": "string"},
+          "script_path": {"type": "string"},
+          "spec_path": {"type": "string"},
+          "domains": {"type": "array", "items": {"type": "string"}},
+          "skills": {"type": "array", "items": {"type": "string"}},
+          "safety_tags": {"type": "array", "items": {"type": "string"}},
+          "registration_priority": {"type": "integer"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "by_domain": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "by_skill": {"type": "object", "additionalProperties": {"type": "array", "items": {"type": "string"}}},
+    "safety_bootstrap": {"type": "array", "items": {"type": "string"}},
+    "runtime_contract": {
+      "type": "object",
+      "required": ["register", "execute", "guard", "lint"],
+      "properties": {
+        "register": {"type": "string"},
+        "execute": {"type": "string"},
+        "guard": {"type": "string"},
+        "lint": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

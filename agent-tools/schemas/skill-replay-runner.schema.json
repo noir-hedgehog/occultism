@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SkillReplayRunner",
+  "type": "object",
+  "required": [
+    "suite",
+    "case_count",
+    "passed_count",
+    "failed_count",
+    "is_valid",
+    "case_ids",
+    "cases",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "suite": {"type": "string", "const": "skill_replay_runner"},
+    "case_count": {"type": "integer", "minimum": 0},
+    "passed_count": {"type": "integer", "minimum": 0},
+    "failed_count": {"type": "integer", "minimum": 0},
+    "is_valid": {"type": "boolean"},
+    "case_ids": {"type": "array", "items": {"type": "string"}},
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "skill",
+          "scenario",
+          "request_text",
+          "passed",
+          "checks",
+          "errors",
+          "tool_trace",
+          "limits"
+        ],
+        "properties": {
+          "case_id": {"type": "string"},
+          "skill": {"type": "string"},
+          "scenario": {"type": "string", "enum": ["normal", "boundary", "blocked"]},
+          "request_text": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["message", "passed", "actual"],
+              "properties": {
+                "message": {"type": "string"},
+                "passed": {"type": "boolean"},
+                "actual": {}
+              },
+              "additionalProperties": false
+            }
+          },
+          "errors": {"type": "array", "items": {"type": "string"}},
+          "tool_trace": {"type": "array", "items": {"type": "string"}},
+          "limits": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

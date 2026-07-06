@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TranscriptFixtureBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "transcript_id",
+    "source_label",
+    "skill",
+    "scenario",
+    "turn_count",
+    "turns",
+    "review",
+    "ready_for_replay",
+    "fixture",
+    "residual_flags",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "transcript_fixture_builder"},
+    "transcript_id": {"type": "string"},
+    "source_label": {"type": "string"},
+    "skill": {"type": "string"},
+    "scenario": {"type": "string"},
+    "turn_count": {"type": "integer", "minimum": 0},
+    "turns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "text"],
+        "properties": {
+          "role": {"type": "string"},
+          "text": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "review": {
+      "type": "object",
+      "required": ["reviewer", "approved", "scores", "score_failures", "revision_notes"],
+      "properties": {
+        "reviewer": {"type": "string"},
+        "approved": {"type": "boolean"},
+        "scores": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 2}
+        },
+        "score_failures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["dimension", "score", "threshold", "reason"],
+            "properties": {
+              "dimension": {"type": "string"},
+              "score": {"type": ["integer", "null"]},
+              "threshold": {"type": "integer"},
+              "reason": {"type": "string"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "revision_notes": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": false
+    },
+    "ready_for_replay": {"type": "boolean"},
+    "fixture": {
+      "type": "object",
+      "required": [
+        "transcript_id",
+        "skill",
+        "scenario",
+        "turns",
+        "expected_tool_trace",
+        "risk_flags",
+        "privacy_flags",
+        "review_scores"
+      ],
+      "properties": {
+        "transcript_id": {"type": "string"},
+        "skill": {"type": "string"},
+        "scenario": {"type": "string"},
+        "turns": {"type": "array", "items": {"type": "object"}},
+        "expected_tool_trace": {"type": "array", "items": {"type": "string"}},
+        "risk_flags": {"type": "array", "items": {"type": "string"}},
+        "privacy_flags": {"type": "array", "items": {"type": "string"}},
+        "review_scores": {
+          "type": "object",
+          "additionalProperties": {"type": "integer", "minimum": 0, "maximum": 2}
+        }
+      },
+      "additionalProperties": false
+    },
+    "residual_flags": {
+      "type": "object",
+      "required": ["direct_identifier", "exact_birth_data"],
+      "properties": {
+        "direct_identifier": {"type": "boolean"},
+        "exact_birth_data": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

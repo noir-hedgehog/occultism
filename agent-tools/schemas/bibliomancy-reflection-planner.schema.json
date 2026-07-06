@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BibliomancyReflectionPlanner",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "query_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "source_title": { "type": "string" },
+    "source_type": { "type": "string" },
+    "selection_method": { "type": "string" },
+    "page_or_location": { "type": "string" },
+    "excerpt": { "type": "string" },
+    "keywords": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "emotions": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "reality_anchor": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["query_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DreamInterpretationPlanner",
+  "type": "object",
+  "required": [
+    "tool",
+    "is_valid",
+    "can_continue_dream_reflection",
+    "dream_excerpt",
+    "risk_flags",
+    "symbol_plans",
+    "interpretation_layers",
+    "synthesis",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "dream_interpretation_planner"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_dream_reflection": {"type": "boolean"},
+    "dream_excerpt": {"type": "string"},
+    "user_goal": {"type": "string"},
+    "emotion_labels": {"type": "array", "items": {"type": "string"}},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "symbol_plans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["symbol", "symbol_code", "symbol_layer", "keywords", "interpretation_prompt", "reflection_questions", "action_guidance"],
+        "properties": {
+          "symbol": {"type": "string"},
+          "symbol_code": {"type": "string"},
+          "symbol_layer": {"type": "string"},
+          "keywords": {"type": "array", "items": {"type": "string"}},
+          "interpretation_prompt": {"type": "string"},
+          "reflection_questions": {"type": "array", "items": {"type": "string"}},
+          "action_guidance": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "interpretation_layers": {"type": "array", "items": {"type": "string"}},
+    "synthesis": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

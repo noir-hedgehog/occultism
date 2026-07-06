@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Meihua Relation Interpreter Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "question_text",
+    "question_domain",
+    "risk_flags",
+    "casting_is_valid",
+    "can_interpret_relation",
+    "missing_fields",
+    "body_trigram",
+    "use_trigram",
+    "moving_line",
+    "base_hexagram",
+    "mutual_hexagram",
+    "changed_hexagram",
+    "body_use_relation",
+    "computed_body_use_relation",
+    "trigram_elements",
+    "interpretation_frame",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": { "const": "meihua_relation_interpreter" },
+    "system": { "const": "meihua_yishu" },
+    "question_text": { "type": "string" },
+    "question_domain": {
+      "type": "string",
+      "enum": [
+        "project_career",
+        "relationship",
+        "money_resources",
+        "study_documents",
+        "travel_move",
+        "health_safety",
+        "legal_dispute",
+        "general"
+      ]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "professional_finance",
+          "medical_or_crisis",
+          "legal_or_emergency",
+          "coercion_or_privacy",
+          "deterministic_claim",
+          "supernatural_fear"
+        ]
+      }
+    },
+    "casting_is_valid": { "type": "boolean" },
+    "can_interpret_relation": { "type": "boolean" },
+    "missing_fields": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "body_trigram": { "type": "string" },
+    "use_trigram": { "type": "string" },
+    "moving_line": { "type": ["integer", "null"], "minimum": 1, "maximum": 6 },
+    "base_hexagram": { "type": "string" },
+    "mutual_hexagram": { "type": "string" },
+    "changed_hexagram": { "type": "string" },
+    "body_use_relation": { "type": "string" },
+    "computed_body_use_relation": { "type": "string" },
+    "trigram_elements": {
+      "type": "object",
+      "required": ["body", "use"],
+      "properties": {
+        "body": { "type": "string" },
+        "use": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "interpretation_frame": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

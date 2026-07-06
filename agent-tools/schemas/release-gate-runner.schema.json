@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseGateRunner",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "gate_count",
+    "passed_count",
+    "failed_count",
+    "is_valid",
+    "gates",
+    "duration_ms",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "release_gate_runner"},
+    "root": {"type": "string"},
+    "gate_count": {"type": "integer", "minimum": 0},
+    "passed_count": {"type": "integer", "minimum": 0},
+    "failed_count": {"type": "integer", "minimum": 0},
+    "is_valid": {"type": "boolean"},
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["gate_id", "command", "passed", "duration_ms", "summary", "errors"],
+        "properties": {
+          "gate_id": {"type": "string"},
+          "command": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "duration_ms": {"type": "integer", "minimum": 0},
+          "summary": {"type": "object"},
+          "errors": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "duration_ms": {"type": "integer", "minimum": 0},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

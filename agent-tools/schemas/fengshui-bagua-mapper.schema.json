@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FengshuiBaguaMapper",
+  "type": "object",
+  "required": [
+    "request_text",
+    "method",
+    "direction",
+    "direction_label",
+    "trigram",
+    "element",
+    "symbolic_themes",
+    "concerns",
+    "safety_flags",
+    "can_continue_bagua_mapping",
+    "practical_observation_prompts",
+    "low_risk_adjustments",
+    "concern_guidance",
+    "missing_fields",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "request_text": {"type": "string"},
+    "method": {"type": "string", "const": "compass_bagua_reference"},
+    "direction": {
+      "type": "string",
+      "enum": ["", "north", "northeast", "east", "southeast", "south", "southwest", "west", "northwest", "center"]
+    },
+    "direction_label": {"type": "string"},
+    "trigram": {"type": "string"},
+    "element": {"type": "string"},
+    "symbolic_themes": {"type": "array", "items": {"type": "string"}},
+    "concerns": {"type": "array", "items": {"type": "string"}},
+    "safety_flags": {"type": "array", "items": {"type": "string"}},
+    "can_continue_bagua_mapping": {"type": "boolean"},
+    "practical_observation_prompts": {"type": "array", "items": {"type": "string"}},
+    "low_risk_adjustments": {"type": "array", "items": {"type": "string"}},
+    "concern_guidance": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

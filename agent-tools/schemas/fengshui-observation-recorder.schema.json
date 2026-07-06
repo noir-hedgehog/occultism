@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FengshuiObservationRecorder",
+  "type": "object",
+  "required": [
+    "space_type",
+    "input_mode",
+    "observations",
+    "safety_flags",
+    "inferred_claims_to_avoid",
+    "missing_details",
+    "can_continue_fengshui",
+    "interpretation_queue",
+    "notes",
+    "next_steps"
+  ],
+  "properties": {
+    "space_type": {
+      "type": "string",
+      "enum": ["bedroom", "office", "living_room", "kitchen", "entrance", "shop", "general"]
+    },
+    "input_mode": {"type": "string"},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "source_text",
+          "confidence",
+          "zones",
+          "observable_features",
+          "traditional_terms_candidate",
+          "practical_mapping"
+        ],
+        "properties": {
+          "id": {"type": "string"},
+          "source_text": {"type": "string"},
+          "confidence": {"type": "string", "enum": ["observed", "reported"]},
+          "zones": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "observable_features": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "traditional_terms_candidate": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "practical_mapping": {
+            "type": "array",
+            "items": {"type": "string"}
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "safety_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["gas_or_fire", "electrical", "mold_or_air", "security", "health_sleep"]
+      }
+    },
+    "inferred_claims_to_avoid": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "missing_details": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "can_continue_fengshui": {"type": "boolean"},
+    "interpretation_queue": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["observation_id", "traditional_terms", "must_explain_after_fact"],
+        "properties": {
+          "observation_id": {"type": "string"},
+          "traditional_terms": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "must_explain_after_fact": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "notes": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

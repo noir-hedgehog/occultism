@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RitualSourceGuard",
+  "type": "object",
+  "required": [
+    "request_text",
+    "source_type",
+    "source_claim_level",
+    "missing_source_fields",
+    "certainty_flags",
+    "safety_result",
+    "can_use_as_cultural_context",
+    "can_offer_steps",
+    "required_framing",
+    "prohibited_framing",
+    "safe_symbolic_protocol",
+    "next_steps"
+  ],
+  "properties": {
+    "request_text": {"type": "string"},
+    "source_type": {
+      "type": "string",
+      "enum": ["regional_folk", "religious_tradition", "modern_wellness", "commercial_new_age", "personal_preference", "unknown"]
+    },
+    "source_claim_level": {
+      "type": "string",
+      "enum": ["unverified_folk_claim", "documented_tradition_context_needed", "modern_symbolic_practice", "commercial_or_modern_claim", "personal_preference", "unknown"]
+    },
+    "missing_source_fields": {"type": "array", "items": {"type": "string"}},
+    "certainty_flags": {"type": "array", "items": {"type": "string"}},
+    "safety_result": {"type": "object", "additionalProperties": true},
+    "can_use_as_cultural_context": {"type": "boolean"},
+    "can_offer_steps": {"type": "boolean"},
+    "required_framing": {"type": "array", "items": {"type": "string"}},
+    "prohibited_framing": {"type": "array", "items": {"type": "string"}},
+    "safe_symbolic_protocol": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

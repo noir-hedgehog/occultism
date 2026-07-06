@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TarotSpreadSelector",
+  "type": "object",
+  "required": [
+    "question_text",
+    "question_type",
+    "risk_flags",
+    "can_continue_tarot",
+    "recommended_spread",
+    "reframed_question",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "question_text": {
+      "type": "string"
+    },
+    "question_type": {
+      "type": "string",
+      "enum": ["relationship", "career", "choice", "move", "daily_focus", "timeline", "cultural_learning", "general"]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["professional_decision", "coercion", "crisis"]
+      }
+    },
+    "can_continue_tarot": {
+      "type": "boolean"
+    },
+    "recommended_spread": {
+      "type": "object",
+      "required": ["spread_id", "name", "card_count", "positions", "best_for", "avoid_when", "notes"],
+      "properties": {
+        "spread_id": {
+          "type": "string",
+          "enum": [
+            "single_focus",
+            "three_card_situation",
+            "past_present_tendency",
+            "two_paths",
+            "relationship_mirror",
+            "decision_grounding"
+          ]
+        },
+        "name": {
+          "type": "string"
+        },
+        "card_count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "positions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "best_for": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "avoid_when": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "reframed_question": {
+      "type": "string"
+    },
+    "limits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}
+

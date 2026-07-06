@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Naming Candidate Comparator Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "request_text",
+    "name_type",
+    "candidate_count",
+    "dimensions",
+    "risk_flags",
+    "missing_fields",
+    "can_compare_names",
+    "evaluations",
+    "ranked_candidates",
+    "comparison_summary",
+    "warnings",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "naming_candidate_comparator" },
+    "system": { "const": "chinese_naming" },
+    "request_text": { "type": "string" },
+    "name_type": {
+      "type": "string",
+      "enum": ["formal_name", "nickname", "stage_name", "pen_name", "brand_name", "general"]
+    },
+    "candidate_count": { "type": "integer", "minimum": 0 },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["meaning", "sound", "form", "culture", "usage"]
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "deterministic_fate_claim",
+          "minor_labeling",
+          "professional_registration_claim",
+          "third_party_privacy"
+        ]
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "can_compare_names": { "type": "boolean" },
+    "evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "full_name",
+          "dimension_scores",
+          "overall_score",
+          "element_hints",
+          "strengths",
+          "cautions",
+          "adjustments"
+        ],
+        "properties": {
+          "name": { "type": "string" },
+          "full_name": { "type": "string" },
+          "dimension_scores": {
+            "type": "object",
+            "required": ["meaning", "sound", "form", "culture", "usage"],
+            "properties": {
+              "meaning": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "sound": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "form": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "culture": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "usage": { "type": "integer", "minimum": 1, "maximum": 5 }
+            },
+            "additionalProperties": false
+          },
+          "overall_score": { "type": "number", "minimum": 1, "maximum": 5 },
+          "element_hints": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "strengths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "cautions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "adjustments": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ranked_candidates": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "comparison_summary": { "type": "string" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

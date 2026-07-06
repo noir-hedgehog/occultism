@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "YijingCastingSimulator",
+  "type": "object",
+  "required": [
+    "question_text",
+    "casting_method",
+    "seed",
+    "seed_generated",
+    "cast_time",
+    "timezone",
+    "line_order",
+    "generated_lines",
+    "recorded_cast",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "question_text": {"type": "string"},
+    "casting_method": {"type": "string", "enum": ["three_coins", "yarrow_stalk"]},
+    "seed": {"type": "string"},
+    "seed_generated": {"type": "boolean"},
+    "cast_time": {"type": "string"},
+    "timezone": {"type": "string"},
+    "line_order": {"type": "string", "enum": ["bottom_to_top"]},
+    "generated_lines": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "required": ["index", "value", "label", "trace"],
+        "properties": {
+          "index": {"type": "integer", "minimum": 1, "maximum": 6},
+          "value": {"type": "integer", "enum": [6, 7, 8, 9]},
+          "label": {"type": "string"},
+          "trace": {"type": "object"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "recorded_cast": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

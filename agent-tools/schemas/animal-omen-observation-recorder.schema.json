@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AnimalOmenObservationRecorder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "observation_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "animals": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ]
+    },
+    "animal": { "type": "string" },
+    "behavior": { "type": "string" },
+    "location": { "type": "string" },
+    "timing": { "type": "string" },
+    "frequency": { "type": "string" },
+    "source": { "type": "string" },
+    "safety_context": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["observation_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

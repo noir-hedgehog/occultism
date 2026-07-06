@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FengshuiRecommendationRanker",
+  "type": "object",
+  "required": ["ranked_recommendations", "summary", "output_guidance"],
+  "properties": {
+    "ranked_recommendations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "recommendation",
+          "source_item_id",
+          "category",
+          "urgency",
+          "action_type",
+          "cost_level",
+          "reversibility",
+          "impact_flags",
+          "safety_flags",
+          "requires_professional",
+          "score",
+          "rationale",
+          "rank"
+        ],
+        "properties": {
+          "id": {"type": "string"},
+          "recommendation": {"type": "string"},
+          "source_item_id": {"type": "string"},
+          "category": {"type": "string"},
+          "urgency": {"type": "string", "enum": ["immediate", "soon", "later"]},
+          "action_type": {
+            "type": "string",
+            "enum": ["professional_check", "plan_before_action", "low_risk_adjustment"]
+          },
+          "cost_level": {"type": "string", "enum": ["low", "medium", "high"]},
+          "reversibility": {"type": "string", "enum": ["high", "medium", "low"]},
+          "impact_flags": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "safety_flags": {
+            "type": "array",
+            "items": {"type": "string"}
+          },
+          "requires_professional": {"type": "boolean"},
+          "score": {"type": "integer"},
+          "rationale": {"type": "string"},
+          "rank": {"type": "integer", "minimum": 1}
+        },
+        "additionalProperties": false
+      }
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "immediate", "professional_required", "low_risk_first"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 0},
+        "immediate": {"type": "integer", "minimum": 0},
+        "professional_required": {"type": "integer", "minimum": 0},
+        "low_risk_first": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      },
+      "additionalProperties": false
+    },
+    "output_guidance": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}
+

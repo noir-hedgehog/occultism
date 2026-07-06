@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContentReviewPacketBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "domain_count",
+    "ready_for_review_count",
+    "approved_count",
+    "packets",
+    "common_review_checks",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "content_review_packet_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "domain_count": {"type": "integer"},
+    "ready_for_review_count": {"type": "integer"},
+    "approved_count": {"type": "integer"},
+    "packets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "domain",
+          "display_name",
+          "review_status",
+          "level",
+          "files_to_review",
+          "tool_chain",
+          "review_questions",
+          "required_evidence",
+          "open_items"
+        ],
+        "properties": {
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "review_status": {"type": "string", "enum": ["ready_for_human_review", "blocked"]},
+          "level": {"type": "string"},
+          "files_to_review": {
+            "type": "object",
+            "required": ["sop", "knowledge", "skill", "tool_specs"],
+            "properties": {
+              "sop": {"type": "array", "items": {"type": "string"}},
+              "knowledge": {"type": "array", "items": {"type": "string"}},
+              "skill": {"type": "array", "items": {"type": "string"}},
+              "tool_specs": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          },
+          "tool_chain": {"type": "array", "items": {"type": "string"}},
+          "review_questions": {"type": "array", "items": {"type": "string"}},
+          "required_evidence": {"type": "array", "items": {"type": "string"}},
+          "open_items": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "common_review_checks": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

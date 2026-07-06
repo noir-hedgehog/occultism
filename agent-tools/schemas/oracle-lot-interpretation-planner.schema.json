@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OracleLotInterpretationPlanner",
+  "type": "object",
+  "required": ["tool", "is_valid", "can_continue_oracle_lot", "question_text", "lot_text", "risk_flags", "symbol_plans", "interpretation_layers", "synthesis", "limits", "next_steps"],
+  "properties": {
+    "tool": {"type": "string", "const": "oracle_lot_interpretation_planner"},
+    "is_valid": {"type": "boolean"},
+    "can_continue_oracle_lot": {"type": "boolean"},
+    "question_text": {"type": "string"},
+    "lot_text": {"type": "string"},
+    "source_type": {"type": "string"},
+    "lot_number": {"type": "string"},
+    "lot_grade": {"type": "string"},
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "symbol_plans": {"type": "array", "items": {"type": "object"}},
+    "interpretation_layers": {"type": "array", "items": {"type": "string"}},
+    "synthesis": {"type": "object"},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

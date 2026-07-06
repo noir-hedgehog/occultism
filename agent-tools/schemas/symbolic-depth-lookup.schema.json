@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SymbolicDepthLookup",
+  "type": "object",
+  "required": [
+    "query",
+    "domain",
+    "match_count",
+    "entries",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "query": {"type": "string"},
+    "domain": {"type": "string", "enum": ["all", "fengshui", "mingli", "qimen", "ritual", "tarot", "yijing"]},
+    "match_count": {"type": "integer", "minimum": 0},
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "entry_id",
+          "domain",
+          "title",
+          "symbols",
+          "use_when",
+          "interpretation_steps",
+          "boundary",
+          "example",
+          "sop_links",
+          "toolchain"
+        ],
+        "properties": {
+          "entry_id": {"type": "string"},
+          "domain": {"type": "string", "enum": ["fengshui", "mingli", "qimen", "ritual", "tarot", "yijing"]},
+          "title": {"type": "string"},
+          "symbols": {"type": "array", "items": {"type": "string"}},
+          "use_when": {"type": "array", "items": {"type": "string"}},
+          "interpretation_steps": {"type": "array", "items": {"type": "string"}},
+          "boundary": {"type": "string"},
+          "example": {"type": "string"},
+          "sop_links": {"type": "array", "items": {"type": "string"}},
+          "toolchain": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

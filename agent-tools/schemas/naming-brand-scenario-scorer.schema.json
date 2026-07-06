@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Naming Brand Scenario Scorer Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "request_text",
+    "category",
+    "audience",
+    "tones",
+    "channels",
+    "candidate_count",
+    "dimensions",
+    "risk_flags",
+    "missing_fields",
+    "can_score_brand_names",
+    "evaluations",
+    "ranked_candidates",
+    "scenario_summary",
+    "warnings",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "naming_brand_scenario_scorer" },
+    "system": { "const": "chinese_naming" },
+    "request_text": { "type": "string" },
+    "category": { "type": "string" },
+    "audience": { "type": "string" },
+    "tones": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "channels": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "candidate_count": { "type": "integer", "minimum": 0 },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["memorability", "pronunciation", "category_fit", "audience_fit", "searchability", "risk_control"]
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "professional_registration_claim",
+          "deterministic_fate_or_virality_claim",
+          "regulated_industry_claim"
+        ]
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "can_score_brand_names": { "type": "boolean" },
+    "evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "dimension_scores", "overall_score", "strengths", "cautions", "external_checks"],
+        "properties": {
+          "name": { "type": "string" },
+          "dimension_scores": {
+            "type": "object",
+            "required": ["memorability", "pronunciation", "category_fit", "audience_fit", "searchability", "risk_control"],
+            "properties": {
+              "memorability": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "pronunciation": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "category_fit": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "audience_fit": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "searchability": { "type": "integer", "minimum": 1, "maximum": 5 },
+              "risk_control": { "type": "integer", "minimum": 1, "maximum": 5 }
+            },
+            "additionalProperties": false
+          },
+          "overall_score": { "type": "number", "minimum": 1, "maximum": 5 },
+          "strengths": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "cautions": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "external_checks": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "ranked_candidates": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "scenario_summary": { "type": "string" },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

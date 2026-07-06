@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Yijing Casting Method Advisor Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "question_text",
+    "requested_method",
+    "recommended_method",
+    "method_profile",
+    "allowed_methods",
+    "is_repeat_question",
+    "has_new_facts",
+    "can_continue_casting",
+    "casting_mode",
+    "required_record_fields",
+    "missing_fields",
+    "risk_flags",
+    "warnings",
+    "safe_usage",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": { "const": "yijing_casting_method_advisor" },
+    "question_text": { "type": "string" },
+    "requested_method": { "type": "string" },
+    "recommended_method": { "type": "string" },
+    "method_profile": {
+      "anyOf": [
+        { "$ref": "#/$defs/method_profile" },
+        { "type": "null" }
+      ]
+    },
+    "allowed_methods": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/method_profile" }
+    },
+    "is_repeat_question": { "type": "boolean" },
+    "has_new_facts": { "type": "boolean" },
+    "can_continue_casting": { "type": "boolean" },
+    "casting_mode": { "type": "string", "enum": ["ready_to_cast", "record_existing", "needs_clarification"] },
+    "required_record_fields": { "type": "array", "items": { "type": "string" } },
+    "missing_fields": { "type": "array", "items": { "type": "string" } },
+    "risk_flags": { "type": "array", "items": { "type": "string" } },
+    "warnings": { "type": "array", "items": { "type": "string" } },
+    "safe_usage": { "type": "array", "items": { "type": "string" } },
+    "limits": { "type": "array", "items": { "type": "string" } },
+    "next_steps": { "type": "array", "items": { "type": "string" } }
+  },
+  "$defs": {
+    "method_profile": {
+      "type": "object",
+      "required": ["method", "display_name", "method_type", "use_when", "required_fields", "record_with", "limits"],
+      "properties": {
+        "method": { "type": "string" },
+        "display_name": { "type": "string" },
+        "method_type": { "type": "string" },
+        "use_when": { "type": "string" },
+        "required_fields": { "type": "array", "items": { "type": "string" } },
+        "record_with": { "type": "string" },
+        "limits": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

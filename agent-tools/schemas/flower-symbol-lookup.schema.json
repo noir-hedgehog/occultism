@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FlowerSymbolLookup",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "query": { "type": "string" },
+    "symbol": { "type": "string" },
+    "flower": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["query"] },
+    { "required": ["symbol"] },
+    { "required": ["flower"] }
+  ]
+}

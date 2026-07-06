@@ -1,0 +1,136 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Liuyao Chart Recorder Result",
+  "type": "object",
+  "required": [
+    "tool",
+    "system",
+    "question_text",
+    "casting_method",
+    "chart_source",
+    "cast_time",
+    "timezone",
+    "base_hexagram",
+    "changed_hexagram",
+    "changing_lines",
+    "focus_spirit",
+    "focus_logic",
+    "lines",
+    "risk_flags",
+    "missing_fields",
+    "is_valid",
+    "can_interpret_liuyao",
+    "errors",
+    "warnings",
+    "next_steps",
+    "limits"
+  ],
+  "properties": {
+    "tool": { "const": "liuyao_chart_recorder" },
+    "system": { "const": "liuyao" },
+    "question_text": { "type": "string" },
+    "casting_method": {
+      "type": "string",
+      "enum": ["coin_casting", "manual_record", "external_chart", "time_casting", "unknown"]
+    },
+    "chart_source": { "type": "string" },
+    "cast_time": { "type": "string" },
+    "timezone": { "type": "string" },
+    "base_hexagram": { "type": "string" },
+    "changed_hexagram": { "type": "string" },
+    "changing_lines": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1, "maximum": 6 }
+    },
+    "focus_spirit": { "type": "string" },
+    "focus_logic": { "type": "string" },
+    "lines": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "position",
+          "position_label",
+          "yin_yang",
+          "kinship",
+          "spirit",
+          "roles",
+          "branch",
+          "element",
+          "changing",
+          "hidden_kinship",
+          "notes"
+        ],
+        "properties": {
+          "position": { "type": "integer", "minimum": 1, "maximum": 6 },
+          "position_label": { "type": "string" },
+          "yin_yang": { "type": "string", "enum": ["yin", "yang", ""] },
+          "kinship": { "type": "string", "enum": ["父母", "兄弟", "子孙", "妻财", "官鬼", ""] },
+          "spirit": { "type": "string", "enum": ["青龙", "朱雀", "勾陈", "腾蛇", "白虎", "玄武", ""] },
+          "roles": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["世爻", "应爻", "用神", "原神", "忌神", "仇神"] }
+          },
+          "branch": { "type": "string" },
+          "element": { "type": "string" },
+          "changing": { "type": "boolean" },
+          "hidden_kinship": { "type": "string" },
+          "notes": { "type": "string" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "professional_finance",
+          "medical_or_crisis",
+          "legal_or_emergency",
+          "coercion_or_privacy",
+          "deterministic_claim",
+          "supernatural_fear"
+        ]
+      }
+    },
+    "missing_fields": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "casting_method",
+          "chart_source",
+          "cast_time",
+          "timezone",
+          "base_hexagram",
+          "lines",
+          "six_lines",
+          "self_line",
+          "other_line",
+          "focus_spirit",
+          "focus_logic"
+        ]
+      }
+    },
+    "is_valid": { "type": "boolean" },
+    "can_interpret_liuyao": { "type": "boolean" },
+    "errors": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "warnings": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "next_steps": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "limits": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

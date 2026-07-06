@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QimenFocusSelector",
+  "type": "object",
+  "required": [
+    "question_text",
+    "question_domain",
+    "risk_flags",
+    "can_continue_qimen_focus",
+    "chart_is_valid",
+    "chart_errors",
+    "missing_fields",
+    "focus_candidates",
+    "interpretation_order",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "question_text": {"type": "string"},
+    "question_domain": {
+      "type": "string",
+      "enum": ["project_career", "relationship", "money_business", "travel_move", "timing", "lost_item", "general"]
+    },
+    "risk_flags": {"type": "array", "items": {"type": "string"}},
+    "can_continue_qimen_focus": {"type": "boolean"},
+    "chart_is_valid": {"type": "boolean"},
+    "chart_errors": {"type": "array", "items": {"type": "string"}},
+    "missing_fields": {"type": "array", "items": {"type": "string"}},
+    "focus_candidates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "label",
+          "palace",
+          "selector",
+          "confidence",
+          "reason",
+          "palace_summary",
+          "interpretation_lens"
+        ],
+        "properties": {
+          "label": {"type": "string"},
+          "palace": {"type": "integer", "minimum": 0, "maximum": 9},
+          "selector": {"type": "string"},
+          "confidence": {"type": "string", "enum": ["high", "medium", "low"]},
+          "reason": {"type": "string"},
+          "palace_summary": {
+            "type": "object",
+            "properties": {
+              "trigram": {"type": "string"},
+              "door": {"type": "string"},
+              "star": {"type": "string"},
+              "deity": {"type": "string"},
+              "earth_stem": {"type": "string"},
+              "heaven_stem": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
+          "interpretation_lens": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "interpretation_order": {"type": "array", "items": {"type": "string"}},
+    "warnings": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": false
+}

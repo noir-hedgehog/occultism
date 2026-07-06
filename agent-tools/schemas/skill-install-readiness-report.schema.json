@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SkillInstallReadinessReport",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "codex_home",
+    "target_root",
+    "status",
+    "is_valid",
+    "requires_explicit_approval",
+    "skill_count",
+    "create_count",
+    "already_current_count",
+    "conflict_count",
+    "content_review_approved_count",
+    "content_review_ready_count",
+    "coverage_is_valid",
+    "validation_summary",
+    "actions",
+    "approval_checklist",
+    "install_command",
+    "overwrite_command",
+    "blockers",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "skill_install_readiness_report"},
+    "root": {"type": "string"},
+    "codex_home": {"type": "string"},
+    "target_root": {"type": "string"},
+    "status": {"type": "string", "enum": ["ready_for_install_approval", "blocked"]},
+    "is_valid": {"type": "boolean"},
+    "requires_explicit_approval": {"type": "boolean", "const": true},
+    "skill_count": {"type": "integer"},
+    "create_count": {"type": "integer"},
+    "already_current_count": {"type": "integer"},
+    "conflict_count": {"type": "integer"},
+    "content_review_approved_count": {"type": "integer"},
+    "content_review_ready_count": {"type": "integer"},
+    "coverage_is_valid": {"type": "boolean"},
+    "validation_summary": {
+      "type": "object",
+      "required": ["skill_count", "valid_skill_count", "invalid_skill_count", "is_valid"],
+      "properties": {
+        "skill_count": {"type": "integer"},
+        "valid_skill_count": {"type": "integer"},
+        "invalid_skill_count": {"type": "integer"},
+        "is_valid": {"type": "boolean"}
+      },
+      "additionalProperties": false
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["skill", "source", "target", "action", "reason", "conflict", "copied", "errors"],
+        "properties": {
+          "skill": {"type": "string"},
+          "source": {"type": "string"},
+          "target": {"type": "string"},
+          "action": {"type": "string"},
+          "reason": {"type": "string"},
+          "conflict": {"type": "boolean"},
+          "copied": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "approval_checklist": {"type": "array", "items": {"type": "string"}},
+    "install_command": {"type": "string"},
+    "overwrite_command": {"type": "string"},
+    "blockers": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

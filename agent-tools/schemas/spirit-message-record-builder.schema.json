@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpiritMessageRecordBuilder",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "message_text": { "type": "string" },
+    "request_text": { "type": "string" },
+    "text": { "type": "string" },
+    "sources": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "source": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "phrases": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "symbols": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "emotions": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+    "reality_anchor": { "type": "string" },
+    "consent_notes": { "type": "string" },
+    "focus": { "type": "string" }
+  },
+  "anyOf": [
+    { "required": ["message_text"] },
+    { "required": ["request_text"] },
+    { "required": ["text"] }
+  ]
+}

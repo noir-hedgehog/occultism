@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SopTraceabilityMatrixBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "domain_count",
+    "traceable_domain_count",
+    "missing_link_count",
+    "rows",
+    "missing_links",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "sop_traceability_matrix_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "domain_count": {"type": "integer"},
+    "traceable_domain_count": {"type": "integer"},
+    "missing_link_count": {"type": "integer"},
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "domain",
+          "display_name",
+          "level",
+          "sop",
+          "sop_headings",
+          "knowledge",
+          "skill",
+          "tool_chain",
+          "verification_tools",
+          "tool_specs",
+          "mentioned_in_sop",
+          "mentioned_in_skill",
+          "unmentioned_tools",
+          "is_traceable"
+        ],
+        "properties": {
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "level": {"type": "string"},
+          "sop": {"type": "array", "items": {"type": "string"}},
+          "sop_headings": {"type": "array", "items": {"type": "string"}},
+          "knowledge": {"type": "array", "items": {"type": "string"}},
+          "skill": {"type": "array", "items": {"type": "string"}},
+          "tool_chain": {"type": "array", "items": {"type": "string"}},
+          "verification_tools": {"type": "array", "items": {"type": "string"}},
+          "tool_specs": {"type": "array", "items": {"type": "string"}},
+          "mentioned_in_sop": {"type": "array", "items": {"type": "string"}},
+          "mentioned_in_skill": {"type": "array", "items": {"type": "string"}},
+          "unmentioned_tools": {"type": "array", "items": {"type": "string"}},
+          "is_traceable": {"type": "boolean"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "missing_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["domain", "tool", "issue"],
+        "properties": {
+          "domain": {"type": "string"},
+          "tool": {"type": "string"},
+          "issue": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

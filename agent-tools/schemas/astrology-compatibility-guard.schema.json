@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AstrologyCompatibilityGuard",
+  "type": "object",
+  "required": [
+    "system",
+    "request_text",
+    "relationship_intent",
+    "consent_state",
+    "risk_flags",
+    "can_continue_compatibility",
+    "reframed_question",
+    "warnings",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "system": {"type": "string", "const": "western_astrology"},
+    "request_text": {"type": "string"},
+    "relationship_intent": {
+      "type": "string",
+      "enum": [
+        "relationship_reflection",
+        "compatibility_claim",
+        "third_party_inference",
+        "chart_comparison",
+        "cultural_learning"
+      ]
+    },
+    "consent_state": {
+      "type": "string",
+      "enum": [
+        "all_consented",
+        "other_consented",
+        "self_reflection_only",
+        "missing_or_unknown"
+      ]
+    },
+    "risk_flags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "deterministic_compatibility",
+          "third_party_privacy",
+          "coercion",
+          "professional_or_crisis"
+        ]
+      }
+    },
+    "can_continue_compatibility": {"type": "boolean"},
+    "reframed_question": {"type": "string"},
+    "warnings": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "limits": {
+      "type": "array",
+      "items": {"type": "string"}
+    },
+    "next_steps": {
+      "type": "array",
+      "items": {"type": "string"}
+    }
+  },
+  "additionalProperties": false
+}

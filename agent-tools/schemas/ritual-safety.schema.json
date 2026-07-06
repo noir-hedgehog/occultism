@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RitualSafetyCheck",
+  "type": "object",
+  "required": [
+    "request_text",
+    "risk_level",
+    "blocked_steps",
+    "safe_alternatives",
+    "referral_message",
+    "can_continue_symbolic_support",
+    "hazard_labels"
+  ],
+  "properties": {
+    "request_text": {
+      "type": "string"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["green", "yellow", "orange", "red"]
+    },
+    "blocked_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "safe_alternatives": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "referral_message": {
+      "type": "string"
+    },
+    "can_continue_symbolic_support": {
+      "type": "boolean"
+    },
+    "hazard_labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "additionalProperties": false
+}
+
