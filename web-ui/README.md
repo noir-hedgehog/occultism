@@ -16,6 +16,7 @@
 - 展示案例、来源和边界反例验证 backlog
 - 按领域生成案例、来源或边界反例采集模板
 - 展示 UI/API/工具/Agent 接管边界的交互可用化矩阵
+- 可用 `web_ui_surface_smoke_runner` 对本地 HTTP surface 做 smoke 验证
 - 代表性命令生成，方便从 UI 进入程序化执行
 
 ## 启动
@@ -65,6 +66,7 @@ curl -X POST http://127.0.0.1:8765/api/case-record \
 curl -X POST http://127.0.0.1:8765/api/session \
   -H 'Content-Type: application/json' \
   -d '{"request_text":"帮我做一个塔罗三张牌，看看工作状态"}'
+python3 agent-tools/scripts/web_ui_surface_smoke_runner.py --format markdown
 ```
 
 ## 边界

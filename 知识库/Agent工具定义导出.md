@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 285 |
-| OpenAI-style tool | 285 |
-| 来源 wrapper | 285 |
+| Definition | 286 |
+| OpenAI-style tool | 286 |
+| 来源 wrapper | 286 |
 
 ## 定义清单
 
@@ -284,6 +284,7 @@
 | `wealth_luck_context_recorder` | `agent-tools/scripts/wealth_luck_context_recorder.py` | [wealth-luck-context-recorder.schema.json](../agent-tools/schemas/wealth-luck-context-recorder.schema.json) | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_request_guard` | `agent-tools/scripts/wealth_luck_request_guard.py` | [wealth-luck-request-guard.schema.json](../agent-tools/schemas/wealth-luck-request-guard.schema.json) | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_symbol_lookup` | `agent-tools/scripts/wealth_luck_symbol_lookup.py` | [wealth-luck-symbol-lookup.schema.json](../agent-tools/schemas/wealth-luck-symbol-lookup.schema.json) | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `web_ui_surface_smoke_runner` | `agent-tools/scripts/web_ui_surface_smoke_runner.py` | [web-ui-surface-smoke-runner.schema.json](../agent-tools/schemas/web-ui-surface-smoke-runner.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `western_geomancy_chart_recorder` | `agent-tools/scripts/western_geomancy_chart_recorder.py` | [western-geomancy-chart-recorder.schema.json](../agent-tools/schemas/western-geomancy-chart-recorder.schema.json) | `western_geomancy` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `western_geomancy_figure_lookup` | `agent-tools/scripts/western_geomancy_figure_lookup.py` | [western-geomancy-figure-lookup.schema.json](../agent-tools/schemas/western-geomancy-figure-lookup.schema.json) | `western_geomancy` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `western_geomancy_interpretation_planner` | `agent-tools/scripts/western_geomancy_interpretation_planner.py` | [western-geomancy-interpretation-planner.schema.json](../agent-tools/schemas/western-geomancy-interpretation-planner.schema.json) | `western_geomancy` | `professional_boundary_required`, `symbolic_interpretation_only` |

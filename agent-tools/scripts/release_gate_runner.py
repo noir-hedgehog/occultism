@@ -230,6 +230,44 @@ def gate_agent_runtime_handoff(root: Path) -> dict[str, Any]:
     )
 
 
+def gate_web_ui_surface_smoke(root: Path) -> dict[str, Any]:
+    started = time.perf_counter()
+    command = [sys.executable, "agent-tools/scripts/web_ui_surface_smoke_runner.py"]
+    completed = run_subprocess(root, command, timeout=60)
+    errors: list[str] = []
+    summary: dict[str, Any] = {"returncode": completed.returncode}
+    if completed.returncode != 0:
+        errors.append((completed.stdout + completed.stderr)[-2000:])
+    else:
+        try:
+            payload = json.loads(completed.stdout)
+            summary.update(
+                {
+                    "tool": payload.get("tool"),
+                    "is_valid": payload.get("is_valid"),
+                    "case_count": payload.get("case_count"),
+                    "passed_count": payload.get("passed_count"),
+                    "failed_count": payload.get("failed_count"),
+                    "covered_surface_count": len(payload.get("covered_surface_ids", [])),
+                    "matrix_surface_count": payload.get("matrix_surface_count"),
+                }
+            )
+            if payload.get("tool") != "web_ui_surface_smoke_runner":
+                errors.append("expected tool web_ui_surface_smoke_runner")
+            if payload.get("is_valid") is False:
+                errors.append("web ui surface smoke returned is_valid=false")
+        except Exception as exc:
+            errors.append(f"invalid JSON output: {exc}")
+    return gate_result(
+        "web_ui_surface_smoke_runner",
+        "python3 agent-tools/scripts/web_ui_surface_smoke_runner.py",
+        not errors,
+        started,
+        summary,
+        errors,
+    )
+
+
 def gate_agent_runtime_dry_run(root: Path) -> dict[str, Any]:
     return gate_json_script(root, "agent_runtime_dry_run_runner", "agent_runtime_dry_run_runner", "agent_runtime_dry_run_runner")
 
@@ -306,6 +344,7 @@ GATES: list[tuple[str, GateFn]] = [
     ("agent_tool_registry_builder", gate_agent_tool_registry),
     ("agent_tool_registry_validator", gate_agent_tool_registry_validation),
     ("agent_runtime_handoff_builder", gate_agent_runtime_handoff),
+    ("web_ui_surface_smoke_runner", gate_web_ui_surface_smoke),
     ("skill_replay_runner", gate_skill_replay),
     ("skill_transcript_runner", gate_skill_transcript),
     ("markdown_links", gate_markdown_links),

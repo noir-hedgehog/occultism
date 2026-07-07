@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WebUISurfaceSmokeRunner",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "base_url",
+    "is_valid",
+    "case_count",
+    "passed_count",
+    "failed_count",
+    "covered_surface_ids",
+    "matrix_surface_count",
+    "matrix_surface_ids",
+    "results",
+    "server",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "web_ui_surface_smoke_runner"},
+    "root": {"type": "string"},
+    "base_url": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "case_count": {"type": "integer", "minimum": 0},
+    "passed_count": {"type": "integer", "minimum": 0},
+    "failed_count": {"type": "integer", "minimum": 0},
+    "covered_surface_ids": {"type": "array", "items": {"type": "string"}},
+    "matrix_surface_count": {"type": "integer", "minimum": 0},
+    "matrix_surface_ids": {"type": "array", "items": {"type": "string"}},
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "case_id",
+          "surface_id",
+          "method",
+          "path",
+          "status_code",
+          "content_type",
+          "passed",
+          "errors",
+          "body_summary"
+        ],
+        "properties": {
+          "case_id": {"type": "string"},
+          "surface_id": {"type": "string"},
+          "method": {"type": "string", "enum": ["GET", "POST"]},
+          "path": {"type": "string"},
+          "status_code": {"type": "integer", "minimum": 0},
+          "content_type": {"type": "string"},
+          "passed": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}},
+          "body_summary": {"type": "object", "additionalProperties": true}
+        },
+        "additionalProperties": false
+      }
+    },
+    "server": {
+      "type": "object",
+      "required": ["returncode", "stdout_tail", "stderr_tail"],
+      "properties": {
+        "returncode": {"type": ["integer", "null"]},
+        "stdout_tail": {"type": "string"},
+        "stderr_tail": {"type": "string"}
+      },
+      "additionalProperties": false
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

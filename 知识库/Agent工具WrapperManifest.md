@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 285 |
-| 可包装 | 285 |
+| Wrapper | 286 |
+| 可包装 | 286 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -292,6 +292,7 @@
 | `wealth_luck_context_recorder` | `wealth_luck` | `wealth-luck-symbolic-consultation` | [wealth-luck-context-recorder.schema.json](../agent-tools/schemas/wealth-luck-context-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_request_guard` | `wealth_luck` | `wealth-luck-symbolic-consultation` | [wealth-luck-request-guard.schema.json](../agent-tools/schemas/wealth-luck-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_symbol_lookup` | `wealth_luck` | `wealth-luck-symbolic-consultation` | [wealth-luck-symbol-lookup.schema.json](../agent-tools/schemas/wealth-luck-symbol-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `web_ui_surface_smoke_runner` | `shared` | - | [web-ui-surface-smoke-runner.schema.json](../agent-tools/schemas/web-ui-surface-smoke-runner.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `western_geomancy_chart_recorder` | `western_geomancy` | `western-geomancy-symbolic-consultation` | [western-geomancy-chart-recorder.schema.json](../agent-tools/schemas/western-geomancy-chart-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `western_geomancy_figure_lookup` | `western_geomancy` | `western-geomancy-symbolic-consultation` | [western-geomancy-figure-lookup.schema.json](../agent-tools/schemas/western-geomancy-figure-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `western_geomancy_interpretation_planner` | `western_geomancy` | `western-geomancy-symbolic-consultation` | [western-geomancy-interpretation-planner.schema.json](../agent-tools/schemas/western-geomancy-interpretation-planner.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |

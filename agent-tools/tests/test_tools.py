@@ -241,6 +241,7 @@ from agent_tools_scripts import (
     talisman_request_guard,
     talisman_symbol_lookup,
     talisman_use_planner,
+    web_ui_surface_smoke_runner,
     color_palette_planner,
     color_profile_recorder,
     color_request_guard,
@@ -1309,9 +1310,9 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         result = interaction_surface_matrix_builder.build()
         self.assertEqual(result["tool"], "interaction_surface_matrix_builder")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["surface_count"], 11)
-        self.assertEqual(result["api_endpoint_count"], 11)
-        self.assertEqual(result["automation_counts"]["programmable_now"], 5)
+        self.assertEqual(result["surface_count"], 12)
+        self.assertEqual(result["api_endpoint_count"], 12)
+        self.assertEqual(result["automation_counts"]["programmable_now"], 6)
 
     def test_surfaces_link_api_scripts_and_evidence(self):
         result = interaction_surface_matrix_builder.build()
@@ -1328,6 +1329,7 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         by_id = {item["surface_id"]: item for item in result["surfaces"]}
         self.assertEqual(by_id["case_recording"]["automation_level"], "human_review_required")
         self.assertEqual(by_id["validation_template"]["automation_level"], "requires_real_material")
+        self.assertEqual(by_id["interaction_surface_matrix"]["automation_level"], "programmable_now")
         self.assertIn("真实案例", by_id["validation_template"]["agent_boundary"])
 
     def test_generated_markdown_lists_surfaces_and_limits(self):
@@ -1337,6 +1339,35 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         self.assertIn("## Surface Matrix", markdown)
         self.assertIn("/api/execute-safe", markdown)
         self.assertIn("Agent 交接", markdown)
+
+
+class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
+    def test_runs_selected_http_smoke_cases(self):
+        result = web_ui_surface_smoke_runner.build(case_ids=["health", "interaction_surface_matrix", "session"])
+        self.assertEqual(result["tool"], "web_ui_surface_smoke_runner")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["case_count"], 3)
+        self.assertEqual(result["passed_count"], 3)
+        self.assertEqual(result["failed_count"], 0)
+
+    def test_rejects_unknown_case_id(self):
+        with self.assertRaises(ValueError):
+            web_ui_surface_smoke_runner.build(case_ids=["missing-case"])
+
+    def test_smoke_cases_cover_matrix_surfaces(self):
+        cases = web_ui_surface_smoke_runner.smoke_cases()
+        covered = {case["surface_id"] for case in cases}
+        matrix = interaction_surface_matrix_builder.build()
+        matrix_surfaces = {surface["surface_id"] for surface in matrix["surfaces"]}
+        self.assertTrue(matrix_surfaces.issubset(covered))
+        self.assertIn("case_recording", covered)
+
+    def test_generated_markdown_lists_case_results(self):
+        result = web_ui_surface_smoke_runner.build(case_ids=["health", "interaction_surface_matrix"])
+        markdown = web_ui_surface_smoke_runner.render_markdown(result)
+        self.assertIn("# Web UI Surface Smoke 验证", markdown)
+        self.assertIn("interaction_surface_matrix", markdown)
+        self.assertIn("## Cases", markdown)
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8472,6 +8503,13 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         self.assertTrue(result["is_valid"])
         self.assertEqual(result["gates"][0]["summary"]["tool"], "agent_tool_registry_validator")
 
+    def test_web_ui_surface_smoke_gate_passes(self):
+        result = release_gate_runner.run(gates=["web_ui_surface_smoke_runner"])
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["gates"][0]["summary"]["tool"], "web_ui_surface_smoke_runner")
+        self.assertEqual(result["gates"][0]["summary"]["case_count"], 16)
+        self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
+
     def test_unknown_release_gate_raises(self):
         with self.assertRaises(ValueError):
             release_gate_runner.run(gates=["missing_gate"])
@@ -8656,9 +8694,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 285}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 286}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 1002 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 1007 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8678,7 +8716,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 285)
+        self.assertEqual(result["summary"]["schema_count"], 286)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 285/285 |
-| OpenAI-style tool | 285/285 |
+| Definition | 286/286 |
+| OpenAI-style tool | 286/286 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -285,6 +285,7 @@
 | `wealth_luck_context_recorder` | True | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `wealth_luck_request_guard` | True | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `wealth_luck_symbol_lookup` | True | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
+| `web_ui_surface_smoke_runner` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `western_geomancy_chart_recorder` | True | `western_geomancy` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `western_geomancy_figure_lookup` | True | `western_geomancy` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `western_geomancy_interpretation_planner` | True | `western_geomancy` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

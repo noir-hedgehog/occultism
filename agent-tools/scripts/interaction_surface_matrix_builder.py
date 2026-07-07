@@ -132,6 +132,17 @@ SURFACES: list[dict[str, Any]] = [
         "proof_docs": ["知识库/案例采集模板.md"],
         "verification_command": "python3 agent-tools/scripts/case_validation_template_builder.py --domain fengshui --format markdown",
     },
+    {
+        "surface_id": "interaction_surface_matrix",
+        "display_name": "可用化矩阵",
+        "user_surface": "可用化矩阵面板",
+        "api_endpoint": "/api/interaction-surface-matrix",
+        "primary_tool": "interaction_surface_matrix_builder",
+        "automation_level": "programmable_now",
+        "agent_boundary": "可程序化盘点 UI、API、工具和接管边界；仍需 smoke runner 验证真实 HTTP 行为。",
+        "proof_docs": ["知识库/交互可用化矩阵.md", "知识库/WebUISurfaceSmoke验证.md"],
+        "verification_command": "python3 agent-tools/scripts/interaction_surface_matrix_builder.py --format markdown",
+    },
 ]
 
 
@@ -213,7 +224,7 @@ def build(root: str | Path = ".") -> dict[str, Any]:
         ],
         "next_steps": [
             "use_matrix_to_choose_next_ui_or_runtime_gap",
-            "forward_test_each_surface_with_representative_requests",
+            "rerun_web_ui_surface_smoke_runner_after_endpoint_changes",
             "add_real_material_to_requires_real_material_surfaces_before_claiming_case_coverage",
         ],
     }
