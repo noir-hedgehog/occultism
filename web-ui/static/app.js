@@ -1,6 +1,7 @@
 const state = {
   summary: null,
   evidence: null,
+  backlog: null,
   session: null,
   docs: null,
   activeDoc: null,
@@ -198,6 +199,42 @@ function renderEvidence() {
   `;
 }
 
+function renderBacklog() {
+  if (!state.backlog) {
+    $("#backlogBadge").textContent = "";
+    $("#backlogPanel").innerHTML = "";
+    return;
+  }
+  $("#backlogBadge").textContent = `${state.backlog.backlog_count} 项`;
+  const priorities = Object.entries(state.backlog.priority_counts)
+    .map(([key, value]) => `<span class="chip">${key} ${value}</span>`)
+    .join("");
+  const artifacts = Object.entries(state.backlog.target_artifact_counts)
+    .map(([key, value]) => `<span class="chip">${key} ${value}</span>`)
+    .join("");
+  $("#backlogPanel").innerHTML = `
+    <article class="packet-card">
+      <h3>优先级</h3>
+      <div class="chips">${priorities}</div>
+    </article>
+    <article class="packet-card">
+      <h3>目标产物</h3>
+      <div class="chips">${artifacts}</div>
+    </article>
+    ${state.backlog.workstreams
+      .map(
+        (stream) => `
+          <article class="evidence-stream">
+            <strong>${stream.id}</strong>
+            <p>${stream.description}</p>
+            <span>${stream.recommended_tool}</span>
+          </article>
+        `,
+      )
+      .join("")}
+  `;
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -329,6 +366,7 @@ function renderAll() {
   renderParadigm(state.session);
   renderPacket(state.session);
   renderEvidence();
+  renderBacklog();
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
@@ -357,6 +395,13 @@ async function loadEvidence() {
   const response = await fetch("/api/evidence-matrix");
   if (!response.ok) throw new Error(`evidence matrix failed: ${response.status}`);
   state.evidence = await response.json();
+  renderAll();
+}
+
+async function loadBacklog() {
+  const response = await fetch("/api/validation-backlog");
+  if (!response.ok) throw new Error(`validation backlog failed: ${response.status}`);
+  state.backlog = await response.json();
   renderAll();
 }
 
@@ -568,7 +613,7 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-Promise.all([loadSummary(), loadDocs(), loadEvidence()])
+Promise.all([loadSummary(), loadDocs(), loadEvidence(), loadBacklog()])
   .then(() => {
     const first = state.summary?.entry_docs?.[0]?.path;
     if (first) return loadDoc(first);

@@ -7,7 +7,7 @@
 | 指标 | 当前值 |
 | --- | --- |
 | Valid | True |
-| Tool | 282 |
+| Tool | 283 |
 | Domain group | 62 |
 | Skill group | 61 |
 | Error | 0 |

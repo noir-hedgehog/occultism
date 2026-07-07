@@ -22,6 +22,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
+import case_validation_backlog_builder  # noqa: E402
 import consultation_case_recorder  # noqa: E402
 import consultation_execution_runner  # noqa: E402
 import consultation_handoff_builder  # noqa: E402
@@ -418,6 +419,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json(build_summary())
             elif path == "/api/evidence-matrix":
                 self.send_json(domain_evidence_matrix_builder.build(ROOT))
+            elif path == "/api/validation-backlog":
+                self.send_json(case_validation_backlog_builder.build(ROOT))
             elif path == "/api/docs":
                 query = parsed.query
                 if query.startswith("path="):

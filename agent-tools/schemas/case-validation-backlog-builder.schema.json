@@ -1,0 +1,103 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CaseValidationBacklogBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "source_matrix_domain_count",
+    "backlog_count",
+    "priority_filter",
+    "priority_counts",
+    "target_artifact_counts",
+    "items",
+    "workstreams",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "case_validation_backlog_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "source_matrix_domain_count": {"type": "integer", "minimum": 0},
+    "backlog_count": {"type": "integer", "minimum": 0},
+    "priority_filter": {"type": "string"},
+    "priority_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "target_artifact_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "backlog_id",
+          "domain",
+          "display_name",
+          "priority",
+          "trunk",
+          "evidence_mode",
+          "mystical_intensity",
+          "case_template",
+          "target_artifact",
+          "required_fields",
+          "acceptance_criteria",
+          "recommended_tools",
+          "source_docs",
+          "status"
+        ],
+        "properties": {
+          "backlog_id": {"type": "string"},
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "priority": {"type": "string", "enum": ["P0", "P1", "P2"]},
+          "trunk": {
+            "type": "object",
+            "required": ["id", "title"],
+            "properties": {
+              "id": {"type": "string"},
+              "title": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
+          "evidence_mode": {"type": "string"},
+          "mystical_intensity": {"type": "string"},
+          "case_template": {"type": "string"},
+          "target_artifact": {"type": "string"},
+          "required_fields": {"type": "array", "items": {"type": "string"}},
+          "acceptance_criteria": {"type": "array", "items": {"type": "string"}},
+          "recommended_tools": {"type": "array", "items": {"type": "string"}},
+          "source_docs": {
+            "type": "object",
+            "required": ["sop", "knowledge", "skill"],
+            "properties": {
+              "sop": {"type": "array", "items": {"type": "string"}},
+              "knowledge": {"type": "array", "items": {"type": "string"}},
+              "skill": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          },
+          "status": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "workstreams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "description", "recommended_tool"],
+        "properties": {
+          "id": {"type": "string"},
+          "description": {"type": "string"},
+          "recommended_tool": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

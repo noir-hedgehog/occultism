@@ -25,6 +25,7 @@ from agent_tools_scripts import (
     astrology_symbol_lookup,
     bazi_ziwei_chart_record,
     bazi_ziwei_intake_guard,
+    case_validation_backlog_builder,
     codex_skill_blueprint_validator,
     codex_skill_installer,
     content_review_feedback_recorder,
@@ -1220,6 +1221,41 @@ class DomainEvidenceMatrixBuilderTests(unittest.TestCase):
         self.assertIn("## 领域矩阵", markdown)
         self.assertIn("风水 (`fengshui`)", markdown)
         self.assertIn("神秘叙事边界优先", markdown)
+
+
+class CaseValidationBacklogBuilderTests(unittest.TestCase):
+    def test_builds_backlog_from_full_evidence_matrix(self):
+        result = case_validation_backlog_builder.build()
+        self.assertEqual(result["tool"], "case_validation_backlog_builder")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["source_matrix_domain_count"], 61)
+        self.assertEqual(result["backlog_count"], 61)
+        self.assertEqual(result["priority_counts"], {"P0": 15, "P1": 34, "P2": 12})
+
+    def test_priority_templates_map_to_expected_artifacts_and_tools(self):
+        result = case_validation_backlog_builder.build()
+        by_domain = {item["domain"]: item for item in result["items"]}
+        self.assertEqual(by_domain["fengshui"]["target_artifact"], "reviewed_practical_case_candidate")
+        self.assertIn("consultation_case_recorder", by_domain["fengshui"]["recommended_tools"])
+        self.assertEqual(by_domain["tarot"]["target_artifact"], "source_audit_or_correction_note")
+        self.assertIn("content_review_feedback_recorder", by_domain["tarot"]["recommended_tools"])
+        self.assertEqual(by_domain["spirit_message"]["target_artifact"], "boundary_counterexample_and_safe_rewrite")
+        self.assertIn("mystic_output_lint", by_domain["spirit_message"]["recommended_tools"])
+
+    def test_priority_filter_and_limit_reduce_backlog(self):
+        result = case_validation_backlog_builder.build(priority="P2", limit=2)
+        self.assertEqual(result["priority_filter"], "P2")
+        self.assertEqual(result["backlog_count"], 2)
+        self.assertEqual(result["priority_counts"], {"P2": 2})
+        self.assertTrue(all(item["priority"] == "P2" for item in result["items"]))
+
+    def test_generated_markdown_lists_backlog_and_acceptance(self):
+        result = case_validation_backlog_builder.build(priority="P0", limit=1)
+        markdown = case_validation_backlog_builder.render_markdown(result)
+        self.assertIn("# 案例验证 Backlog", markdown)
+        self.assertIn("## Backlog", markdown)
+        self.assertIn("consultation_case_recorder", markdown)
+        self.assertIn("## 验收标准", markdown)
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8539,9 +8575,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 282}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 283}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 990 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 994 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8561,7 +8597,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 282)
+        self.assertEqual(result["summary"]["schema_count"], 283)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

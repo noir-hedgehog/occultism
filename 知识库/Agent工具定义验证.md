@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 282/282 |
-| OpenAI-style tool | 282/282 |
+| Definition | 283/283 |
+| OpenAI-style tool | 283/283 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -58,6 +58,7 @@
 | `cartomancy_draw_recorder` | True | `cartomancy` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `cartomancy_interpretation_planner` | True | `cartomancy` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `cartomancy_request_guard` | True | `cartomancy` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
+| `case_validation_backlog_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `casting_lots_interpretation_planner` | True | `casting_lots` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `casting_lots_layout_recorder` | True | `casting_lots` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `casting_lots_request_guard` | True | `casting_lots` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

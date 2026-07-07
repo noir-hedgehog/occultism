@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 282 |
-| 可包装 | 282 |
+| Wrapper | 283 |
+| 可包装 | 283 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -65,6 +65,7 @@
 | `cartomancy_draw_recorder` | `cartomancy` | `cartomancy-symbolic-consultation` | [cartomancy-draw-recorder.schema.json](../agent-tools/schemas/cartomancy-draw-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `cartomancy_interpretation_planner` | `cartomancy` | `cartomancy-symbolic-consultation` | [cartomancy-interpretation-planner.schema.json](../agent-tools/schemas/cartomancy-interpretation-planner.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `cartomancy_request_guard` | `cartomancy` | `cartomancy-symbolic-consultation` | [cartomancy-request-guard.schema.json](../agent-tools/schemas/cartomancy-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `case_validation_backlog_builder` | `shared` | - | [case-validation-backlog-builder.schema.json](../agent-tools/schemas/case-validation-backlog-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `casting_lots_interpretation_planner` | `casting_lots` | `casting-lots-symbolic-consultation` | [casting-lots-interpretation-planner.schema.json](../agent-tools/schemas/casting-lots-interpretation-planner.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `casting_lots_layout_recorder` | `casting_lots` | `casting-lots-symbolic-consultation` | [casting-lots-layout-recorder.schema.json](../agent-tools/schemas/casting-lots-layout-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `casting_lots_request_guard` | `casting_lots` | `casting-lots-symbolic-consultation` | [casting-lots-request-guard.schema.json](../agent-tools/schemas/casting-lots-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |

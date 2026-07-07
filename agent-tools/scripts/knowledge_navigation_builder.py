@@ -98,6 +98,7 @@ def build(root: str | Path = ".") -> dict[str, Any]:
             {"title": "主干路线", "path": "知识库/06-体系盘点与主干路线.md"},
             {"title": "问题到范式映射", "path": "知识库/07-问题到范式映射.md"},
             {"title": "证据矩阵", "path": "知识库/证据矩阵.md"},
+            {"title": "案例验证 Backlog", "path": "知识库/案例验证Backlog.md"},
             {"title": "质量检查清单", "path": "知识库/04-质量检查清单.md"},
             {"title": "看板", "path": "知识库/看板.md"},
             {"title": "仪表盘", "path": "知识库/仪表盘.md"},

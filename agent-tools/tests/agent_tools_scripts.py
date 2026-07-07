@@ -301,6 +301,7 @@ content_review_feedback_recorder = load_script("content_review_feedback_recorder
 skill_install_readiness_report = load_script("skill_install_readiness_report")
 sop_traceability_matrix_builder = load_script("sop_traceability_matrix_builder")
 domain_evidence_matrix_builder = load_script("domain_evidence_matrix_builder")
+case_validation_backlog_builder = load_script("case_validation_backlog_builder")
 external_evidence_intake_builder = load_script("external_evidence_intake_builder")
 pilot_readiness_report = load_script("pilot_readiness_report")
 agent_runtime_handoff_builder = load_script("agent_runtime_handoff_builder")
