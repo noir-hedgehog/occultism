@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 284 |
-| OpenAI-style tool | 284 |
-| 来源 wrapper | 284 |
+| Definition | 285 |
+| OpenAI-style tool | 285 |
+| 来源 wrapper | 285 |
 
 ## 定义清单
 
@@ -132,6 +132,7 @@
 | `incense_observation_recorder` | `agent-tools/scripts/incense_observation_recorder.py` | [incense-observation-recorder.schema.json](../agent-tools/schemas/incense-observation-recorder.schema.json) | `incense` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `incense_request_guard` | `agent-tools/scripts/incense_request_guard.py` | [incense-request-guard.schema.json](../agent-tools/schemas/incense-request-guard.schema.json) | `incense` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `incense_symbol_lookup` | `agent-tools/scripts/incense_symbol_lookup.py` | [incense-symbol-lookup.schema.json](../agent-tools/schemas/incense-symbol-lookup.schema.json) | `incense` | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `interaction_surface_matrix_builder` | `agent-tools/scripts/interaction_surface_matrix_builder.py` | [interaction-surface-matrix-builder.schema.json](../agent-tools/schemas/interaction-surface-matrix-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `knowledge_coverage_audit` | `agent-tools/scripts/knowledge_coverage_audit.py` | [knowledge-coverage-audit.schema.json](../agent-tools/schemas/knowledge-coverage-audit.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `knowledge_navigation_builder` | `agent-tools/scripts/knowledge_navigation_builder.py` | [knowledge-navigation-builder.schema.json](../agent-tools/schemas/knowledge-navigation-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `lenormand_card_lookup` | `agent-tools/scripts/lenormand_card_lookup.py` | [lenormand-card-lookup.schema.json](../agent-tools/schemas/lenormand-card-lookup.schema.json) | `lenormand` | `professional_boundary_required`, `symbolic_interpretation_only` |

@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "InteractionSurfaceMatrixBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "surface_count",
+    "api_endpoint_count",
+    "automation_counts",
+    "surfaces",
+    "automation_groups",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "interaction_surface_matrix_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "surface_count": {"type": "integer", "minimum": 0},
+    "api_endpoint_count": {"type": "integer", "minimum": 0},
+    "automation_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "surface_id",
+          "display_name",
+          "user_surface",
+          "api_endpoint",
+          "primary_tool",
+          "automation_level",
+          "agent_boundary",
+          "proof_docs",
+          "verification_command",
+          "endpoint_registered",
+          "primary_script_exists",
+          "is_valid",
+          "open_items"
+        ],
+        "properties": {
+          "surface_id": {"type": "string"},
+          "display_name": {"type": "string"},
+          "user_surface": {"type": "string"},
+          "api_endpoint": {"type": "string"},
+          "primary_tool": {"type": "string"},
+          "automation_level": {
+            "type": "string",
+            "enum": [
+              "human_readable",
+              "programmable_now",
+              "safe_subset_programmable",
+              "requires_user_fields",
+              "agent_handoff_required",
+              "human_review_required",
+              "requires_real_material"
+            ]
+          },
+          "agent_boundary": {"type": "string"},
+          "proof_docs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["path", "exists"],
+              "properties": {
+                "path": {"type": "string"},
+                "exists": {"type": "boolean"}
+              },
+              "additionalProperties": false
+            }
+          },
+          "verification_command": {"type": "string"},
+          "endpoint_registered": {"type": "boolean"},
+          "primary_script_exists": {"type": "boolean"},
+          "is_valid": {"type": "boolean"},
+          "open_items": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "automation_groups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["automation_level", "description", "surface_count"],
+        "properties": {
+          "automation_level": {"type": "string"},
+          "description": {"type": "string"},
+          "surface_count": {"type": "integer", "minimum": 0}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

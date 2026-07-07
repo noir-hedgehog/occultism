@@ -31,6 +31,7 @@ import consultation_packet_builder  # noqa: E402
 import domain_evidence_matrix_builder  # noqa: E402
 import fengshui_observation_recorder  # noqa: E402
 import fengshui_space_checklist  # noqa: E402
+import interaction_surface_matrix_builder  # noqa: E402
 import knowledge_coverage_audit  # noqa: E402
 import paradigm_selector  # noqa: E402
 import tarot_interpretation_planner  # noqa: E402
@@ -222,6 +223,9 @@ def build_summary() -> dict[str, Any]:
             relative_doc("知识库/06-体系盘点与主干路线.md"),
             relative_doc("知识库/07-问题到范式映射.md"),
             relative_doc("知识库/证据矩阵.md"),
+            relative_doc("知识库/案例验证Backlog.md"),
+            relative_doc("知识库/案例采集模板.md"),
+            relative_doc("知识库/交互可用化矩阵.md"),
             relative_doc("知识库/看板.md"),
             relative_doc("知识库/仪表盘.md"),
             relative_doc("知识库/Agent运行时交接包.md"),
@@ -434,6 +438,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                         limit=int(limit_values[0]) if limit_values and limit_values[0] else None,
                     )
                 )
+            elif path == "/api/interaction-surface-matrix":
+                self.send_json(interaction_surface_matrix_builder.build(ROOT))
             elif path == "/api/docs":
                 query = parsed.query
                 if query.startswith("path="):

@@ -3,6 +3,7 @@ const state = {
   evidence: null,
   backlog: null,
   validationTemplate: null,
+  interactionMatrix: null,
   session: null,
   docs: null,
   activeDoc: null,
@@ -285,6 +286,36 @@ function renderValidationTemplate() {
   );
 }
 
+function renderInteractionMatrix() {
+  if (!state.interactionMatrix) {
+    $("#interactionBadge").textContent = "";
+    $("#interactionPanel").innerHTML = "";
+    return;
+  }
+  $("#interactionBadge").textContent = `${state.interactionMatrix.surface_count} 个入口`;
+  const groups = state.interactionMatrix.automation_groups
+    .map((group) => `<span class="chip" title="${group.description}">${group.automation_level} ${group.surface_count}</span>`)
+    .join("");
+  const surfaces = state.interactionMatrix.surfaces
+    .map(
+      (surface) => `
+        <article class="evidence-stream">
+          <strong>${surface.display_name}</strong>
+          <p>${surface.user_surface} · ${surface.agent_boundary}</p>
+          <span>${surface.api_endpoint} · ${surface.primary_tool} · ${surface.automation_level}</span>
+        </article>
+      `,
+    )
+    .join("");
+  $("#interactionPanel").innerHTML = `
+    <article class="packet-card">
+      <h3>自动化等级</h3>
+      <div class="chips">${groups}</div>
+    </article>
+    ${surfaces}
+  `;
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -418,6 +449,7 @@ function renderAll() {
   renderEvidence();
   renderBacklog();
   renderValidationTemplate();
+  renderInteractionMatrix();
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
@@ -460,6 +492,13 @@ async function loadValidationTemplate(domain = "fengshui") {
   const response = await fetch(`/api/validation-template?domain=${encodeURIComponent(domain)}`);
   if (!response.ok) throw new Error(`validation template failed: ${response.status}`);
   state.validationTemplate = await response.json();
+  renderAll();
+}
+
+async function loadInteractionMatrix() {
+  const response = await fetch("/api/interaction-surface-matrix");
+  if (!response.ok) throw new Error(`interaction surface matrix failed: ${response.status}`);
+  state.interactionMatrix = await response.json();
   renderAll();
 }
 
@@ -687,7 +726,7 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-Promise.all([loadSummary(), loadDocs(), loadEvidence(), loadBacklog(), loadValidationTemplate()])
+Promise.all([loadSummary(), loadDocs(), loadEvidence(), loadBacklog(), loadValidationTemplate(), loadInteractionMatrix()])
   .then(() => {
     const first = state.summary?.entry_docs?.[0]?.path;
     if (first) return loadDoc(first);

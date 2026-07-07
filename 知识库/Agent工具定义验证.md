@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 284/284 |
-| OpenAI-style tool | 284/284 |
+| Definition | 285/285 |
+| OpenAI-style tool | 285/285 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -133,6 +133,7 @@
 | `incense_observation_recorder` | True | `incense` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `incense_request_guard` | True | `incense` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `incense_symbol_lookup` | True | `incense` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
+| `interaction_surface_matrix_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `knowledge_coverage_audit` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `knowledge_navigation_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `lenormand_card_lookup` | True | `lenormand` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

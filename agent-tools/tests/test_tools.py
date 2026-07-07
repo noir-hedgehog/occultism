@@ -48,6 +48,7 @@ from agent_tools_scripts import (
     fengshui_space_checklist,
     fengshui_yangzhai_case_library,
     fengshui_recommendation_ranker,
+    interaction_surface_matrix_builder,
     knowledge_coverage_audit,
     knowledge_navigation_builder,
     liuyao_chart_recorder,
@@ -1301,6 +1302,41 @@ class CaseValidationTemplateBuilderTests(unittest.TestCase):
         self.assertIn("# 案例采集模板", markdown)
         self.assertIn("## 模板", markdown)
         self.assertIn("推荐工具流", markdown)
+
+
+class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
+    def test_builds_valid_surface_matrix(self):
+        result = interaction_surface_matrix_builder.build()
+        self.assertEqual(result["tool"], "interaction_surface_matrix_builder")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["surface_count"], 11)
+        self.assertEqual(result["api_endpoint_count"], 11)
+        self.assertEqual(result["automation_counts"]["programmable_now"], 5)
+
+    def test_surfaces_link_api_scripts_and_evidence(self):
+        result = interaction_surface_matrix_builder.build()
+        by_id = {item["surface_id"]: item for item in result["surfaces"]}
+        self.assertEqual(by_id["safe_execution_subset"]["api_endpoint"], "/api/execute-safe")
+        self.assertEqual(by_id["safe_execution_subset"]["automation_level"], "safe_subset_programmable")
+        self.assertTrue(by_id["safe_execution_subset"]["endpoint_registered"])
+        self.assertTrue(by_id["safe_execution_subset"]["primary_script_exists"])
+        self.assertFalse(by_id["safe_execution_subset"]["open_items"])
+        self.assertEqual(by_id["agent_handoff"]["automation_level"], "agent_handoff_required")
+
+    def test_matrix_distinguishes_human_review_and_real_material(self):
+        result = interaction_surface_matrix_builder.build()
+        by_id = {item["surface_id"]: item for item in result["surfaces"]}
+        self.assertEqual(by_id["case_recording"]["automation_level"], "human_review_required")
+        self.assertEqual(by_id["validation_template"]["automation_level"], "requires_real_material")
+        self.assertIn("真实案例", by_id["validation_template"]["agent_boundary"])
+
+    def test_generated_markdown_lists_surfaces_and_limits(self):
+        result = interaction_surface_matrix_builder.build()
+        markdown = interaction_surface_matrix_builder.render_markdown(result)
+        self.assertIn("# 交互可用化矩阵", markdown)
+        self.assertIn("## Surface Matrix", markdown)
+        self.assertIn("/api/execute-safe", markdown)
+        self.assertIn("Agent 交接", markdown)
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8620,9 +8656,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 284}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 285}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 998 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 1002 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8642,7 +8678,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 284)
+        self.assertEqual(result["summary"]["schema_count"], 285)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

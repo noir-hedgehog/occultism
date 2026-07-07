@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 284 |
-| 可包装 | 284 |
+| Wrapper | 285 |
+| 可包装 | 285 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -140,6 +140,7 @@
 | `incense_observation_recorder` | `incense` | `incense-symbolic-consultation` | [incense-observation-recorder.schema.json](../agent-tools/schemas/incense-observation-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `incense_request_guard` | `incense` | `incense-symbolic-consultation` | [incense-request-guard.schema.json](../agent-tools/schemas/incense-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `incense_symbol_lookup` | `incense` | `incense-symbolic-consultation` | [incense-symbol-lookup.schema.json](../agent-tools/schemas/incense-symbol-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
+| `interaction_surface_matrix_builder` | `shared` | - | [interaction-surface-matrix-builder.schema.json](../agent-tools/schemas/interaction-surface-matrix-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `knowledge_coverage_audit` | `shared` | - | [knowledge-coverage-audit.schema.json](../agent-tools/schemas/knowledge-coverage-audit.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `knowledge_navigation_builder` | `shared` | - | [knowledge-navigation-builder.schema.json](../agent-tools/schemas/knowledge-navigation-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `lenormand_card_lookup` | `lenormand` | `lenormand-symbolic-consultation` | [lenormand-card-lookup.schema.json](../agent-tools/schemas/lenormand-card-lookup.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
