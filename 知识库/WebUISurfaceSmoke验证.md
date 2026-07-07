@@ -15,7 +15,7 @@
 | Case | Surface | Method | Path | Passed | Summary | Errors |
 | --- | --- | --- | --- | --- | --- | --- |
 | `health` | `health` | `GET` | `/api/health` | True | ok=True | - |
-| `home` | `home` | `GET` | `/` | True | text_length=12479 | - |
+| `home` | `home` | `GET` | `/` | True | text_length=12579 | - |
 | `docs_index` | `knowledge_docs_site` | `GET` | `/api/docs` | True | tool=web_ui_doc_index | - |
 | `docs_read` | `knowledge_docs_site` | `GET` | `/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93%2F%E4%BA%A4%E4%BA%92%E5%8F%AF%E7%94%A8%E5%8C%96%E7%9F%A9%E9%98%B5.md` | True | tool=web_ui_doc_reader | - |
 | `summary` | `summary` | `GET` | `/api/summary` | True | project=玄学大典 / Occultism Agent Toolkit | - |
@@ -23,7 +23,7 @@
 | `validation_backlog` | `validation_backlog` | `GET` | `/api/validation-backlog` | True | tool=case_validation_backlog_builder, backlog_count=61 | - |
 | `validation_template` | `validation_template` | `GET` | `/api/validation-template?domain=fengshui` | True | tool=case_validation_template_builder, template_count=1 | - |
 | `interaction_surface_matrix` | `interaction_surface_matrix` | `GET` | `/api/interaction-surface-matrix` | True | tool=interaction_surface_matrix_builder, surface_count=12 | - |
-| `session` | `request_router` | `POST` | `/api/session` | True | tool=web_ui_session, route_status=ready_to_run_skill, domain=tarot | - |
+| `session` | `request_router` | `POST` | `/api/session` | True | tool=web_ui_session, route_status=ready_to_run_skill, domain=tarot, workbench_mode=guided_consultation_workbench | - |
 | `paradigm` | `paradigm_selection` | `POST` | `/api/paradigm` | True | tool=paradigm_selector, route_status=ready_to_run_skill, domain=tarot | - |
 | `packet` | `consultation_packet` | `POST` | `/api/packet` | True | tool=consultation_packet_builder | - |
 | `execute_safe` | `safe_execution_subset` | `POST` | `/api/execute-safe` | True | tool=consultation_execution_runner, route_status=ready_to_run_skill, domain=tarot | - |

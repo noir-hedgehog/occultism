@@ -107,6 +107,49 @@ function renderWorkflow(session) {
     .join("");
 }
 
+function renderWorkbenchOverview(session) {
+  if (!session || !session.workbench_overview) {
+    $("#workbenchOverview").innerHTML = `
+      <div class="overview-intro">
+        <strong>工作台总览</strong>
+        <p>输入一个具体问题后，这里会汇总主干、范式、自动化步骤、Agent 接管点和必读文档。</p>
+      </div>
+    `;
+    return;
+  }
+  const overview = session.workbench_overview;
+  const counts = overview.counts;
+  const docs = overview.required_docs
+    .map((doc) => `<li><strong>${doc.role}</strong><span>${doc.title || doc.path}</span></li>`)
+    .join("");
+  const nextActions = overview.next_actions.map((item) => `<li>${item}</li>`).join("");
+  $("#workbenchOverview").innerHTML = `
+    <div class="overview-header">
+      <div>
+        <strong>${overview.title}</strong>
+        <p>${overview.trunk.title} · ${overview.question_type} · ${overview.automation_mode}</p>
+      </div>
+      <span class="overview-risk risk-${overview.risk_level}">${overview.risk_level}</span>
+    </div>
+    <div class="overview-grid">
+      <div class="overview-metric"><strong>${counts.runnable_tools}</strong><span>可直接运行</span></div>
+      <div class="overview-metric"><strong>${counts.structured_input_tools}</strong><span>需结构化输入</span></div>
+      <div class="overview-metric"><strong>${counts.agent_or_review_steps}</strong><span>Agent/审校步骤</span></div>
+      <div class="overview-metric"><strong>${counts.context_docs}</strong><span>上下文文档</span></div>
+    </div>
+    <div class="overview-columns">
+      <section>
+        <h3>下一步</h3>
+        <ol>${nextActions}</ol>
+      </section>
+      <section>
+        <h3>必读文档</h3>
+        <ul>${docs}</ul>
+      </section>
+    </div>
+  `;
+}
+
 function renderParadigm(session) {
   if (!session || !session.paradigm) {
     $("#paradigmBadge").textContent = "";
@@ -443,6 +486,7 @@ function renderAll() {
     renderTrunks(state.summary.trunks);
   }
   renderStatus(state.session);
+  renderWorkbenchOverview(state.session);
   renderWorkflow(state.session);
   renderParadigm(state.session);
   renderPacket(state.session);

@@ -1354,6 +1354,19 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             web_ui_surface_smoke_runner.build(case_ids=["missing-case"])
 
+    def test_expected_matcher_accepts_nested_partial_objects(self):
+        errors = web_ui_surface_smoke_runner.matches_expected(
+            {
+                "tool": "web_ui_session",
+                "workbench_overview": {
+                    "mode": "guided_consultation_workbench",
+                    "counts": {"runnable_tools": 3},
+                },
+            },
+            {"workbench_overview": {"mode": "guided_consultation_workbench"}},
+        )
+        self.assertEqual(errors, [])
+
     def test_smoke_cases_cover_matrix_surfaces(self):
         cases = web_ui_surface_smoke_runner.smoke_cases()
         covered = {case["surface_id"] for case in cases}

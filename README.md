@@ -179,7 +179,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 - [知识库/模板](知识库/模板)：新增流派、SOP、Tool、Skill 时使用的模板
 - [agent-tools](agent-tools)：工具规格、输入输出 schema、tool catalog
 - [codex-skills](codex-skills/index.md)：可迁移到 Codex skills 目录的 skill 蓝图
-- [web-ui](web-ui/README.md)：本地 Web UI 和轻量 API
+- [web-ui](web-ui/README.md)：本地 Web UI、请求工作台总览和轻量 API
 
 ## 建设原则
 

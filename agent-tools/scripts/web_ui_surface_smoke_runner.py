@@ -78,7 +78,11 @@ def smoke_cases() -> list[dict[str, Any]]:
             "method": "POST",
             "path": "/api/session",
             "payload": {"request_text": REQUEST_TEXT},
-            "expected": {"tool": "web_ui_session", "route_status": "ready_to_run_skill"},
+            "expected": {
+                "tool": "web_ui_session",
+                "route_status": "ready_to_run_skill",
+                "workbench_overview": {"mode": "guided_consultation_workbench"},
+            },
         },
         {
             "case_id": "paradigm",
@@ -198,14 +202,26 @@ def fetch_case(base_url: str, case: dict[str, Any], timeout_seconds: float) -> d
         return {"status_code": response.status, "content_type": content_type, "body": body}
 
 
+def matches_value(actual: Any, expected: Any, path: str) -> list[str]:
+    if isinstance(expected, dict):
+        if not isinstance(actual, dict):
+            return [f"{path}: expected object, got {type(actual).__name__}"]
+        errors: list[str] = []
+        for key, expected_value in expected.items():
+            nested_path = f"{path}.{key}" if path else key
+            errors.extend(matches_value(actual.get(key), expected_value, nested_path))
+        return errors
+    if actual != expected:
+        return [f"{path}: expected {expected!r}, got {actual!r}"]
+    return []
+
+
 def matches_expected(body: Any, expected: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if not isinstance(body, dict):
         return ["response_body_not_json_object"]
     for key, expected_value in expected.items():
-        actual = body.get(key)
-        if actual != expected_value:
-            errors.append(f"{key}: expected {expected_value!r}, got {actual!r}")
+        errors.extend(matches_value(body.get(key), expected_value, key))
     return errors
 
 
@@ -233,6 +249,8 @@ def run_case(base_url: str, case: dict[str, Any], timeout_seconds: float) -> dic
                 for key in ("tool", "ok", "project", "route_status", "domain", "template_count", "surface_count", "backlog_count", "domain_count", "mode")
                 if key in body
             }
+            if isinstance(body.get("workbench_overview"), dict):
+                body_summary["workbench_mode"] = body["workbench_overview"].get("mode")
         else:
             body_summary = {"text_length": len(str(body))}
     except Exception as exc:

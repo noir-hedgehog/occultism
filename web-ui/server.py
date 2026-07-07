@@ -284,12 +284,13 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
             {"step": "route", "status": "done", "label": "识别流派、意图和风险"},
             {"step": "pause", "status": "next", "label": "暂停玄学流程，给出安全或专业边界"},
         ]
+    domain_display_name = names.get(route["domain"], route["domain"])
     return {
         "tool": "web_ui_session",
         "is_valid": bool(route["is_valid"]),
         "request_text": text,
         "domain": route["domain"],
-        "domain_display_name": names.get(route["domain"], route["domain"]),
+        "domain_display_name": domain_display_name,
         "intent": route["intent"],
         "risk_level": route["risk_level"],
         "route_status": route["route_status"],
@@ -301,6 +302,7 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
         "workflow_steps": workflow_steps,
         "paradigm": paradigm,
         "packet": packet,
+        "workbench_overview": build_workbench_overview(route, paradigm, packet, domain_display_name),
         "context": context,
         "initial_tool_commands": commands,
         "raw_route": route,
@@ -375,6 +377,56 @@ def build_tool_preview(payload: dict[str, Any]) -> dict[str, Any]:
             "工具预览只运行白名单内的结构化函数，不执行任意 shell 命令。",
             "预览结果仍需 Agent 按 SOP 综合，并在输出前执行或等价执行 mystic_output_lint。",
         ],
+    }
+
+
+def build_workbench_overview(
+    route: dict[str, Any],
+    paradigm: dict[str, Any],
+    packet: dict[str, Any],
+    domain_display_name: str,
+) -> dict[str, Any]:
+    runnable_tools = [item for item in packet["tool_chain"] if item["execution_status"] == "runnable_now"]
+    structured_tools = [item for item in packet["tool_chain"] if item["execution_status"] == "requires_structured_input"]
+    draft_tools = [item for item in packet["tool_chain"] if item["execution_status"] == "requires_draft_output"]
+    agent_steps = [
+        step
+        for step in packet["workflow_steps"]
+        if step["status"] in {"agent", "required", "recommended", "next"}
+    ]
+    if route["can_continue_mystic_workflow"]:
+        next_actions = [
+            "运行安全子集，先完成可自动化的路由和范式步骤。",
+            "补齐结构化输入，再运行对应领域工具预览。",
+            "由 Agent 读取上下文并综合象征层、现实约束和低风险行动。",
+            "输出前运行或人工等价执行 mystic_output_lint。",
+        ]
+    else:
+        next_actions = [
+            "暂停占卜、仪式或排盘流程。",
+            "解释安全或专业边界，并保留低风险替代支持。",
+            "只运行 intake/route 等安全工具，不生成确定性玄学结论。",
+        ]
+    return {
+        "mode": "guided_consultation_workbench",
+        "title": f"{domain_display_name} · {paradigm['recommended_paradigm']['title']}",
+        "trunk": paradigm["trunk"],
+        "question_type": paradigm["question_type"],
+        "automation_mode": paradigm["execution_boundary"]["automation_mode"],
+        "risk_level": route["risk_level"],
+        "route_status": route["route_status"],
+        "counts": {
+            "runnable_tools": len(runnable_tools),
+            "structured_input_tools": len(structured_tools),
+            "draft_required_tools": len(draft_tools),
+            "agent_or_review_steps": len(agent_steps),
+            "context_docs": len(packet["context_docs"]),
+        },
+        "machine_runnable": runnable_tools,
+        "needs_structured_input": structured_tools,
+        "agent_handoff_steps": agent_steps,
+        "required_docs": packet["context_docs"][:6],
+        "next_actions": next_actions,
     }
 
 
