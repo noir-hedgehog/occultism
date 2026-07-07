@@ -1310,8 +1310,9 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         result = interaction_surface_matrix_builder.build()
         self.assertEqual(result["tool"], "interaction_surface_matrix_builder")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["surface_count"], 12)
-        self.assertEqual(result["api_endpoint_count"], 12)
+        self.assertEqual(result["surface_count"], 13)
+        self.assertEqual(result["api_endpoint_count"], 13)
+        self.assertEqual(result["automation_counts"]["human_readable"], 2)
         self.assertEqual(result["automation_counts"]["programmable_now"], 6)
 
     def test_surfaces_link_api_scripts_and_evidence(self):
@@ -1323,6 +1324,8 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         self.assertTrue(by_id["safe_execution_subset"]["primary_script_exists"])
         self.assertFalse(by_id["safe_execution_subset"]["open_items"])
         self.assertEqual(by_id["agent_handoff"]["automation_level"], "agent_handoff_required")
+        self.assertEqual(by_id["example_presets"]["api_endpoint"], "/api/examples")
+        self.assertEqual(by_id["example_presets"]["automation_level"], "human_readable")
 
     def test_matrix_distinguishes_human_review_and_real_material(self):
         result = interaction_surface_matrix_builder.build()
@@ -1343,11 +1346,11 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
 
 class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
     def test_runs_selected_http_smoke_cases(self):
-        result = web_ui_surface_smoke_runner.build(case_ids=["health", "interaction_surface_matrix", "session"])
+        result = web_ui_surface_smoke_runner.build(case_ids=["health", "examples", "interaction_surface_matrix", "session"])
         self.assertEqual(result["tool"], "web_ui_surface_smoke_runner")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["case_count"], 3)
-        self.assertEqual(result["passed_count"], 3)
+        self.assertEqual(result["case_count"], 4)
+        self.assertEqual(result["passed_count"], 4)
         self.assertEqual(result["failed_count"], 0)
 
     def test_rejects_unknown_case_id(self):
@@ -8520,8 +8523,10 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         result = release_gate_runner.run(gates=["web_ui_surface_smoke_runner"])
         self.assertTrue(result["is_valid"])
         self.assertEqual(result["gates"][0]["summary"]["tool"], "web_ui_surface_smoke_runner")
-        self.assertEqual(result["gates"][0]["summary"]["case_count"], 16)
+        self.assertEqual(result["gates"][0]["summary"]["case_count"], 17)
         self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
+        self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 13)
+        self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 13)
 
     def test_unknown_release_gate_raises(self):
         with self.assertRaises(ValueError):

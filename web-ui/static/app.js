@@ -4,6 +4,7 @@ const state = {
   backlog: null,
   validationTemplate: null,
   interactionMatrix: null,
+  examples: null,
   session: null,
   docs: null,
   activeDoc: null,
@@ -67,6 +68,35 @@ function renderTrunks(trunks) {
       `,
     )
     .join("");
+}
+
+function renderExamples() {
+  if (!state.examples) {
+    $("#examplePresets").innerHTML = "";
+    return;
+  }
+  $("#examplePresets").innerHTML = `
+    <div class="example-heading">
+      <strong>示例请求</strong>
+      <span>${state.examples.trunk_count} 条主干</span>
+    </div>
+    <div class="example-grid">
+      ${state.examples.examples
+        .map(
+          (example) => `
+            <button class="example-card" type="button" data-example-id="${example.id}" data-valid="${example.expected_matches}">
+              <strong>${example.title}</strong>
+              <span>${example.trunk_title} · ${example.domain_display_name}</span>
+              <small>${example.actual_paradigm}</small>
+            </button>
+          `,
+        )
+        .join("")}
+    </div>
+  `;
+  document.querySelectorAll("[data-example-id]").forEach((button) => {
+    button.addEventListener("click", () => applyExample(button.dataset.exampleId));
+  });
 }
 
 function renderStatus(session) {
@@ -485,6 +515,7 @@ function renderAll() {
     renderDocs(state.summary.entry_docs);
     renderTrunks(state.summary.trunks);
   }
+  renderExamples();
   renderStatus(state.session);
   renderWorkbenchOverview(state.session);
   renderWorkflow(state.session);
@@ -546,11 +577,32 @@ async function loadInteractionMatrix() {
   renderAll();
 }
 
+async function loadExamples() {
+  const response = await fetch("/api/examples");
+  if (!response.ok) throw new Error(`examples failed: ${response.status}`);
+  state.examples = await response.json();
+  renderAll();
+}
+
 async function loadDoc(path) {
   const response = await fetch(`/api/docs?path=${encodeURIComponent(path)}`);
   if (!response.ok) throw new Error(`doc failed: ${response.status}`);
   state.activeDoc = await response.json();
   renderAll();
+}
+
+function applyExample(exampleId) {
+  const example = state.examples?.examples?.find((item) => item.id === exampleId);
+  if (!example) return;
+  $("#requestText").value = example.request_text;
+  $("#domainSelect").value = example.requested_domain || "";
+  if (example.requested_domain === "tarot") {
+    $("#previewMode").value = "tarot";
+  } else if (example.requested_domain === "fengshui") {
+    $("#previewMode").value = "fengshui";
+  }
+  syncPreviewMode();
+  runSession();
 }
 
 async function runSession() {
@@ -770,7 +822,7 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-Promise.all([loadSummary(), loadDocs(), loadEvidence(), loadBacklog(), loadValidationTemplate(), loadInteractionMatrix()])
+Promise.all([loadSummary(), loadDocs(), loadExamples(), loadEvidence(), loadBacklog(), loadValidationTemplate(), loadInteractionMatrix()])
   .then(() => {
     const first = state.summary?.entry_docs?.[0]?.path;
     if (first) return loadDoc(first);

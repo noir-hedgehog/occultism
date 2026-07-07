@@ -34,6 +34,17 @@ SURFACES: list[dict[str, Any]] = [
         "verification_command": "curl -X POST http://127.0.0.1:8765/api/session -H 'Content-Type: application/json' -d '{\"request_text\":\"帮我做一个塔罗三张牌，看看工作状态\"}'",
     },
     {
+        "surface_id": "example_presets",
+        "display_name": "主干示例请求",
+        "user_surface": "请求框下方的 6 条主干示例按钮",
+        "api_endpoint": "/api/examples",
+        "primary_tool": "paradigm_selector",
+        "automation_level": "human_readable",
+        "agent_boundary": "示例用于帮助人理解主干和范式入口；点击后仍必须经过完整路由、安全分流和工作台总览。",
+        "proof_docs": ["web-ui/README.md", "知识库/07-问题到范式映射.md"],
+        "verification_command": "curl http://127.0.0.1:8765/api/examples",
+    },
+    {
         "surface_id": "paradigm_selection",
         "display_name": "问题到范式",
         "user_surface": "范式面板",

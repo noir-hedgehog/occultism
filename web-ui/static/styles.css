@@ -226,6 +226,72 @@ button:disabled {
   opacity: 0.72;
 }
 
+.example-presets {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.example-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.example-heading strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.example-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.example-card {
+  display: block;
+  min-height: 72px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  text-align: left;
+  padding: 10px;
+}
+
+.example-card:hover {
+  border-color: var(--accent);
+}
+
+.example-card strong,
+.example-card span,
+.example-card small {
+  display: block;
+}
+
+.example-card strong {
+  font-size: 14px;
+}
+
+.example-card span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.example-card small {
+  margin-top: 5px;
+  color: var(--accent);
+  font-size: 12px;
+}
+
+.example-card[data-valid="false"] {
+  border-color: var(--danger);
+}
+
 .status-strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -636,6 +702,7 @@ pre {
   .status-strip,
   .overview-grid,
   .overview-columns,
+  .example-grid,
   .doc-browser,
   .template-tools,
   .case-grid {

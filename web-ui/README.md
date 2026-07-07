@@ -4,6 +4,7 @@
 
 - 请求路由和安全分流
 - 从具体问题推导适用范式
+- 通过 6 条主干示例请求快速试运行范式推导
 - 汇总主干、范式、自动化步骤、Agent 接管点和必读文档的工作台总览
 - 生成给人和 Agent 共读的咨询工作单
 - 执行工作单中安全、确定、无副作用的程序化子集
@@ -37,6 +38,7 @@ http://127.0.0.1:8765
 ```bash
 curl http://127.0.0.1:8765/api/health
 curl http://127.0.0.1:8765/api/summary
+curl http://127.0.0.1:8765/api/examples
 curl http://127.0.0.1:8765/api/evidence-matrix
 curl http://127.0.0.1:8765/api/validation-backlog
 curl "http://127.0.0.1:8765/api/validation-template?domain=fengshui"
@@ -73,5 +75,5 @@ python3 agent-tools/scripts/web_ui_surface_smoke_runner.py --format markdown
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令；`/api/evidence-matrix`、`/api/validation-backlog`、`/api/validation-template` 和 `/api/interaction-surface-matrix` 只读取并分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
+- API 不执行任意 shell 命令；`/api/examples`、`/api/evidence-matrix`、`/api/validation-backlog`、`/api/validation-template` 和 `/api/interaction-surface-matrix` 只读取、路由或分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。

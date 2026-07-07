@@ -78,7 +78,7 @@ TRUNKS = [
         ],
     },
     {
-        "id": "space",
+        "id": "space_environment",
         "title": "空间、环境与居住体验",
         "domains": [
             "fengshui",
@@ -135,6 +135,58 @@ TRUNKS = [
             "sky_omen",
             "synchronicity",
         ],
+    },
+]
+
+
+EXAMPLE_REQUESTS = [
+    {
+        "id": "tarot_work_reflection",
+        "trunk_id": "decision",
+        "title": "塔罗工作状态",
+        "request_text": "帮我做一个塔罗三张牌，看看最近工作状态和下一步",
+        "requested_domain": "tarot",
+        "expected_paradigm": "decision_reflection",
+    },
+    {
+        "id": "rune_project_signal",
+        "trunk_id": "symbolic_media",
+        "title": "符文项目提示",
+        "request_text": "我抽到三枚卢恩符文，想把它当作项目沟通的象征反思",
+        "requested_domain": "rune",
+        "expected_paradigm": "symbolic_media",
+    },
+    {
+        "id": "fengshui_sleep_audit",
+        "trunk_id": "space_environment",
+        "title": "卧室睡眠风水",
+        "request_text": "卧室床尾对门，镜子在床侧，最近睡不好，想从风水和现实环境一起看看",
+        "requested_domain": "fengshui",
+        "expected_paradigm": "practical_audit",
+    },
+    {
+        "id": "protection_boundary",
+        "trunk_id": "ritual_objects",
+        "title": "能量防护边界",
+        "request_text": "我总觉得被别人影响，想做一个低风险的能量防护和边界整理",
+        "requested_domain": "spiritual_protection",
+        "expected_paradigm": "symbolic_reflection",
+    },
+    {
+        "id": "sleep_paralysis_support",
+        "trunk_id": "body_mind",
+        "title": "鬼压床安定",
+        "request_text": "最近睡前容易鬼压床和害怕，想要一个不吓人的睡前安定流程",
+        "requested_domain": "sleep_paralysis",
+        "expected_paradigm": "somatic_reflection",
+    },
+    {
+        "id": "synchronicity_record",
+        "trunk_id": "folk_omens",
+        "title": "重复数字记录",
+        "request_text": "这几天总看到 11:11，想记录一下它对我当前计划的象征提醒",
+        "requested_domain": "synchronicity",
+        "expected_paradigm": "cultural_omen",
     },
 ]
 
@@ -235,6 +287,48 @@ def build_summary() -> dict[str, Any]:
             "当前 UI 是本地工作台，不是公开托管产品。",
             "API 只做路由、上下文和命令建议，不执行任意 shell 命令。",
             "orange/red 风险必须暂停玄学流程。",
+        ],
+    }
+
+
+def build_examples() -> dict[str, Any]:
+    trunk_titles = {trunk["id"]: trunk["title"] for trunk in TRUNKS}
+    names = domain_names()
+    examples = []
+    for example in EXAMPLE_REQUESTS:
+        payload = {
+            "request_text": example["request_text"],
+            "requested_domain": example["requested_domain"],
+        }
+        route = agent_workflow_router.route(payload, root=ROOT)
+        paradigm = paradigm_selector.select(payload, root=ROOT)
+        expected_matches = (
+            route["domain"] == example["requested_domain"]
+            and paradigm["trunk"]["id"] == example["trunk_id"]
+            and paradigm["recommended_paradigm"]["id"] == example["expected_paradigm"]
+        )
+        examples.append(
+            {
+                **example,
+                "trunk_title": trunk_titles.get(example["trunk_id"], example["trunk_id"]),
+                "domain_display_name": names.get(example["requested_domain"], example["requested_domain"]),
+                "route_status": route["route_status"],
+                "risk_level": route["risk_level"],
+                "actual_domain": route["domain"],
+                "actual_paradigm": paradigm["recommended_paradigm"]["id"],
+                "expected_matches": expected_matches,
+            }
+        )
+    is_valid = all(example["expected_matches"] for example in examples)
+    return {
+        "tool": "web_ui_example_requests",
+        "is_valid": is_valid,
+        "example_count": len(examples),
+        "trunk_count": len({example["trunk_id"] for example in examples}),
+        "examples": examples,
+        "limits": [
+            "示例请求只用于试运行和理解范式，不代表真实案例已经验证。",
+            "点击示例仍需经过完整路由、安全分流和工作台总览。",
         ],
     }
 
@@ -474,6 +568,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json({"ok": True, "root": str(ROOT)})
             elif path == "/api/summary":
                 self.send_json(build_summary())
+            elif path == "/api/examples":
+                self.send_json(build_examples())
             elif path == "/api/evidence-matrix":
                 self.send_json(domain_evidence_matrix_builder.build(ROOT))
             elif path == "/api/validation-backlog":

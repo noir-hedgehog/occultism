@@ -45,6 +45,13 @@ def smoke_cases() -> list[dict[str, Any]]:
             "expected": {"project": "玄学大典 / Occultism Agent Toolkit"},
         },
         {
+            "case_id": "examples",
+            "surface_id": "example_presets",
+            "method": "GET",
+            "path": "/api/examples",
+            "expected": {"tool": "web_ui_example_requests", "is_valid": True, "example_count": 6, "trunk_count": 6},
+        },
+        {
             "case_id": "evidence_matrix",
             "surface_id": "evidence_matrix",
             "method": "GET",
@@ -70,7 +77,7 @@ def smoke_cases() -> list[dict[str, Any]]:
             "surface_id": "interaction_surface_matrix",
             "method": "GET",
             "path": "/api/interaction-surface-matrix",
-            "expected": {"tool": "interaction_surface_matrix_builder", "surface_count": 12},
+            "expected": {"tool": "interaction_surface_matrix_builder", "surface_count": 13},
         },
         {
             "case_id": "session",
@@ -246,7 +253,21 @@ def run_case(base_url: str, case: dict[str, Any], timeout_seconds: float) -> dic
         if isinstance(body, dict):
             body_summary = {
                 key: body.get(key)
-                for key in ("tool", "ok", "project", "route_status", "domain", "template_count", "surface_count", "backlog_count", "domain_count", "mode")
+                for key in (
+                    "tool",
+                    "is_valid",
+                    "ok",
+                    "project",
+                    "route_status",
+                    "domain",
+                    "template_count",
+                    "surface_count",
+                    "backlog_count",
+                    "domain_count",
+                    "example_count",
+                    "trunk_count",
+                    "mode",
+                )
                 if key in body
             }
             if isinstance(body.get("workbench_overview"), dict):
