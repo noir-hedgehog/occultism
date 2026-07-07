@@ -1,0 +1,128 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CaseValidationTemplateBuilder",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "source_backlog_count",
+    "template_count",
+    "domain_filter",
+    "backlog_id_filter",
+    "priority_filter",
+    "priority_counts",
+    "target_artifact_counts",
+    "templates",
+    "limits",
+    "next_steps",
+    "generated_markdown"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "case_validation_template_builder"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "source_backlog_count": {"type": "integer", "minimum": 0},
+    "template_count": {"type": "integer", "minimum": 0},
+    "domain_filter": {"type": "string"},
+    "backlog_id_filter": {"type": "string"},
+    "priority_filter": {"type": "string"},
+    "priority_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "target_artifact_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+    "templates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "template_id",
+          "source_backlog_id",
+          "domain",
+          "display_name",
+          "priority",
+          "trunk",
+          "evidence_mode",
+          "mystical_intensity",
+          "target_artifact",
+          "collection_template",
+          "recommended_tool_flow",
+          "source_docs",
+          "next_steps"
+        ],
+        "properties": {
+          "template_id": {"type": "string"},
+          "source_backlog_id": {"type": "string"},
+          "domain": {"type": "string"},
+          "display_name": {"type": "string"},
+          "priority": {"type": "string", "enum": ["P0", "P1", "P2"]},
+          "trunk": {
+            "type": "object",
+            "required": ["id", "title"],
+            "properties": {
+              "id": {"type": "string"},
+              "title": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
+          "evidence_mode": {"type": "string"},
+          "mystical_intensity": {"type": "string"},
+          "target_artifact": {"type": "string"},
+          "collection_template": {
+            "type": "object",
+            "required": ["fields", "example_payload", "review_checklist", "acceptance_criteria"],
+            "properties": {
+              "fields": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["field", "required", "type", "prompt", "example", "feeds"],
+                  "properties": {
+                    "field": {"type": "string"},
+                    "required": {"type": "boolean"},
+                    "type": {"type": "string"},
+                    "prompt": {"type": "string"},
+                    "example": {"type": "string"},
+                    "feeds": {"type": "array", "items": {"type": "string"}}
+                  },
+                  "additionalProperties": false
+                }
+              },
+              "example_payload": {"type": "object", "additionalProperties": true},
+              "review_checklist": {"type": "array", "items": {"type": "string"}},
+              "acceptance_criteria": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          },
+          "recommended_tool_flow": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["tool", "purpose", "input_from_fields"],
+              "properties": {
+                "tool": {"type": "string"},
+                "purpose": {"type": "string"},
+                "input_from_fields": {"type": "array", "items": {"type": "string"}}
+              },
+              "additionalProperties": false
+            }
+          },
+          "source_docs": {
+            "type": "object",
+            "required": ["sop", "knowledge", "skill"],
+            "properties": {
+              "sop": {"type": "array", "items": {"type": "string"}},
+              "knowledge": {"type": "array", "items": {"type": "string"}},
+              "skill": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": false
+          },
+          "next_steps": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}},
+    "generated_markdown": {"type": "string"}
+  },
+  "additionalProperties": false
+}

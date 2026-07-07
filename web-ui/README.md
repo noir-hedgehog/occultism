@@ -14,6 +14,7 @@
 - 知识库文档站浏览
 - 当前覆盖度、工具数量和验证状态概览
 - 展示案例、来源和边界反例验证 backlog
+- 按领域生成案例、来源或边界反例采集模板
 - 代表性命令生成，方便从 UI 进入程序化执行
 
 ## 启动
@@ -35,6 +36,7 @@ curl http://127.0.0.1:8765/api/health
 curl http://127.0.0.1:8765/api/summary
 curl http://127.0.0.1:8765/api/evidence-matrix
 curl http://127.0.0.1:8765/api/validation-backlog
+curl "http://127.0.0.1:8765/api/validation-template?domain=fengshui"
 curl http://127.0.0.1:8765/api/docs
 curl "http://127.0.0.1:8765/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93/07-%E9%97%AE%E9%A2%98%E5%88%B0%E8%8C%83%E5%BC%8F%E6%98%A0%E5%B0%84.md"
 curl -X POST http://127.0.0.1:8765/api/paradigm \
@@ -66,5 +68,5 @@ curl -X POST http://127.0.0.1:8765/api/session \
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令；`/api/evidence-matrix` 和 `/api/validation-backlog` 只读取并分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
+- API 不执行任意 shell 命令；`/api/evidence-matrix`、`/api/validation-backlog` 和 `/api/validation-template` 只读取并分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。

@@ -142,6 +142,9 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 - [知识库/05-路线图.md](知识库/05-路线图.md)：分阶段建设计划
 - [知识库/06-体系盘点与主干路线.md](知识库/06-体系盘点与主干路线.md)：当前主干/分支盘点、科学化/溯源/神秘强度和案例验证优先级
 - [知识库/07-问题到范式映射.md](知识库/07-问题到范式映射.md)：从具体用户问题推导适用范式、自动化边界和 agent 分工
+- [知识库/证据矩阵.md](知识库/证据矩阵.md)：61 个领域的证据模式、优先级、神秘强度和案例模板
+- [知识库/案例验证Backlog.md](知识库/案例验证Backlog.md)：P0 实用案例、P1 来源审计、P2 边界反例采集 backlog
+- [知识库/案例采集模板.md](知识库/案例采集模板.md)：从 backlog 项派生的可填写字段、示例 payload 和推荐工具流
 - [知识库/Skill回放验证.md](知识库/Skill回放验证.md)：首批 Skill 前向回放案例
 - [知识库/Skill多轮回放验证.md](知识库/Skill多轮回放验证.md)：多轮 transcript 验证案例
 - [知识库/Agent路由冒烟验证.md](知识库/Agent路由冒烟验证.md)：跨流派运行时路由冒烟验证
@@ -196,6 +199,7 @@ python3 agent-tools/scripts/consultation_handoff_builder.py --text "帮我做一
 python3 agent-tools/scripts/consultation_case_recorder.py --text "帮我做一个塔罗三张牌，看看工作状态" --follow-up "两天后复盘：建议有部分可用" --validation-result mixed --reviewer internal-reviewer
 python3 agent-tools/scripts/domain_evidence_matrix_builder.py --format markdown --write
 python3 agent-tools/scripts/case_validation_backlog_builder.py --format markdown --write
+python3 agent-tools/scripts/case_validation_template_builder.py --domain fengshui --format markdown
 python3 agent-tools/scripts/agent_route_smoke_runner.py
 python3 agent-tools/scripts/agent_runtime_dry_run_runner.py
 python3 agent-tools/scripts/agent_tool_wrapper_manifest_builder.py --format markdown

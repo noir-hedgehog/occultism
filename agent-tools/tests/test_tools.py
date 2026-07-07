@@ -26,6 +26,7 @@ from agent_tools_scripts import (
     bazi_ziwei_chart_record,
     bazi_ziwei_intake_guard,
     case_validation_backlog_builder,
+    case_validation_template_builder,
     codex_skill_blueprint_validator,
     codex_skill_installer,
     content_review_feedback_recorder,
@@ -1256,6 +1257,50 @@ class CaseValidationBacklogBuilderTests(unittest.TestCase):
         self.assertIn("## Backlog", markdown)
         self.assertIn("consultation_case_recorder", markdown)
         self.assertIn("## 验收标准", markdown)
+
+
+class CaseValidationTemplateBuilderTests(unittest.TestCase):
+    def test_builds_p0_practical_case_template_for_fengshui(self):
+        result = case_validation_template_builder.build(domain="fengshui")
+        self.assertEqual(result["tool"], "case_validation_template_builder")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["template_count"], 1)
+        template = result["templates"][0]
+        self.assertEqual(template["priority"], "P0")
+        fields = {item["field"] for item in template["collection_template"]["fields"]}
+        tools = [item["tool"] for item in template["recommended_tool_flow"]]
+        self.assertIn("baseline_observation", fields)
+        self.assertIn("consultation_case_recorder", tools)
+
+    def test_builds_p1_source_audit_template_for_tarot(self):
+        result = case_validation_template_builder.build(domain="tarot")
+        template = result["templates"][0]
+        self.assertEqual(template["priority"], "P1")
+        self.assertEqual(template["target_artifact"], "source_audit_or_correction_note")
+        fields = {item["field"] for item in template["collection_template"]["fields"]}
+        tools = [item["tool"] for item in template["recommended_tool_flow"]]
+        self.assertIn("claim_text", fields)
+        self.assertIn("content_review_feedback_recorder", tools)
+
+    def test_builds_p2_boundary_template_for_spirit_message(self):
+        result = case_validation_template_builder.build(domain="spirit_message")
+        template = result["templates"][0]
+        self.assertEqual(template["priority"], "P2")
+        fields = {item["field"] for item in template["collection_template"]["fields"]}
+        checklist = " ".join(template["collection_template"]["review_checklist"])
+        tools = [item["tool"] for item in template["recommended_tool_flow"]]
+        self.assertIn("unsafe_request_or_claim", fields)
+        self.assertIn("professional/safety boundary", checklist)
+        self.assertIn("mystic_output_lint", tools)
+
+    def test_invalid_domain_raises_and_markdown_lists_template(self):
+        with self.assertRaises(ValueError):
+            case_validation_template_builder.build(domain="missing-domain")
+        result = case_validation_template_builder.build(priority="P0", limit=1)
+        markdown = case_validation_template_builder.render_markdown(result)
+        self.assertIn("# 案例采集模板", markdown)
+        self.assertIn("## 模板", markdown)
+        self.assertIn("推荐工具流", markdown)
 
 
 class AgentRouteSmokeRunnerTests(unittest.TestCase):
@@ -8575,9 +8620,9 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
             "failed_count": 0 if valid else 1,
             "is_valid": valid,
             "gates": [
-                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 283}},
+                {"gate_id": "schema_json", "passed": True, "summary": {"schema_count": 284}},
                 {"gate_id": "codex_skill_installer", "passed": True, "summary": {"skill_count": 61}},
-                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 994 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
+                {"gate_id": "unit_tests", "passed": valid, "summary": {"tail": "Ran 998 tests in 0.111s\n\nOK\n" if valid else "FAILED"}},
             ],
         }
 
@@ -8597,7 +8642,7 @@ class ReleaseManifestBuilderTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "release_manifest_builder")
         self.assertEqual(result["status"], "ready_for_review")
-        self.assertEqual(result["summary"]["schema_count"], 283)
+        self.assertEqual(result["summary"]["schema_count"], 284)
         self.assertEqual(result["summary"]["skill_install_dry_run_count"], 61)
         self.assertTrue(result["quality_evidence"]["release_gate_is_valid"])
         self.assertTrue(result["maintenance_cadence"])

@@ -2,6 +2,7 @@ const state = {
   summary: null,
   evidence: null,
   backlog: null,
+  validationTemplate: null,
   session: null,
   docs: null,
   activeDoc: null,
@@ -235,6 +236,55 @@ function renderBacklog() {
   `;
 }
 
+function renderValidationTemplate() {
+  $("#templateBadge").textContent = state.validationTemplate ? `${state.validationTemplate.template_count} 个模板` : "待生成";
+  if (!state.validationTemplate || !state.validationTemplate.templates.length) {
+    $("#templatePanel").innerHTML = "";
+    $("#templateOutput").textContent = "{}";
+    return;
+  }
+  const template = state.validationTemplate.templates[0];
+  const fields = template.collection_template.fields
+    .map((field) => `<span class="chip" title="${field.prompt}">${field.field}</span>`)
+    .join("");
+  const flow = template.recommended_tool_flow
+    .map(
+      (step) => `
+        <article class="evidence-stream">
+          <strong>${step.tool}</strong>
+          <p>${step.purpose}</p>
+          <span>${step.input_from_fields.join(", ")}</span>
+        </article>
+      `,
+    )
+    .join("");
+  $("#templatePanel").innerHTML = `
+    <article class="packet-card">
+      <h3>${template.display_name} · ${template.priority}</h3>
+      <div class="chips">
+        <span class="chip">${template.target_artifact}</span>
+        <span class="chip">${template.evidence_mode}</span>
+        <span class="chip">${template.source_backlog_id}</span>
+      </div>
+    </article>
+    <article class="packet-card">
+      <h3>采集字段</h3>
+      <div class="chips">${fields}</div>
+    </article>
+    ${flow}
+  `;
+  $("#templateOutput").textContent = JSON.stringify(
+    {
+      template_id: template.template_id,
+      example_payload: template.collection_template.example_payload,
+      review_checklist: template.collection_template.review_checklist,
+      acceptance_criteria: template.collection_template.acceptance_criteria,
+    },
+    null,
+    2,
+  );
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -367,6 +417,7 @@ function renderAll() {
   renderPacket(state.session);
   renderEvidence();
   renderBacklog();
+  renderValidationTemplate();
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
@@ -402,6 +453,13 @@ async function loadBacklog() {
   const response = await fetch("/api/validation-backlog");
   if (!response.ok) throw new Error(`validation backlog failed: ${response.status}`);
   state.backlog = await response.json();
+  renderAll();
+}
+
+async function loadValidationTemplate(domain = "fengshui") {
+  const response = await fetch(`/api/validation-template?domain=${encodeURIComponent(domain)}`);
+  if (!response.ok) throw new Error(`validation template failed: ${response.status}`);
+  state.validationTemplate = await response.json();
   renderAll();
 }
 
@@ -594,6 +652,21 @@ async function runCaseRecord() {
   }
 }
 
+async function runValidationTemplate() {
+  const button = $("#templateButton");
+  button.disabled = true;
+  button.textContent = "生成中";
+  try {
+    await loadValidationTemplate($("#templateDomain").value);
+  } catch (error) {
+    state.validationTemplate = {tool: "case_validation_template_builder", is_valid: false, template_count: 0, templates: [], error: error.message};
+  } finally {
+    button.disabled = false;
+    button.textContent = "生成模板";
+    renderAll();
+  }
+}
+
 function syncPreviewMode() {
   const mode = $("#previewMode").value;
   $("#tarotFields").hidden = mode !== "tarot";
@@ -605,6 +678,7 @@ $("#executionButton").addEventListener("click", runExecution);
 $("#previewButton").addEventListener("click", runPreview);
 $("#handoffButton").addEventListener("click", runHandoff);
 $("#caseButton").addEventListener("click", runCaseRecord);
+$("#templateButton").addEventListener("click", runValidationTemplate);
 $("#previewMode").addEventListener("change", syncPreviewMode);
 
 $("#toggleJson").addEventListener("click", () => {
@@ -613,7 +687,7 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-Promise.all([loadSummary(), loadDocs(), loadEvidence(), loadBacklog()])
+Promise.all([loadSummary(), loadDocs(), loadEvidence(), loadBacklog(), loadValidationTemplate()])
   .then(() => {
     const first = state.summary?.entry_docs?.[0]?.path;
     if (first) return loadDoc(first);

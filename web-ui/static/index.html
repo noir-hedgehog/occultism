@@ -90,6 +90,30 @@
               <div id="backlogPanel" class="evidence-panel"></div>
             </section>
 
+            <section class="panel panel-wide">
+              <div class="panel-heading">
+                <h2>采集模板</h2>
+                <span id="templateBadge">待生成</span>
+              </div>
+              <div class="template-tools">
+                <div class="template-controls">
+                  <div class="field-row">
+                    <label for="templateDomain">领域</label>
+                    <select id="templateDomain">
+                      <option value="fengshui">风水 P0 实用案例</option>
+                      <option value="tarot">塔罗 P1 来源审计</option>
+                      <option value="spirit_message">灵性讯息 P2 边界反例</option>
+                      <option value="ritual">空间净化/驱邪</option>
+                      <option value="dream">解梦</option>
+                    </select>
+                  </div>
+                  <button id="templateButton" type="button">生成模板</button>
+                </div>
+                <div id="templatePanel" class="evidence-panel"></div>
+                <pre id="templateOutput" class="preview-output">{}</pre>
+              </div>
+            </section>
+
             <section class="panel">
               <div class="panel-heading">
                 <h2>上下文</h2>

@@ -11,7 +11,7 @@ from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
-from urllib.parse import unquote, urlparse
+from urllib.parse import parse_qs, unquote, urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -23,6 +23,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
 import case_validation_backlog_builder  # noqa: E402
+import case_validation_template_builder  # noqa: E402
 import consultation_case_recorder  # noqa: E402
 import consultation_execution_runner  # noqa: E402
 import consultation_handoff_builder  # noqa: E402
@@ -421,6 +422,18 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 self.send_json(domain_evidence_matrix_builder.build(ROOT))
             elif path == "/api/validation-backlog":
                 self.send_json(case_validation_backlog_builder.build(ROOT))
+            elif path == "/api/validation-template":
+                query = parse_qs(parsed.query)
+                limit_values = query.get("limit", [])
+                self.send_json(
+                    case_validation_template_builder.build(
+                        ROOT,
+                        domain=(query.get("domain", [""])[0] or None),
+                        backlog_id=(query.get("backlog_id", [""])[0] or None),
+                        priority=(query.get("priority", [""])[0] or None),
+                        limit=int(limit_values[0]) if limit_values and limit_values[0] else None,
+                    )
+                )
             elif path == "/api/docs":
                 query = parsed.query
                 if query.startswith("path="):

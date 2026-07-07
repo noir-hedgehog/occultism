@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 283 |
-| OpenAI-style tool | 283 |
-| 来源 wrapper | 283 |
+| Definition | 284 |
+| OpenAI-style tool | 284 |
+| 来源 wrapper | 284 |
 
 ## 定义清单
 
@@ -58,6 +58,7 @@
 | `cartomancy_interpretation_planner` | `agent-tools/scripts/cartomancy_interpretation_planner.py` | [cartomancy-interpretation-planner.schema.json](../agent-tools/schemas/cartomancy-interpretation-planner.schema.json) | `cartomancy` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `cartomancy_request_guard` | `agent-tools/scripts/cartomancy_request_guard.py` | [cartomancy-request-guard.schema.json](../agent-tools/schemas/cartomancy-request-guard.schema.json) | `cartomancy` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `case_validation_backlog_builder` | `agent-tools/scripts/case_validation_backlog_builder.py` | [case-validation-backlog-builder.schema.json](../agent-tools/schemas/case-validation-backlog-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
+| `case_validation_template_builder` | `agent-tools/scripts/case_validation_template_builder.py` | [case-validation-template-builder.schema.json](../agent-tools/schemas/case-validation-template-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `casting_lots_interpretation_planner` | `agent-tools/scripts/casting_lots_interpretation_planner.py` | [casting-lots-interpretation-planner.schema.json](../agent-tools/schemas/casting-lots-interpretation-planner.schema.json) | `casting_lots` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `casting_lots_layout_recorder` | `agent-tools/scripts/casting_lots_layout_recorder.py` | [casting-lots-layout-recorder.schema.json](../agent-tools/schemas/casting-lots-layout-recorder.schema.json) | `casting_lots` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `casting_lots_request_guard` | `agent-tools/scripts/casting_lots_request_guard.py` | [casting-lots-request-guard.schema.json](../agent-tools/schemas/casting-lots-request-guard.schema.json) | `casting_lots` | `professional_boundary_required`, `symbolic_interpretation_only` |

@@ -394,7 +394,18 @@ button:disabled {
 .handoff-tools,
 .case-tools,
 .execution-tools,
+.template-tools,
 .structured-form {
+  display: grid;
+  gap: 10px;
+}
+
+.template-tools {
+  grid-template-columns: minmax(220px, 320px) minmax(260px, 1fr) minmax(260px, 1fr);
+  align-items: start;
+}
+
+.template-controls {
   display: grid;
   gap: 10px;
 }
@@ -526,6 +537,7 @@ pre {
   .content-grid,
   .status-strip,
   .doc-browser,
+  .template-tools,
   .case-grid {
     grid-template-columns: 1fr;
   }
