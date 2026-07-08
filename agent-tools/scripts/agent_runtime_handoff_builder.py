@@ -19,6 +19,7 @@ import external_evidence_intake_builder
 import pilot_readiness_report
 import skill_install_readiness_report
 import tool_manifest_builder
+from _ui_action_manifest import build_ui_actions
 
 
 ENTRYPOINTS = [
@@ -136,6 +137,10 @@ def build(root: str | Path = ".", codex_home: str | Path | None = None) -> dict[
         "handoff_status": "ready_for_runtime_dry_run" if runtime_ready else "blocked_by_readiness_checks",
         "runtime_scope": "mystic_agent_tools_and_codex_skill_blueprints",
         "entrypoints": ENTRYPOINTS,
+        "ui_action_manifests": {
+            "ready_to_continue": build_ui_actions(True),
+            "paused_for_boundary": build_ui_actions(False),
+        },
         "skill_count": len(skills),
         "tool_count": manifest["tool_count"],
         "skills": skills,
@@ -206,11 +211,25 @@ def render_markdown(result: dict[str, Any]) -> str:
         f"| Tool | {result['tool_count']} |",
         f"| 外部开放项 | {len(result['open_external_items'])} |",
         "",
+        "## Runtime UI 动作菜单",
+        "",
+        "外部 runtime 应按路由状态选择同源动作菜单：可继续时使用 `ready_to_continue`；风险或专业边界暂停时使用 `paused_for_boundary`。",
+        "",
+        "| State | Action | Enabled | Endpoint | Reason |",
+        "| --- | --- | --- | --- | --- |",
+    ]
+    for state, actions in result["ui_action_manifests"].items():
+        for action in actions.values():
+            lines.append(
+                f"| `{state}` | `{action['action']}` | {action['enabled']} | `{action['endpoint']}` | {action['reason']} |"
+            )
+    lines.extend([
+        "",
         "## 运行时入口",
         "",
         "| Entrypoint | Tool | Contract |",
         "| --- | --- | --- |",
-    ]
+    ])
     for item in result["entrypoints"]:
         lines.append(f"| `{item['entrypoint']}` | `{item['tool']}` | {item['contract']} |")
     lines.extend(["", "## 准备度检查", "", "| Check | Passed | Summary |", "| --- | --- | --- |"])

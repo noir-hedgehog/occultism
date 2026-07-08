@@ -170,7 +170,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 - [知识库/SOP-Tool-Skill追踪矩阵.md](知识库/SOP-Tool-Skill追踪矩阵.md)：SOP、工具、Skill 和验证证据追踪矩阵
 - [知识库/试运行准备度报告.md](知识库/试运行准备度报告.md)：内部试运行准备度和外部阻塞项汇总
 - [知识库/外部证据入口包.md](知识库/外部证据入口包.md)：安装确认、真实 transcript 和专家审校的收集入口
-- [知识库/Agent运行时交接包.md](知识库/Agent运行时交接包.md)：agent runtime 接入所需入口、工具链和验证命令
+- [知识库/Agent运行时交接包.md](知识库/Agent运行时交接包.md)：agent runtime 接入所需入口、工具链、同源 UI 动作菜单和验证命令
 - [知识库/导航索引.md](知识库/导航索引.md)：给维护者和使用者看的知识库入口
 - [知识库/看板.md](知识库/看板.md)：人类可读的任务看板
 - [知识库/仪表盘.md](知识库/仪表盘.md)：成熟度、工具、Skill 状态

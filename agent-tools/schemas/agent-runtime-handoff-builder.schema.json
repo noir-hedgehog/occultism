@@ -9,6 +9,7 @@
     "handoff_status",
     "runtime_scope",
     "entrypoints",
+    "ui_action_manifests",
     "skill_count",
     "tool_count",
     "skills",
@@ -39,6 +40,15 @@
         },
         "additionalProperties": false
       }
+    },
+    "ui_action_manifests": {
+      "type": "object",
+      "required": ["ready_to_continue", "paused_for_boundary"],
+      "properties": {
+        "ready_to_continue": {"$ref": "#/$defs/ui_action_manifest"},
+        "paused_for_boundary": {"$ref": "#/$defs/ui_action_manifest"}
+      },
+      "additionalProperties": false
     },
     "skill_count": {"type": "integer"},
     "tool_count": {"type": "integer"},
@@ -103,6 +113,33 @@
     "open_external_items": {"type": "array", "items": {"type": "string"}},
     "limits": {"type": "array", "items": {"type": "string"}},
     "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "ui_action_manifest": {
+      "type": "object",
+      "required": ["execute", "preview", "handoff", "case"],
+      "properties": {
+        "execute": {"$ref": "#/$defs/ui_action"},
+        "preview": {"$ref": "#/$defs/ui_action"},
+        "handoff": {"$ref": "#/$defs/ui_action"},
+        "case": {"$ref": "#/$defs/ui_action"}
+      },
+      "additionalProperties": false
+    },
+    "ui_action": {
+      "type": "object",
+      "required": ["action", "label", "enabled", "status", "reason", "endpoint", "surface_id"],
+      "properties": {
+        "action": {"type": "string"},
+        "label": {"type": "string"},
+        "enabled": {"type": "boolean"},
+        "status": {"type": "string", "enum": ["enabled", "disabled"]},
+        "reason": {"type": "string"},
+        "endpoint": {"type": "string"},
+        "surface_id": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
   },
   "additionalProperties": false
 }

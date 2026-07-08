@@ -8451,6 +8451,14 @@ class AgentRuntimeHandoffBuilderTests(unittest.TestCase):
         self.assertEqual(result["skill_count"], 61)
         self.assertGreaterEqual(result["tool_count"], 208)
         self.assertEqual(len(result["open_external_items"]), 3)
+        self.assertTrue(result["ui_action_manifests"]["ready_to_continue"]["preview"]["enabled"])
+        self.assertTrue(result["ui_action_manifests"]["ready_to_continue"]["case"]["enabled"])
+        self.assertFalse(result["ui_action_manifests"]["paused_for_boundary"]["preview"]["enabled"])
+        self.assertFalse(result["ui_action_manifests"]["paused_for_boundary"]["case"]["enabled"])
+        self.assertEqual(
+            result["ui_action_manifests"]["paused_for_boundary"]["preview"]["reason"],
+            "风险暂停时不继续领域工具预览",
+        )
 
     def test_runtime_handoff_names_router_lint_and_safety_invariants(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -8486,6 +8494,9 @@ class AgentRuntimeHandoffBuilderTests(unittest.TestCase):
         self.assertIn("# Agent 运行时交接包", markdown)
         self.assertIn("runtime dry-run", markdown)
         self.assertIn("不证明已经完成真实安装或公开发布", markdown)
+        self.assertIn("## Runtime UI 动作菜单", markdown)
+        self.assertIn("`ready_to_continue`", markdown)
+        self.assertIn("`paused_for_boundary`", markdown)
         self.assertIn("actual_skill_install_requires_user_confirmation", markdown)
 
 

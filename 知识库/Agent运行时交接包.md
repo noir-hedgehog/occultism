@@ -11,6 +11,21 @@
 | Tool | 286 |
 | 外部开放项 | 3 |
 
+## Runtime UI 动作菜单
+
+外部 runtime 应按路由状态选择同源动作菜单：可继续时使用 `ready_to_continue`；风险或专业边界暂停时使用 `paused_for_boundary`。
+
+| State | Action | Enabled | Endpoint | Reason |
+| --- | --- | --- | --- | --- |
+| `ready_to_continue` | `execute` | True | `/api/execute-safe` | 仅运行路由、范式和 intake 等安全白名单工具 |
+| `ready_to_continue` | `preview` | True | `/api/tool-preview` | 补齐结构化输入后运行白名单领域工具 |
+| `ready_to_continue` | `handoff` | True | `/api/handoff` | 生成 Agent 综合和审校交接包 |
+| `ready_to_continue` | `case` | True | `/api/case-record` | 记录回访和审校状态作为候选案例 |
+| `paused_for_boundary` | `execute` | True | `/api/execute-safe` | 仅运行路由、范式和 intake 等安全白名单工具 |
+| `paused_for_boundary` | `preview` | False | `/api/tool-preview` | 风险暂停时不继续领域工具预览 |
+| `paused_for_boundary` | `handoff` | True | `/api/handoff` | 生成安全/专业边界交接包 |
+| `paused_for_boundary` | `case` | False | `/api/case-record` | 风险暂停时不采集为普通案例 |
+
 ## 运行时入口
 
 | Entrypoint | Tool | Contract |
