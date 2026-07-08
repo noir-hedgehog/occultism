@@ -18,15 +18,57 @@ const state = {
 
 const $ = (selector) => document.querySelector(selector);
 
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
 function docButton(doc, label = "") {
   const title = doc.title || doc.path;
-  const prefix = label ? `<strong>${label}：${title}</strong>` : `<strong>${title}</strong>`;
+  const prefix = label ? `<strong>${escapeHtml(label)}：${escapeHtml(title)}</strong>` : `<strong>${escapeHtml(title)}</strong>`;
   return `
-    <button class="doc-link" data-read-doc="${doc.path}" type="button">
+    <button class="doc-link" data-read-doc="${escapeHtml(doc.path)}" type="button">
       ${prefix}
-      <span>${doc.path}</span>
+      <span>${escapeHtml(doc.path)}</span>
     </button>
   `;
+}
+
+function commandRow(item) {
+  const encodedCommand = encodeURIComponent(item.command || "");
+  return `
+    <div class="command-row" data-status="${escapeHtml(item.execution_status || "")}" data-runs="${item.runs_now === true}">
+      <div>
+        <strong>${escapeHtml(item.tool)}</strong>
+        <code>${escapeHtml(item.command)}</code>
+      </div>
+      <button class="command-copy" type="button" data-copy-command="${encodedCommand}">复制</button>
+    </div>
+  `;
+}
+
+function bindCommandCopyButtons() {
+  document.querySelectorAll("[data-copy-command]").forEach((button) => {
+    button.addEventListener("click", async () => {
+      const command = decodeURIComponent(button.dataset.copyCommand || "");
+      try {
+        await navigator.clipboard.writeText(command);
+        button.textContent = "已复制";
+      } catch {
+        $("#jsonOutput").hidden = false;
+        $("#toggleJson").textContent = "收起";
+        state.jsonOpen = true;
+        setJson({copy_command: command});
+        button.textContent = "已显示";
+      }
+      window.setTimeout(() => {
+        button.textContent = "复制";
+      }, 1200);
+    });
+  });
 }
 
 function setJson(data) {
@@ -472,30 +514,17 @@ function renderCommands(session) {
           <section class="tool-chain-group" data-status="${status}">
             <h3>${label}<span>${items.length}</span></h3>
             ${items
-              .map(
-                (item) => `
-                  <div class="command-row" data-status="${item.execution_status}">
-                    <strong>${item.tool}</strong>
-                    <code>${item.command}</code>
-                  </div>
-                `,
-              )
+              .map((item) => commandRow(item))
               .join("")}
           </section>
         `,
       )
       .join("")}
     ${fallback
-      .map(
-        (item) => `
-          <div class="command-row" data-runs="${item.runs_now}">
-            <strong>${item.tool}</strong>
-            <code>${item.command}</code>
-          </div>
-        `,
-      )
+      .map((item) => commandRow(item))
       .join("")}
   `;
+  bindCommandCopyButtons();
 }
 
 function renderExecution() {
