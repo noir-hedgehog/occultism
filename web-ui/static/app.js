@@ -50,24 +50,32 @@ function commandRow(item) {
   `;
 }
 
+async function copyTextWithFallback(text, button, fallbackKey = "copy_command") {
+  try {
+    await navigator.clipboard.writeText(text);
+    button.textContent = "已复制";
+  } catch {
+    $("#jsonOutput").hidden = false;
+    $("#toggleJson").textContent = "收起";
+    state.jsonOpen = true;
+    setJson({[fallbackKey]: text});
+    button.textContent = "已显示";
+  }
+  window.setTimeout(() => {
+    button.textContent = button.dataset.defaultLabel || "复制";
+  }, 1200);
+}
+
 function bindCommandCopyButtons() {
   document.querySelectorAll("[data-copy-command]").forEach((button) => {
-    button.addEventListener("click", async () => {
-      const command = decodeURIComponent(button.dataset.copyCommand || "");
-      try {
-        await navigator.clipboard.writeText(command);
-        button.textContent = "已复制";
-      } catch {
-        $("#jsonOutput").hidden = false;
-        $("#toggleJson").textContent = "收起";
-        state.jsonOpen = true;
-        setJson({copy_command: command});
-        button.textContent = "已显示";
-      }
-      window.setTimeout(() => {
-        button.textContent = "复制";
-      }, 1200);
-    });
+    button.dataset.defaultLabel = button.textContent;
+    button.addEventListener("click", () => copyTextWithFallback(decodeURIComponent(button.dataset.copyCommand || ""), button));
+  });
+  document.querySelectorAll("[data-copy-group]").forEach((button) => {
+    button.dataset.defaultLabel = button.textContent;
+    button.addEventListener("click", () =>
+      copyTextWithFallback(decodeURIComponent(button.dataset.copyGroup || ""), button, "copy_command_group"),
+    );
   });
 }
 
@@ -512,7 +520,16 @@ function renderCommands(session) {
       .map(
         ([status, label, items]) => `
           <section class="tool-chain-group" data-status="${status}">
-            <h3>${label}<span>${items.length}</span></h3>
+            <h3>
+              <span>${label}<small>${items.length}</small></span>
+              ${
+                status === "runnable_now"
+                  ? `<button class="command-copy group-copy" type="button" data-copy-group="${encodeURIComponent(
+                      items.map((item) => item.command).join("\n"),
+                    )}">复制本组</button>`
+                  : ""
+              }
+            </h3>
             ${items
               .map((item) => commandRow(item))
               .join("")}

@@ -50,6 +50,13 @@ def smoke_cases() -> list[dict[str, Any]]:
             "path": "/static/app.js",
             "expected_text": "data-copy-command",
         },
+        {
+            "case_id": "command_group_copy_js",
+            "surface_id": "consultation_packet",
+            "method": "GET",
+            "path": "/static/app.js",
+            "expected_text": "data-copy-group",
+        },
         {"case_id": "docs_index", "surface_id": "knowledge_docs_site", "method": "GET", "path": "/api/docs", "expected": {"tool": "web_ui_doc_index"}},
         {
             "case_id": "docs_search",

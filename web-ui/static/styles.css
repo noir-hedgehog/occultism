@@ -585,14 +585,25 @@ button:disabled {
 .tool-chain-group h3 {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 10px;
   margin: 0;
   font-size: 14px;
 }
 
 .tool-chain-group h3 span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tool-chain-group h3 small {
   color: var(--muted);
   font-size: 12px;
+}
+
+.group-copy {
+  white-space: nowrap;
 }
 
 .tool-chain-group[data-status="runnable_now"] {
