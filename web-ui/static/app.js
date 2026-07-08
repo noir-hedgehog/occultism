@@ -270,6 +270,7 @@ function renderParadigm(session) {
   const p = session.paradigm;
   $("#paradigmBadge").textContent = p.recommended_paradigm.id;
   const evidence = p.evidence_track;
+  const boundary = p.execution_boundary;
   $("#paradigmPanel").innerHTML = `
     <article class="trunk">
       <h3>${p.recommended_paradigm.title}</h3>
@@ -287,6 +288,20 @@ function renderParadigm(session) {
         <span class="chip">溯源 ${evidence.provenance_audit ? "是" : "否"}</span>
         <span class="chip">神秘边界 ${evidence.mystical_boundary_priority ? "优先" : "常规"}</span>
       </div>
+    </article>
+    <article class="trunk paradigm-boundary">
+      <h3>执行分工</h3>
+      <div class="boundary-grid">
+        <section>
+          <strong>程序化</strong>
+          <ul>${boundary.automated_parts.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </section>
+        <section>
+          <strong>Agent</strong>
+          <ul>${boundary.agent_required_parts.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+        </section>
+      </div>
+      <p class="review-note">${boundary.human_review_recommended ? "建议人工审校" : "常规记录即可"}</p>
     </article>
   `;
 }

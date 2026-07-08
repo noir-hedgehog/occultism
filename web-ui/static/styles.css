@@ -534,6 +534,46 @@ button:disabled {
   border-color: color-mix(in srgb, var(--blue) 36%, var(--line));
 }
 
+.paradigm-boundary {
+  display: grid;
+  gap: 10px;
+}
+
+.boundary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.boundary-grid section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px;
+  background: #fbf8f1;
+}
+
+.boundary-grid strong,
+.review-note {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.boundary-grid ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.boundary-grid li + li {
+  margin-top: 4px;
+}
+
+.review-note {
+  margin: 0;
+}
+
 .doc-link {
   display: block;
   width: 100%;
@@ -808,6 +848,7 @@ pre {
   .status-strip,
   .overview-grid,
   .overview-columns,
+  .boundary-grid,
   .example-grid,
   .doc-browser,
   .doc-tools,

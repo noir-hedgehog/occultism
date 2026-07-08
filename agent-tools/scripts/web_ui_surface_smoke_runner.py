@@ -64,6 +64,13 @@ def smoke_cases() -> list[dict[str, Any]]:
             "path": "/static/app.js",
             "expected_text": "data-workbench-action",
         },
+        {
+            "case_id": "paradigm_boundary_js",
+            "surface_id": "paradigm_selection",
+            "method": "GET",
+            "path": "/static/app.js",
+            "expected_text": "paradigm-boundary",
+        },
         {"case_id": "docs_index", "surface_id": "knowledge_docs_site", "method": "GET", "path": "/api/docs", "expected": {"tool": "web_ui_doc_index"}},
         {
             "case_id": "docs_search",
