@@ -1357,12 +1357,13 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
                 "interaction_surface_matrix",
                 "session",
                 "tool_chain_grouping_js",
+                "workbench_actions_js",
             ]
         )
         self.assertEqual(result["tool"], "web_ui_surface_smoke_runner")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["case_count"], 9)
-        self.assertEqual(result["passed_count"], 9)
+        self.assertEqual(result["case_count"], 10)
+        self.assertEqual(result["passed_count"], 10)
         self.assertEqual(result["failed_count"], 0)
 
     def test_rejects_unknown_case_id(self):
@@ -8535,7 +8536,7 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         result = release_gate_runner.run(gates=["web_ui_surface_smoke_runner"])
         self.assertTrue(result["is_valid"])
         self.assertEqual(result["gates"][0]["summary"]["tool"], "web_ui_surface_smoke_runner")
-        self.assertEqual(result["gates"][0]["summary"]["case_count"], 22)
+        self.assertEqual(result["gates"][0]["summary"]["case_count"], 23)
         self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
         self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 13)
         self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 13)

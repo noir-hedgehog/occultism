@@ -233,6 +233,12 @@ function renderWorkbenchOverview(session) {
       <section>
         <h3>下一步</h3>
         <ol>${nextActions}</ol>
+        <div class="overview-actions">
+          <button type="button" data-workbench-action="execute">安全执行</button>
+          <button type="button" data-workbench-action="preview">结构化预览</button>
+          <button type="button" data-workbench-action="handoff">Agent 交接</button>
+          <button type="button" data-workbench-action="case">案例候选</button>
+        </div>
       </section>
       <section>
         <h3>必读文档</h3>
@@ -240,6 +246,19 @@ function renderWorkbenchOverview(session) {
       </section>
     </div>
   `;
+  bindWorkbenchActionButtons();
+}
+
+function bindWorkbenchActionButtons() {
+  document.querySelectorAll("[data-workbench-action]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const action = button.dataset.workbenchAction;
+      if (action === "execute") runExecution();
+      if (action === "preview") runPreview();
+      if (action === "handoff") runHandoff();
+      if (action === "case") runCaseRecord();
+    });
+  });
 }
 
 function renderParadigm(session) {
