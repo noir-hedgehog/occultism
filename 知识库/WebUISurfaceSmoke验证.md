@@ -6,7 +6,7 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Case | 18/18 |
+| Case | 19/19 |
 | Matrix surface | 13/13 |
 | Failed | 0 |
 
@@ -16,6 +16,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | `health` | `health` | `GET` | `/api/health` | True | ok=True | - |
 | `home` | `home` | `GET` | `/` | True | text_length=12875 | - |
+| `context_doc_links_js` | `knowledge_docs_site` | `GET` | `/static/app.js` | True | text_length=28276 | - |
 | `docs_index` | `knowledge_docs_site` | `GET` | `/api/docs` | True | tool=web_ui_doc_index, query= | - |
 | `docs_search` | `knowledge_docs_site` | `GET` | `/api/docs?q=%E9%A3%8E%E6%B0%B4` | True | tool=web_ui_doc_index, query=风水 | - |
 | `docs_read` | `knowledge_docs_site` | `GET` | `/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93%2F%E4%BA%A4%E4%BA%92%E5%8F%AF%E7%94%A8%E5%8C%96%E7%9F%A9%E9%98%B5.md` | True | tool=web_ui_doc_reader | - |

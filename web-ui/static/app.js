@@ -18,6 +18,17 @@ const state = {
 
 const $ = (selector) => document.querySelector(selector);
 
+function docButton(doc, label = "") {
+  const title = doc.title || doc.path;
+  const prefix = label ? `<strong>${label}：${title}</strong>` : `<strong>${title}</strong>`;
+  return `
+    <button class="doc-link" data-read-doc="${doc.path}" type="button">
+      ${prefix}
+      <span>${doc.path}</span>
+    </button>
+  `;
+}
+
 function setJson(data) {
   $("#jsonOutput").textContent = JSON.stringify(data, null, 2);
 }
@@ -151,7 +162,7 @@ function renderWorkbenchOverview(session) {
   const overview = session.workbench_overview;
   const counts = overview.counts;
   const docs = overview.required_docs
-    .map((doc) => `<li><strong>${doc.role}</strong><span>${doc.title || doc.path}</span></li>`)
+    .map((doc) => `<li>${docButton(doc, doc.role)}</li>`)
     .join("");
   const nextActions = overview.next_actions.map((item) => `<li>${item}</li>`).join("");
   $("#workbenchOverview").innerHTML = `
@@ -404,10 +415,7 @@ function renderContext(session) {
   $("#contextDocs").innerHTML = docs
     .map(
       ([kind, doc]) => `
-        <div class="doc-row">
-          <strong>${kind}：${doc.title || doc.path}</strong>
-          <span>${doc.path}</span>
-        </div>
+        <div class="doc-row">${docButton(doc, kind)}</div>
       `,
     )
     .join("");

@@ -519,7 +519,29 @@ button:disabled {
   border-color: color-mix(in srgb, var(--blue) 36%, var(--line));
 }
 
-.doc-row span,
+.doc-link {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  border: 0;
+  border-radius: 6px;
+  padding: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+}
+
+.doc-link:hover strong {
+  color: var(--accent);
+}
+
+.doc-link strong,
+.doc-link span {
+  display: block;
+}
+
+.doc-link span,
 .command-row code {
   display: block;
   overflow-wrap: anywhere;

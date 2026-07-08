@@ -29,6 +29,13 @@ def smoke_cases() -> list[dict[str, Any]]:
     return [
         {"case_id": "health", "surface_id": "health", "method": "GET", "path": "/api/health", "expected": {"ok": True}},
         {"case_id": "home", "surface_id": "home", "method": "GET", "path": "/", "content_type": "text/html", "expected_text": "玄学大典"},
+        {
+            "case_id": "context_doc_links_js",
+            "surface_id": "knowledge_docs_site",
+            "method": "GET",
+            "path": "/static/app.js",
+            "expected_text": "doc-link",
+        },
         {"case_id": "docs_index", "surface_id": "knowledge_docs_site", "method": "GET", "path": "/api/docs", "expected": {"tool": "web_ui_doc_index"}},
         {
             "case_id": "docs_search",
