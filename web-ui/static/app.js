@@ -453,17 +453,49 @@ function renderCommands(session) {
     $("#toolBadge").textContent = "";
     return;
   }
-  $("#toolBadge").textContent = `${session.initial_tool_commands.length} 个工具`;
-  $("#toolCommands").innerHTML = session.initial_tool_commands
-    .map(
-      (item) => `
-        <div class="command-row" data-runs="${item.runs_now}">
-          <strong>${item.tool}</strong>
-          <code>${item.command}</code>
-        </div>
-      `,
-    )
-    .join("");
+  const chain = session.packet?.tool_chain || session.initial_tool_commands || [];
+  const groups = [
+    ["runnable_now", "可直接运行"],
+    ["requires_structured_input", "需结构化输入"],
+    ["requires_draft_output", "需草稿/Agent"],
+  ];
+  const grouped = groups
+    .map(([status, label]) => [status, label, chain.filter((item) => item.execution_status === status)])
+    .filter(([, , items]) => items.length);
+  const fallback = chain.filter((item) => !item.execution_status);
+  const count = chain.length;
+  $("#toolBadge").textContent = `${count} 个工具`;
+  $("#toolCommands").innerHTML = `
+    ${grouped
+      .map(
+        ([status, label, items]) => `
+          <section class="tool-chain-group" data-status="${status}">
+            <h3>${label}<span>${items.length}</span></h3>
+            ${items
+              .map(
+                (item) => `
+                  <div class="command-row" data-status="${item.execution_status}">
+                    <strong>${item.tool}</strong>
+                    <code>${item.command}</code>
+                  </div>
+                `,
+              )
+              .join("")}
+          </section>
+        `,
+      )
+      .join("")}
+    ${fallback
+      .map(
+        (item) => `
+          <div class="command-row" data-runs="${item.runs_now}">
+            <strong>${item.tool}</strong>
+            <code>${item.command}</code>
+          </div>
+        `,
+      )
+      .join("")}
+  `;
 }
 
 function renderExecution() {

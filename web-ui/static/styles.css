@@ -456,7 +456,8 @@ button:disabled {
 .packet-card,
 .evidence-stream,
 .doc-row,
-.command-row {
+.command-row,
+.tool-chain-group {
   border: 1px solid var(--line);
   border-radius: 8px;
   padding: 10px;
@@ -559,6 +560,37 @@ button:disabled {
 
 .command-row[data-runs="true"] {
   border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+}
+
+.tool-chain-group {
+  display: grid;
+  gap: 8px;
+  background: #fbf8f1;
+}
+
+.tool-chain-group h3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.tool-chain-group h3 span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.tool-chain-group[data-status="runnable_now"] {
+  border-color: color-mix(in srgb, var(--ok) 34%, var(--line));
+}
+
+.tool-chain-group[data-status="requires_structured_input"] {
+  border-color: color-mix(in srgb, var(--blue) 30%, var(--line));
+}
+
+.tool-chain-group[data-status="requires_draft_output"] {
+  border-color: color-mix(in srgb, var(--warn) 30%, var(--line));
 }
 
 .panel-wide {
