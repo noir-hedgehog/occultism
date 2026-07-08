@@ -310,6 +310,48 @@ function renderWorkflow(session) {
     .join("");
 }
 
+function workbenchActionState(session, action) {
+  const canContinue = session?.can_continue_mystic_workflow === true;
+  const states = {
+    execute: {
+      label: "安全执行",
+      disabled: false,
+      reason: "仅运行路由、范式和 intake 等安全白名单工具",
+    },
+    preview: {
+      label: "结构化预览",
+      disabled: !canContinue,
+      reason: canContinue ? "补齐结构化输入后运行白名单领域工具" : "风险暂停时不继续领域工具预览",
+    },
+    handoff: {
+      label: "Agent 交接",
+      disabled: false,
+      reason: canContinue ? "生成 Agent 综合和审校交接包" : "生成安全/专业边界交接包",
+    },
+    case: {
+      label: "案例候选",
+      disabled: !canContinue,
+      reason: canContinue ? "记录回访和审校状态作为候选案例" : "风险暂停时不采集为普通案例",
+    },
+  };
+  return states[action];
+}
+
+function workbenchActionButton(session, action) {
+  const state = workbenchActionState(session, action);
+  return `
+    <button
+      type="button"
+      data-workbench-action="${action}"
+      data-disabled-reason="${escapeHtml(state.reason)}"
+      ${state.disabled ? "disabled" : ""}
+      title="${escapeHtml(state.reason)}"
+    >
+      ${state.label}
+    </button>
+  `;
+}
+
 function renderWorkbenchOverview(session) {
   if (!session || !session.workbench_overview) {
     $("#workbenchOverview").innerHTML = `
@@ -345,11 +387,9 @@ function renderWorkbenchOverview(session) {
         <h3>下一步</h3>
         <ol>${nextActions}</ol>
         <div class="overview-actions">
-          <button type="button" data-workbench-action="execute">安全执行</button>
-          <button type="button" data-workbench-action="preview">结构化预览</button>
-          <button type="button" data-workbench-action="handoff">Agent 交接</button>
-          <button type="button" data-workbench-action="case">案例候选</button>
+          ${["execute", "preview", "handoff", "case"].map((action) => workbenchActionButton(session, action)).join("")}
         </div>
+        <p class="overview-action-note">${session.can_continue_mystic_workflow ? "当前请求可继续领域流程。" : "当前请求已暂停领域流程，只保留安全执行和边界交接。"}</p>
       </section>
       <section>
         <h3>必读文档</h3>
@@ -363,6 +403,7 @@ function renderWorkbenchOverview(session) {
 function bindWorkbenchActionButtons() {
   document.querySelectorAll("[data-workbench-action]").forEach((button) => {
     button.addEventListener("click", () => {
+      if (button.disabled) return;
       const action = button.dataset.workbenchAction;
       if (action === "execute") runExecution();
       if (action === "preview") runPreview();

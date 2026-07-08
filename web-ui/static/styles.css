@@ -430,6 +430,19 @@ button:disabled {
   font-size: 12px;
 }
 
+.overview-actions button:disabled {
+  cursor: not-allowed;
+  background: var(--line);
+  color: var(--muted);
+  opacity: 1;
+}
+
+.overview-action-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
