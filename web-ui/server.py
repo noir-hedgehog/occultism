@@ -7,6 +7,7 @@ import argparse
 import json
 import mimetypes
 import sys
+import tempfile
 from http import HTTPStatus
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -22,6 +23,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 import agent_workflow_router  # noqa: E402
 import agent_runtime_dry_run_runner  # noqa: E402
+import agent_runtime_handoff_builder  # noqa: E402
 import case_validation_backlog_builder  # noqa: E402
 import case_validation_template_builder  # noqa: E402
 import consultation_case_recorder  # noqa: E402
@@ -490,6 +492,11 @@ def build_tool_preview(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def build_runtime_handoff() -> dict[str, Any]:
+    with tempfile.TemporaryDirectory(prefix="mystic-ui-runtime-") as codex_home:
+        return agent_runtime_handoff_builder.build(root=ROOT, codex_home=codex_home)
+
+
 def build_workbench_overview(
     route: dict[str, Any],
     paradigm: dict[str, Any],
@@ -604,6 +611,8 @@ class MysticUIHandler(BaseHTTPRequestHandler):
                 )
             elif path == "/api/interaction-surface-matrix":
                 self.send_json(interaction_surface_matrix_builder.build(ROOT))
+            elif path == "/api/runtime-handoff":
+                self.send_json(build_runtime_handoff())
             elif path == "/api/docs":
                 query = parse_qs(parsed.query)
                 if query.get("path"):

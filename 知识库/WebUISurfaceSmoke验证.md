@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Case | 29/29 |
-| Matrix surface | 13/13 |
+| Case | 31/31 |
+| Matrix surface | 14/14 |
 | Failed | 0 |
 
 ## Cases
@@ -15,16 +15,17 @@
 | Case | Surface | Method | Path | Passed | Summary | Errors |
 | --- | --- | --- | --- | --- | --- | --- |
 | `health` | `health` | `GET` | `/api/health` | True | ok=True | - |
-| `home` | `home` | `GET` | `/` | True | text_length=13053 | - |
-| `context_doc_links_js` | `knowledge_docs_site` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `tool_chain_grouping_js` | `consultation_packet` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `command_copy_js` | `consultation_packet` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `command_group_copy_js` | `consultation_packet` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `workbench_actions_js` | `request_router` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `workbench_action_guards_js` | `request_router` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `panel_action_guards_js` | `structured_tool_preview` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `paradigm_boundary_js` | `paradigm_selection` | `GET` | `/static/app.js` | True | text_length=37784 | - |
-| `doc_markdown_rendering_js` | `knowledge_docs_site` | `GET` | `/static/app.js` | True | text_length=37784 | - |
+| `home` | `home` | `GET` | `/` | True | text_length=13410 | - |
+| `context_doc_links_js` | `knowledge_docs_site` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `tool_chain_grouping_js` | `consultation_packet` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `command_copy_js` | `consultation_packet` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `command_group_copy_js` | `consultation_packet` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `workbench_actions_js` | `request_router` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `workbench_action_guards_js` | `request_router` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `panel_action_guards_js` | `structured_tool_preview` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `paradigm_boundary_js` | `paradigm_selection` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `doc_markdown_rendering_js` | `knowledge_docs_site` | `GET` | `/static/app.js` | True | text_length=40183 | - |
+| `runtime_handoff_js` | `runtime_handoff` | `GET` | `/static/app.js` | True | text_length=40183 | - |
 | `docs_index` | `knowledge_docs_site` | `GET` | `/api/docs` | True | tool=web_ui_doc_index, query= | - |
 | `docs_search` | `knowledge_docs_site` | `GET` | `/api/docs?q=%E9%A3%8E%E6%B0%B4` | True | tool=web_ui_doc_index, query=风水 | - |
 | `docs_read` | `knowledge_docs_site` | `GET` | `/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93%2F%E4%BA%A4%E4%BA%92%E5%8F%AF%E7%94%A8%E5%8C%96%E7%9F%A9%E9%98%B5.md` | True | tool=web_ui_doc_reader | - |
@@ -33,16 +34,17 @@
 | `evidence_matrix` | `evidence_matrix` | `GET` | `/api/evidence-matrix` | True | tool=domain_evidence_matrix_builder, is_valid=True, domain_count=61, trunk_count=6 | - |
 | `validation_backlog` | `validation_backlog` | `GET` | `/api/validation-backlog` | True | tool=case_validation_backlog_builder, is_valid=True, backlog_count=61 | - |
 | `validation_template` | `validation_template` | `GET` | `/api/validation-template?domain=fengshui` | True | tool=case_validation_template_builder, is_valid=True, template_count=1 | - |
-| `interaction_surface_matrix` | `interaction_surface_matrix` | `GET` | `/api/interaction-surface-matrix` | True | tool=interaction_surface_matrix_builder, is_valid=True, surface_count=13 | - |
+| `interaction_surface_matrix` | `interaction_surface_matrix` | `GET` | `/api/interaction-surface-matrix` | True | tool=interaction_surface_matrix_builder, is_valid=True, surface_count=14 | - |
+| `runtime_handoff` | `runtime_handoff` | `GET` | `/api/runtime-handoff` | True | tool=agent_runtime_handoff_builder, is_valid=True, handoff_status=ready_for_runtime_dry_run | - |
 | `session` | `request_router` | `POST` | `/api/session` | True | tool=web_ui_session, is_valid=True, route_status=ready_to_run_skill, domain=tarot, workbench_mode=guided_consultation_workbench | - |
 | `session_action_manifest_paused` | `request_router` | `POST` | `/api/session` | True | tool=web_ui_session, is_valid=True, route_status=paused_for_professional_boundary, domain=tarot, workbench_mode=guided_consultation_workbench | - |
 | `paradigm` | `paradigm_selection` | `POST` | `/api/paradigm` | True | tool=paradigm_selector, is_valid=True, route_status=ready_to_run_skill, domain=tarot | - |
 | `packet` | `consultation_packet` | `POST` | `/api/packet` | True | tool=consultation_packet_builder, is_valid=True | - |
 | `execute_safe` | `safe_execution_subset` | `POST` | `/api/execute-safe` | True | tool=consultation_execution_runner, is_valid=True, route_status=ready_to_run_skill, domain=tarot | - |
 | `tool_preview_fengshui` | `structured_tool_preview` | `POST` | `/api/tool-preview` | True | tool=web_ui_tool_preview, is_valid=True, mode=fengshui | - |
-| `handoff` | `agent_handoff` | `POST` | `/api/handoff` | True | tool=consultation_handoff_builder, is_valid=True | - |
-| `handoff_action_manifest_paused` | `agent_handoff` | `POST` | `/api/handoff` | True | tool=consultation_handoff_builder, is_valid=True | - |
-| `case_record` | `case_recording` | `POST` | `/api/case-record` | True | tool=consultation_case_recorder, is_valid=True, domain=tarot | - |
+| `handoff` | `agent_handoff` | `POST` | `/api/handoff` | True | tool=consultation_handoff_builder, is_valid=True, handoff_status=needs_structured_tool_results | - |
+| `handoff_action_manifest_paused` | `agent_handoff` | `POST` | `/api/handoff` | True | tool=consultation_handoff_builder, is_valid=True, handoff_status=pause_required | - |
+| `case_record` | `case_recording` | `POST` | `/api/case-record` | True | tool=consultation_case_recorder, is_valid=True, handoff_status=needs_structured_tool_results, domain=tarot | - |
 
 ## 限制
 

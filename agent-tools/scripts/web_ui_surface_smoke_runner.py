@@ -92,6 +92,13 @@ def smoke_cases() -> list[dict[str, Any]]:
             "path": "/static/app.js",
             "expected_text": "markdownToHtml",
         },
+        {
+            "case_id": "runtime_handoff_js",
+            "surface_id": "runtime_handoff",
+            "method": "GET",
+            "path": "/static/app.js",
+            "expected_text": "renderRuntimeHandoff",
+        },
         {"case_id": "docs_index", "surface_id": "knowledge_docs_site", "method": "GET", "path": "/api/docs", "expected": {"tool": "web_ui_doc_index"}},
         {
             "case_id": "docs_search",
@@ -147,7 +154,21 @@ def smoke_cases() -> list[dict[str, Any]]:
             "surface_id": "interaction_surface_matrix",
             "method": "GET",
             "path": "/api/interaction-surface-matrix",
-            "expected": {"tool": "interaction_surface_matrix_builder", "surface_count": 13},
+            "expected": {"tool": "interaction_surface_matrix_builder", "surface_count": 14},
+        },
+        {
+            "case_id": "runtime_handoff",
+            "surface_id": "runtime_handoff",
+            "method": "GET",
+            "path": "/api/runtime-handoff",
+            "expected": {
+                "tool": "agent_runtime_handoff_builder",
+                "handoff_status": "ready_for_runtime_dry_run",
+                "ui_action_manifests": {
+                    "ready_to_continue": {"preview": {"enabled": True}},
+                    "paused_for_boundary": {"preview": {"enabled": False}},
+                },
+            },
         },
         {
             "case_id": "session",
@@ -366,6 +387,7 @@ def run_case(base_url: str, case: dict[str, Any], timeout_seconds: float) -> dic
                     "ok",
                     "project",
                     "query",
+                    "handoff_status",
                     "route_status",
                     "domain",
                     "template_count",

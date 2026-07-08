@@ -13,6 +13,7 @@
 - `/api/session` 返回 UI action manifest，供 Web UI 和外部 agent/runtime 共用动作边界
 - `/api/handoff` 携带同一动作边界，供 Agent 接管后继续判断下一步
 - session 与 handoff 的动作边界复用同一共享 manifest helper，避免守门规则漂移
+- `/api/runtime-handoff` 汇总 runtime 入口、准备度和同源 UI 动作菜单，供外部 runtime 接入前检查
 - 从工作台和上下文面板直接打开必读文档
 - 生成给人和 Agent 共读的咨询工作单
 - 按可直接运行、需结构化输入和需 Agent 草稿分组展示工具链
@@ -55,6 +56,7 @@ curl http://127.0.0.1:8765/api/evidence-matrix
 curl http://127.0.0.1:8765/api/validation-backlog
 curl "http://127.0.0.1:8765/api/validation-template?domain=fengshui"
 curl http://127.0.0.1:8765/api/interaction-surface-matrix
+curl http://127.0.0.1:8765/api/runtime-handoff
 curl http://127.0.0.1:8765/api/docs
 curl "http://127.0.0.1:8765/api/docs?q=%E9%A3%8E%E6%B0%B4"
 curl "http://127.0.0.1:8765/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93/07-%E9%97%AE%E9%A2%98%E5%88%B0%E8%8C%83%E5%BC%8F%E6%98%A0%E5%B0%84.md"
@@ -88,5 +90,5 @@ python3 agent-tools/scripts/web_ui_surface_smoke_runner.py --format markdown
 ## 边界
 
 - UI 只在本地运行，不提供鉴权、多用户会话或远程托管安全模型。
-- API 不执行任意 shell 命令；`/api/examples`、`/api/evidence-matrix`、`/api/validation-backlog`、`/api/validation-template` 和 `/api/interaction-surface-matrix` 只读取、路由或分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
+- API 不执行任意 shell 命令；`/api/examples`、`/api/evidence-matrix`、`/api/validation-backlog`、`/api/validation-template`、`/api/interaction-surface-matrix` 和 `/api/runtime-handoff` 只读取、路由或分类本地知识库覆盖信息，`/api/execute-safe` 只运行安全白名单函数，`/api/tool-preview` 只运行塔罗和风水白名单函数，`/api/handoff` 只组合工作单、预览结果和 lint，`/api/case-record` 只生成候选案例记录。
 - 当路由结果为 orange/red 风险时，UI 会暂停玄学流程并显示安全边界。

@@ -1323,10 +1323,10 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         result = interaction_surface_matrix_builder.build()
         self.assertEqual(result["tool"], "interaction_surface_matrix_builder")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["surface_count"], 13)
-        self.assertEqual(result["api_endpoint_count"], 13)
+        self.assertEqual(result["surface_count"], 14)
+        self.assertEqual(result["api_endpoint_count"], 14)
         self.assertEqual(result["automation_counts"]["human_readable"], 2)
-        self.assertEqual(result["automation_counts"]["programmable_now"], 6)
+        self.assertEqual(result["automation_counts"]["programmable_now"], 7)
 
     def test_surfaces_link_api_scripts_and_evidence(self):
         result = interaction_surface_matrix_builder.build()
@@ -1339,6 +1339,9 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         self.assertEqual(by_id["agent_handoff"]["automation_level"], "agent_handoff_required")
         self.assertEqual(by_id["example_presets"]["api_endpoint"], "/api/examples")
         self.assertEqual(by_id["example_presets"]["automation_level"], "human_readable")
+        self.assertEqual(by_id["runtime_handoff"]["api_endpoint"], "/api/runtime-handoff")
+        self.assertTrue(by_id["runtime_handoff"]["endpoint_registered"])
+        self.assertTrue(by_id["runtime_handoff"]["primary_script_exists"])
 
     def test_matrix_distinguishes_human_review_and_real_material(self):
         result = interaction_surface_matrix_builder.build()
@@ -1355,6 +1358,7 @@ class InteractionSurfaceMatrixBuilderTests(unittest.TestCase):
         self.assertIn("## Surface Matrix", markdown)
         self.assertIn("/api/execute-safe", markdown)
         self.assertIn("Agent 交接", markdown)
+        self.assertIn("Runtime 交接", markdown)
 
 
 class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
@@ -1372,6 +1376,8 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
                 "interaction_surface_matrix",
                 "panel_action_guards_js",
                 "paradigm_boundary_js",
+                "runtime_handoff",
+                "runtime_handoff_js",
                 "session",
                 "session_action_manifest_paused",
                 "tool_chain_grouping_js",
@@ -1381,8 +1387,8 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "web_ui_surface_smoke_runner")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["case_count"], 16)
-        self.assertEqual(result["passed_count"], 16)
+        self.assertEqual(result["case_count"], 18)
+        self.assertEqual(result["passed_count"], 18)
         self.assertEqual(result["failed_count"], 0)
 
     def test_rejects_unknown_case_id(self):
@@ -1409,6 +1415,7 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
         matrix_surfaces = {surface["surface_id"] for surface in matrix["surfaces"]}
         self.assertTrue(matrix_surfaces.issubset(covered))
         self.assertIn("case_recording", covered)
+        self.assertIn("runtime_handoff", covered)
 
     def test_generated_markdown_lists_case_results(self):
         result = web_ui_surface_smoke_runner.build(case_ids=["health", "interaction_surface_matrix"])
@@ -8566,10 +8573,10 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         result = release_gate_runner.run(gates=["web_ui_surface_smoke_runner"])
         self.assertTrue(result["is_valid"])
         self.assertEqual(result["gates"][0]["summary"]["tool"], "web_ui_surface_smoke_runner")
-        self.assertEqual(result["gates"][0]["summary"]["case_count"], 29)
+        self.assertEqual(result["gates"][0]["summary"]["case_count"], 31)
         self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
-        self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 13)
-        self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 13)
+        self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 14)
+        self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 14)
 
     def test_unknown_release_gate_raises(self):
         with self.assertRaises(ValueError):

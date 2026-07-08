@@ -729,6 +729,44 @@ button:disabled {
   gap: 10px;
 }
 
+.runtime-panel {
+  display: grid;
+  gap: 10px;
+}
+
+.runtime-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 10px;
+}
+
+.runtime-action {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  background: var(--panel-soft);
+}
+
+.runtime-action[data-enabled="false"] {
+  opacity: 0.7;
+}
+
+.runtime-action strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.runtime-action p {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.runtime-action span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .template-tools {
   grid-template-columns: minmax(220px, 320px) minmax(260px, 1fr) minmax(260px, 1fr);
   align-items: start;

@@ -4,6 +4,7 @@ const state = {
   backlog: null,
   validationTemplate: null,
   interactionMatrix: null,
+  runtimeHandoff: null,
   examples: null,
   session: null,
   docs: null,
@@ -666,6 +667,68 @@ function renderInteractionMatrix() {
   `;
 }
 
+function renderRuntimeHandoff() {
+  if (!state.runtimeHandoff) {
+    $("#runtimeBadge").textContent = "待加载";
+    $("#runtimePanel").innerHTML = "";
+    $("#runtimeOutput").textContent = "{}";
+    return;
+  }
+  const runtime = state.runtimeHandoff;
+  $("#runtimeBadge").textContent = runtime.handoff_status;
+  const actionRows = Object.entries(runtime.ui_action_manifests || {})
+    .flatMap(([status, actions]) =>
+      Object.values(actions).map(
+        (action) => `
+          <article class="runtime-action" data-enabled="${action.enabled}">
+            <strong>${status} · ${action.label}</strong>
+            <p>${action.reason}</p>
+            <span>${action.enabled ? "enabled" : "disabled"} · ${action.endpoint} · ${action.surface_id}</span>
+          </article>
+        `,
+      ),
+    )
+    .join("");
+  const checks = (runtime.readiness_checks || [])
+    .slice(0, 6)
+    .map(
+      (check) => `
+        <span class="chip" title="${escapeHtml(check.summary)}">${check.check} ${check.passed ? "OK" : "FAIL"}</span>
+      `,
+    )
+    .join("");
+  const openItems = (runtime.open_external_items || []).map((item) => `<span class="chip">${item}</span>`).join("");
+  $("#runtimePanel").innerHTML = `
+    <article class="packet-card">
+      <h3>运行时状态</h3>
+      <div class="chips">
+        <span class="chip">${runtime.skill_count} Skills</span>
+        <span class="chip">${runtime.tool_count} Tools</span>
+        <span class="chip">${runtime.handoff_status}</span>
+      </div>
+    </article>
+    <article class="packet-card">
+      <h3>准备度</h3>
+      <div class="chips">${checks}</div>
+    </article>
+    <article class="packet-card">
+      <h3>外部开放项</h3>
+      <div class="chips">${openItems}</div>
+    </article>
+    <div class="runtime-actions">${actionRows}</div>
+  `;
+  $("#runtimeOutput").textContent = JSON.stringify(
+    {
+      handoff_status: runtime.handoff_status,
+      ui_action_manifests: runtime.ui_action_manifests,
+      integration_contract: runtime.integration_contract,
+      limits: runtime.limits,
+    },
+    null,
+    2,
+  );
+}
+
 function renderContext(session) {
   if (!session) {
     $("#contextDocs").innerHTML = "";
@@ -831,6 +894,7 @@ function renderAll() {
   renderBacklog();
   renderValidationTemplate();
   renderInteractionMatrix();
+  renderRuntimeHandoff();
   renderContext(state.session);
   renderCommands(state.session);
   renderDocIndex();
@@ -883,6 +947,13 @@ async function loadInteractionMatrix() {
   const response = await fetch("/api/interaction-surface-matrix");
   if (!response.ok) throw new Error(`interaction surface matrix failed: ${response.status}`);
   state.interactionMatrix = await response.json();
+  renderAll();
+}
+
+async function loadRuntimeHandoff() {
+  const response = await fetch("/api/runtime-handoff");
+  if (!response.ok) throw new Error(`runtime handoff failed: ${response.status}`);
+  state.runtimeHandoff = await response.json();
   renderAll();
 }
 
@@ -1136,7 +1207,16 @@ $("#toggleJson").addEventListener("click", () => {
   $("#toggleJson").textContent = state.jsonOpen ? "收起" : "展开";
 });
 
-Promise.all([loadSummary(), loadDocs(), loadExamples(), loadEvidence(), loadBacklog(), loadValidationTemplate(), loadInteractionMatrix()])
+Promise.all([
+  loadSummary(),
+  loadDocs(),
+  loadExamples(),
+  loadEvidence(),
+  loadBacklog(),
+  loadValidationTemplate(),
+  loadInteractionMatrix(),
+  loadRuntimeHandoff(),
+])
   .then(() => {
     const first = state.summary?.entry_docs?.[0]?.path;
     if (first) return loadDoc(first);

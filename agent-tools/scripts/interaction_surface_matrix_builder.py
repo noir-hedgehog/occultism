@@ -154,6 +154,17 @@ SURFACES: list[dict[str, Any]] = [
         "proof_docs": ["知识库/交互可用化矩阵.md", "知识库/WebUISurfaceSmoke验证.md"],
         "verification_command": "python3 agent-tools/scripts/interaction_surface_matrix_builder.py --format markdown",
     },
+    {
+        "surface_id": "runtime_handoff",
+        "display_name": "Runtime 交接",
+        "user_surface": "Runtime 交接面板",
+        "api_endpoint": "/api/runtime-handoff",
+        "primary_tool": "agent_runtime_handoff_builder",
+        "automation_level": "programmable_now",
+        "agent_boundary": "只读汇总 runtime 入口、准备度、同源 UI 动作菜单和开放项；不启动真实 runtime，也不安装 Skill。",
+        "proof_docs": ["知识库/Agent运行时交接包.md", "知识库/版本记录.md"],
+        "verification_command": "curl http://127.0.0.1:8765/api/runtime-handoff",
+    },
 ]
 
 
