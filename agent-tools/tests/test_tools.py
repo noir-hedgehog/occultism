@@ -1076,8 +1076,11 @@ class ConsultationHandoffBuilderTests(unittest.TestCase):
         self.assertEqual(result["tool"], "consultation_handoff_builder")
         self.assertEqual(result["handoff_status"], "needs_structured_tool_results")
         self.assertFalse(result["preview"]["present"])
+        self.assertTrue(result["ui_actions"]["preview"]["enabled"])
+        self.assertTrue(result["ui_actions"]["case"]["enabled"])
         self.assertIn("tarot_spread_selector", result["input_status"]["remaining_structured_input_needed"])
         self.assertIn("先向用户补齐结构化输入或说明当前只能做流程建议。", result["agent_resume_prompt"])
+        self.assertIn("按 handoff.ui_actions 选择下一步动作；disabled 动作只解释原因，不直接执行。", result["agent_resume_prompt"])
 
     def test_handoff_with_preview_is_ready_for_agent_synthesis(self):
         result = consultation_handoff_builder.build(
@@ -1115,6 +1118,16 @@ class ConsultationHandoffBuilderTests(unittest.TestCase):
         self.assertEqual(result["handoff_status"], "blocked_by_lint")
         self.assertFalse(result["is_valid"])
         self.assertEqual(result["lint_result"]["risk_level"], "red")
+
+    def test_paused_handoff_carries_disabled_action_manifest(self):
+        result = consultation_handoff_builder.build({"request_text": "用塔罗看看我明天要不要贷款梭哈股票"})
+        self.assertEqual(result["handoff_status"], "pause_required")
+        self.assertTrue(result["ui_actions"]["execute"]["enabled"])
+        self.assertFalse(result["ui_actions"]["preview"]["enabled"])
+        self.assertTrue(result["ui_actions"]["handoff"]["enabled"])
+        self.assertFalse(result["ui_actions"]["case"]["enabled"])
+        self.assertEqual(result["ui_actions"]["preview"]["reason"], "风险暂停时不继续领域工具预览")
+        self.assertIn("按 handoff.ui_actions 只使用 enabled=true 的动作，不要继续结构化预览或普通案例采集。", result["agent_resume_prompt"])
 
 
 class ConsultationCaseRecorderTests(unittest.TestCase):
@@ -1355,6 +1368,7 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
                 "docs_search",
                 "doc_markdown_rendering_js",
                 "examples",
+                "handoff_action_manifest_paused",
                 "interaction_surface_matrix",
                 "panel_action_guards_js",
                 "paradigm_boundary_js",
@@ -1367,8 +1381,8 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "web_ui_surface_smoke_runner")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["case_count"], 15)
-        self.assertEqual(result["passed_count"], 15)
+        self.assertEqual(result["case_count"], 16)
+        self.assertEqual(result["passed_count"], 16)
         self.assertEqual(result["failed_count"], 0)
 
     def test_rejects_unknown_case_id(self):
@@ -8541,7 +8555,7 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         result = release_gate_runner.run(gates=["web_ui_surface_smoke_runner"])
         self.assertTrue(result["is_valid"])
         self.assertEqual(result["gates"][0]["summary"]["tool"], "web_ui_surface_smoke_runner")
-        self.assertEqual(result["gates"][0]["summary"]["case_count"], 28)
+        self.assertEqual(result["gates"][0]["summary"]["case_count"], 29)
         self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
         self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 13)
         self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 13)

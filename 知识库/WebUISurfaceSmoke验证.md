@@ -6,7 +6,7 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Case | 28/28 |
+| Case | 29/29 |
 | Matrix surface | 13/13 |
 | Failed | 0 |
 
@@ -41,6 +41,7 @@
 | `execute_safe` | `safe_execution_subset` | `POST` | `/api/execute-safe` | True | tool=consultation_execution_runner, is_valid=True, route_status=ready_to_run_skill, domain=tarot | - |
 | `tool_preview_fengshui` | `structured_tool_preview` | `POST` | `/api/tool-preview` | True | tool=web_ui_tool_preview, is_valid=True, mode=fengshui | - |
 | `handoff` | `agent_handoff` | `POST` | `/api/handoff` | True | tool=consultation_handoff_builder, is_valid=True | - |
+| `handoff_action_manifest_paused` | `agent_handoff` | `POST` | `/api/handoff` | True | tool=consultation_handoff_builder, is_valid=True | - |
 | `case_record` | `case_recording` | `POST` | `/api/case-record` | True | tool=consultation_case_recorder, is_valid=True, domain=tarot | - |
 
 ## 限制

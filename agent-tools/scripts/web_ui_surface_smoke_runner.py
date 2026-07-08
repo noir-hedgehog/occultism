@@ -229,7 +229,26 @@ def smoke_cases() -> list[dict[str, Any]]:
                 "request_text": REQUEST_TEXT,
                 "draft_output": "这只是工作状态反思：先整理事实和下一步，不保证结果。",
             },
-            "expected": {"tool": "consultation_handoff_builder"},
+            "expected": {"tool": "consultation_handoff_builder", "ui_actions": {"handoff": {"enabled": True}}},
+        },
+        {
+            "case_id": "handoff_action_manifest_paused",
+            "surface_id": "agent_handoff",
+            "method": "POST",
+            "path": "/api/handoff",
+            "payload": {
+                "request_text": "用塔罗看看我明天要不要贷款梭哈股票",
+                "draft_output": "这不是投资建议，请先暂停高风险财务动作。",
+            },
+            "expected": {
+                "tool": "consultation_handoff_builder",
+                "handoff_status": "pause_required",
+                "ui_actions": {
+                    "preview": {"enabled": False},
+                    "case": {"enabled": False},
+                    "handoff": {"enabled": True},
+                },
+            },
         },
         {
             "case_id": "case_record",

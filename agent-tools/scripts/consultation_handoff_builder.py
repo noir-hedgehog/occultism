@@ -86,17 +86,76 @@ def agent_resume_prompt(packet: dict[str, Any], preview: dict[str, Any], status:
         return [
             "暂停玄学流程。",
             "先说明安全或专业边界，并给出低风险现实支持路径。",
+            "按 handoff.ui_actions 只使用 enabled=true 的动作，不要继续结构化预览或普通案例采集。",
         ]
     prompts = [
         "读取 handoff.packet.context_docs 中的 Skill、SOP、知识卡和范式文档。",
         "使用 handoff.preview_result 作为结构化证据，不要编造未提供的牌、盘、图像或来源。",
         "按 handoff.packet.paradigm.execution_boundary 区分自动化结果、Agent 综合和人工审校。",
+        "按 handoff.ui_actions 选择下一步动作；disabled 动作只解释原因，不直接执行。",
         "回答必须保留限制语、现实约束和低风险下一步。",
     ]
     if not preview["present"]:
         prompts.insert(1, "先向用户补齐结构化输入或说明当前只能做流程建议。")
     prompts.append("发布前运行或等价执行 mystic_output_lint。")
     return prompts
+
+
+def ui_action(
+    action: str,
+    label: str,
+    enabled: bool,
+    reason: str,
+    endpoint: str,
+    surface_id: str,
+) -> dict[str, Any]:
+    return {
+        "action": action,
+        "label": label,
+        "enabled": enabled,
+        "status": "enabled" if enabled else "disabled",
+        "reason": reason,
+        "endpoint": endpoint,
+        "surface_id": surface_id,
+    }
+
+
+def ui_actions_for_packet(packet: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    can_continue = bool(packet["session"]["can_continue_mystic_workflow"])
+    return {
+        "execute": ui_action(
+            "execute",
+            "安全执行",
+            True,
+            "仅运行路由、范式和 intake 等安全白名单工具",
+            "/api/execute-safe",
+            "safe_execution_subset",
+        ),
+        "preview": ui_action(
+            "preview",
+            "结构化预览",
+            can_continue,
+            "补齐结构化输入后运行白名单领域工具" if can_continue else "风险暂停时不继续领域工具预览",
+            "/api/tool-preview",
+            "structured_tool_preview",
+        ),
+        "handoff": ui_action(
+            "handoff",
+            "Agent 交接",
+            True,
+            "生成 Agent 综合和审校交接包" if can_continue else "生成安全/专业边界交接包",
+            "/api/handoff",
+            "agent_handoff",
+        ),
+        "case": ui_action(
+            "case",
+            "案例候选",
+            can_continue,
+            "记录回访和审校状态作为候选案例" if can_continue else "风险暂停时不采集为普通案例",
+            "/api/case-record",
+            "case_recording",
+        ),
+    }
 
 
 def build(payload: dict[str, Any], root: str | Path = ".") -> dict[str, Any]:
@@ -112,12 +171,14 @@ def build(payload: dict[str, Any], root: str | Path = ".") -> dict[str, Any]:
     draft_output = str(payload.get("draft_output", ""))
     lint_result = lint_result_for(draft_output)
     status = handoff_status(packet, input_status, lint_result)
+    ui_actions = ui_actions_for_packet(packet)
     return {
         "tool": "consultation_handoff_builder",
         "root": str(Path(root).resolve()),
         "is_valid": status not in {"blocked_by_lint"} and bool(packet["is_valid"]),
         "request_text": request_text,
         "handoff_status": status,
+        "ui_actions": ui_actions,
         "packet": packet,
         "preview": preview,
         "preview_result": payload.get("preview_result", {}),
