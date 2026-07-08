@@ -10,6 +10,7 @@
 - `codex_skill_blueprint_validator`：Skill 蓝图静态验证。
 - `codex_skill_installer`：Skill 安装器 dry-run，确认 11 个蓝图可规划到 Codex skills 目录。
 - `knowledge_coverage_audit`：知识库覆盖度审计。
+- `ui_action_manifest_consistency_checker`：Web UI session、咨询 handoff 和 runtime handoff 动作菜单一致性验证。
 - `skill_replay_runner`：当前 Skill 的 normal/blocked 回放。
 - `skill_transcript_runner`：当前 Skill 的多轮 transcript 回放。
 - `markdown_links`：Markdown 本地链接检查。

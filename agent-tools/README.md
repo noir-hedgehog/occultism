@@ -37,6 +37,14 @@ python3 agent-tools/scripts/agent_runtime_dry_run_runner.py --case-id route-taro
 python3 agent-tools/scripts/agent_runtime_handoff_builder.py --codex-home /tmp/mystic-codex-home-preview --format markdown
 ```
 
+### `ui_action_manifest_consistency_checker`
+
+比较 Web UI session、咨询 handoff 和 runtime handoff 的动作菜单，确认安全执行、结构化预览、Agent 交接和案例候选的启用状态不会漂移。
+
+```bash
+python3 agent-tools/scripts/ui_action_manifest_consistency_checker.py --format markdown
+```
+
 ### `agent_tool_wrapper_manifest_builder`
 
 把可运行脚本整理成 agent runtime 可消费的 wrapper manifest，包含命令、输入 schema、关联 Skill、流派和安全标签。
@@ -255,7 +263,7 @@ python3 agent-tools/scripts/skill_install_readiness_report.py --codex-home /tmp/
 
 ### `release_gate_runner`
 
-运行发布前一键质量门，覆盖 schema、单元测试、Skill 静态验证、覆盖审计、Skill 回放、多轮回放和 Markdown 链接检查。
+运行发布前一键质量门，覆盖 schema、单元测试、Skill 静态验证、覆盖审计、Web UI smoke、UI action manifest 一致性、Skill 回放、多轮回放和 Markdown 链接检查。
 
 ```bash
 python3 agent-tools/scripts/release_gate_runner.py

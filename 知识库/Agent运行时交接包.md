@@ -8,7 +8,7 @@
 | --- | --- |
 | 状态 | `ready_for_runtime_dry_run` |
 | Skill | 61 |
-| Tool | 286 |
+| Tool | 287 |
 | 外部开放项 | 3 |
 
 ## Runtime UI 动作菜单
@@ -38,12 +38,12 @@
 
 | Check | Passed | Summary |
 | --- | --- | --- |
-| `tool_manifest` | True | 286 tools, 61 skills |
-| `tool_wrapper_manifest` | True | 286/286 wrappers ready |
-| `tool_definition_export` | True | 286 tool definitions exported |
-| `tool_definition_validation` | True | 286/286 definitions valid |
-| `tool_registry` | True | 286 tools ready for runtime registration |
-| `tool_registry_validation` | True | 286 tools, 0 failed skill checks |
+| `tool_manifest` | True | 287 tools, 61 skills |
+| `tool_wrapper_manifest` | True | 287/287 wrappers ready |
+| `tool_definition_export` | True | 287 tool definitions exported |
+| `tool_definition_validation` | True | 287/287 definitions valid |
+| `tool_registry` | True | 287 tools ready for runtime registration |
+| `tool_registry_validation` | True | 287 tools, 0 failed skill checks |
 | `route_smoke` | True | 63/63 route cases passed |
 | `runtime_dry_run` | True | 63/63 runtime dry-run cases passed |
 | `skill_install_readiness` | True | ready_for_install_approval |

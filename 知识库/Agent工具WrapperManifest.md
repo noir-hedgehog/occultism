@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Wrapper | 286 |
-| 可包装 | 286 |
+| Wrapper | 287 |
+| 可包装 | 287 |
 | 阻塞 | 0 |
 | Skill | 61 |
 
@@ -288,6 +288,7 @@
 | `tool_manifest_builder` | `shared` | - | [tool-manifest-builder.schema.json](../agent-tools/schemas/tool-manifest-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `transcript_anonymizer` | `shared` | - | [transcript-anonymizer.schema.json](../agent-tools/schemas/transcript-anonymizer.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `transcript_fixture_builder` | `shared` | - | [transcript-fixture-builder.schema.json](../agent-tools/schemas/transcript-fixture-builder.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
+| `ui_action_manifest_consistency_checker` | `shared` | - | [ui-action-manifest-consistency-checker.schema.json](../agent-tools/schemas/ui-action-manifest-consistency-checker.schema.json) | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `wealth_luck_action_planner` | `wealth_luck` | `wealth-luck-symbolic-consultation` | [wealth-luck-action-planner.schema.json](../agent-tools/schemas/wealth-luck-action-planner.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_context_recorder` | `wealth_luck` | `wealth-luck-symbolic-consultation` | [wealth-luck-context-recorder.schema.json](../agent-tools/schemas/wealth-luck-context-recorder.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_request_guard` | `wealth_luck` | `wealth-luck-symbolic-consultation` | [wealth-luck-request-guard.schema.json](../agent-tools/schemas/wealth-luck-request-guard.schema.json) | `professional_boundary_required`, `symbolic_interpretation_only` |

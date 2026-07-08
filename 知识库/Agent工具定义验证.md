@@ -6,8 +6,8 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 286/286 |
-| OpenAI-style tool | 286/286 |
+| Definition | 287/287 |
+| OpenAI-style tool | 287/287 |
 | 失败 definition | 0 |
 | 失败 OpenAI tool | 0 |
 
@@ -281,6 +281,7 @@
 | `tool_manifest_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `transcript_anonymizer` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `transcript_fixture_builder` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
+| `ui_action_manifest_consistency_checker` | True | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` | - |
 | `wealth_luck_action_planner` | True | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `wealth_luck_context_recorder` | True | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` | - |
 | `wealth_luck_request_guard` | True | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` | - |

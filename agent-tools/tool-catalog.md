@@ -7,6 +7,7 @@
 | `agent_route_smoke_runner` | runnable | 批量验证 61 个流派代表请求和高风险边界的路由结果 |
 | `agent_runtime_dry_run_runner` | runnable | 用代表请求验证 ready/paused/blocked 路径是否满足 runtime 工具契约 |
 | `agent_runtime_handoff_builder` | runnable | 汇总 agent runtime 接入入口、Skill、工具 manifest、安全不变量和验证命令 |
+| `ui_action_manifest_consistency_checker` | runnable | 比较 Web UI session、咨询 handoff 和 runtime handoff 的 UI action manifest 一致性 |
 | `agent_tool_definition_exporter` | runnable | 将 wrapper manifest 导出为 agent tool definition 和 OpenAI-style function tool |
 | `agent_tool_definition_validator` | runnable | 注册前验证 agent tool definition、OpenAI-style function tool 和本地引用 |
 | `agent_tool_registry_builder` | runnable | 生成 runtime 注册顺序、流派/Skill 索引和安全启动工具注册表 |
@@ -40,6 +41,8 @@ Schema：`schemas/agent-route-smoke-runner.schema.json`
 Schema：`schemas/agent-runtime-dry-run-runner.schema.json`
 
 Schema：`schemas/agent-runtime-handoff-builder.schema.json`
+
+Schema：`schemas/ui-action-manifest-consistency-checker.schema.json`
 
 Schema：`schemas/agent-tool-definition-exporter.schema.json`
 

@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "UIActionManifestConsistencyChecker",
+  "type": "object",
+  "required": [
+    "tool",
+    "root",
+    "is_valid",
+    "state_count",
+    "source_count",
+    "comparison_count",
+    "comparisons",
+    "errors",
+    "limits",
+    "next_steps"
+  ],
+  "properties": {
+    "tool": {"type": "string", "const": "ui_action_manifest_consistency_checker"},
+    "root": {"type": "string"},
+    "is_valid": {"type": "boolean"},
+    "state_count": {"type": "integer", "minimum": 0},
+    "source_count": {"type": "integer", "minimum": 0},
+    "comparison_count": {"type": "integer", "minimum": 0},
+    "comparisons": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "state",
+          "request_text",
+          "expected_manifest",
+          "sources",
+          "matches_all_sources",
+          "errors"
+        ],
+        "properties": {
+          "state": {"type": "string", "enum": ["ready_to_continue", "paused_for_boundary"]},
+          "request_text": {"type": "string"},
+          "expected_manifest": {"$ref": "#/$defs/ui_action_manifest"},
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["source_id", "surface", "manifest", "matches_expected", "errors"],
+              "properties": {
+                "source_id": {"type": "string"},
+                "surface": {"type": "string"},
+                "manifest": {"$ref": "#/$defs/ui_action_manifest"},
+                "matches_expected": {"type": "boolean"},
+                "errors": {"type": "array", "items": {"type": "string"}}
+              },
+              "additionalProperties": false
+            }
+          },
+          "matches_all_sources": {"type": "boolean"},
+          "errors": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      }
+    },
+    "errors": {"type": "array", "items": {"type": "string"}},
+    "limits": {"type": "array", "items": {"type": "string"}},
+    "next_steps": {"type": "array", "items": {"type": "string"}}
+  },
+  "$defs": {
+    "ui_action_manifest": {
+      "type": "object",
+      "required": ["execute", "preview", "handoff", "case"],
+      "properties": {
+        "execute": {"$ref": "#/$defs/ui_action"},
+        "preview": {"$ref": "#/$defs/ui_action"},
+        "handoff": {"$ref": "#/$defs/ui_action"},
+        "case": {"$ref": "#/$defs/ui_action"}
+      },
+      "additionalProperties": false
+    },
+    "ui_action": {
+      "type": "object",
+      "required": ["action", "label", "enabled", "status", "reason", "endpoint", "surface_id"],
+      "properties": {
+        "action": {"type": "string"},
+        "label": {"type": "string"},
+        "enabled": {"type": "boolean"},
+        "status": {"type": "string", "enum": ["enabled", "disabled"]},
+        "reason": {"type": "string"},
+        "endpoint": {"type": "string"},
+        "surface_id": {"type": "string"}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

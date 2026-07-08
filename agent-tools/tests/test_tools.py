@@ -241,6 +241,7 @@ from agent_tools_scripts import (
     talisman_request_guard,
     talisman_symbol_lookup,
     talisman_use_planner,
+    ui_action_manifest_consistency_checker,
     web_ui_surface_smoke_runner,
     color_palette_planner,
     color_profile_recorder,
@@ -8507,6 +8508,32 @@ class AgentRuntimeHandoffBuilderTests(unittest.TestCase):
         self.assertIn("actual_skill_install_requires_user_confirmation", markdown)
 
 
+class UIActionManifestConsistencyCheckerTests(unittest.TestCase):
+    def test_compares_session_handoff_runtime_manifests(self):
+        result = ui_action_manifest_consistency_checker.build()
+        self.assertEqual(result["tool"], "ui_action_manifest_consistency_checker")
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["state_count"], 2)
+        self.assertEqual(result["source_count"], 8)
+        self.assertEqual(result["comparison_count"], 6)
+        by_state = {item["state"]: item for item in result["comparisons"]}
+        self.assertTrue(by_state["ready_to_continue"]["matches_all_sources"])
+        self.assertTrue(by_state["paused_for_boundary"]["matches_all_sources"])
+        paused_sources = {source["source_id"]: source for source in by_state["paused_for_boundary"]["sources"]}
+        self.assertFalse(paused_sources["web_ui_session"]["manifest"]["preview"]["enabled"])
+        self.assertFalse(paused_sources["consultation_handoff"]["manifest"]["case"]["enabled"])
+        self.assertFalse(paused_sources["runtime_handoff"]["manifest"]["preview"]["enabled"])
+
+    def test_generated_markdown_lists_sources_and_states(self):
+        result = ui_action_manifest_consistency_checker.build()
+        markdown = ui_action_manifest_consistency_checker.render_markdown(result)
+        self.assertIn("# UI Action Manifest 一致性验证", markdown)
+        self.assertIn("web_ui_session", markdown)
+        self.assertIn("consultation_handoff", markdown)
+        self.assertIn("runtime_handoff", markdown)
+        self.assertIn("paused_for_boundary", markdown)
+
+
 class ReleaseGateRunnerTests(unittest.TestCase):
     def test_selected_release_gates_pass(self):
         result = release_gate_runner.run(gates=["schema_json", "markdown_links"])
@@ -8577,6 +8604,13 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
         self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 14)
         self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 14)
+
+    def test_ui_action_manifest_consistency_gate_passes(self):
+        result = release_gate_runner.run(gates=["ui_action_manifest_consistency_checker"])
+        self.assertTrue(result["is_valid"])
+        self.assertEqual(result["gates"][0]["summary"]["tool"], "ui_action_manifest_consistency_checker")
+        self.assertEqual(result["gates"][0]["summary"]["state_count"], 2)
+        self.assertEqual(result["gates"][0]["summary"]["source_count"], 8)
 
     def test_unknown_release_gate_raises(self):
         with self.assertRaises(ValueError):

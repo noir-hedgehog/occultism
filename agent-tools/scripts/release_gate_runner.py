@@ -268,6 +268,42 @@ def gate_web_ui_surface_smoke(root: Path) -> dict[str, Any]:
     )
 
 
+def gate_ui_action_manifest_consistency(root: Path) -> dict[str, Any]:
+    started = time.perf_counter()
+    command = [sys.executable, "agent-tools/scripts/ui_action_manifest_consistency_checker.py"]
+    completed = run_subprocess(root, command, timeout=60)
+    errors: list[str] = []
+    summary: dict[str, Any] = {"returncode": completed.returncode}
+    if completed.returncode != 0:
+        errors.append((completed.stdout + completed.stderr)[-2000:])
+    else:
+        try:
+            payload = json.loads(completed.stdout)
+            summary.update(
+                {
+                    "tool": payload.get("tool"),
+                    "is_valid": payload.get("is_valid"),
+                    "state_count": payload.get("state_count"),
+                    "source_count": payload.get("source_count"),
+                    "comparison_count": payload.get("comparison_count"),
+                }
+            )
+            if payload.get("tool") != "ui_action_manifest_consistency_checker":
+                errors.append("expected tool ui_action_manifest_consistency_checker")
+            if payload.get("is_valid") is False:
+                errors.append("ui action manifest consistency returned is_valid=false")
+        except Exception as exc:
+            errors.append(f"invalid JSON output: {exc}")
+    return gate_result(
+        "ui_action_manifest_consistency_checker",
+        "python3 agent-tools/scripts/ui_action_manifest_consistency_checker.py",
+        not errors,
+        started,
+        summary,
+        errors,
+    )
+
+
 def gate_agent_runtime_dry_run(root: Path) -> dict[str, Any]:
     return gate_json_script(root, "agent_runtime_dry_run_runner", "agent_runtime_dry_run_runner", "agent_runtime_dry_run_runner")
 
@@ -345,6 +381,7 @@ GATES: list[tuple[str, GateFn]] = [
     ("agent_tool_registry_validator", gate_agent_tool_registry_validation),
     ("agent_runtime_handoff_builder", gate_agent_runtime_handoff),
     ("web_ui_surface_smoke_runner", gate_web_ui_surface_smoke),
+    ("ui_action_manifest_consistency_checker", gate_ui_action_manifest_consistency),
     ("skill_replay_runner", gate_skill_replay),
     ("skill_transcript_runner", gate_skill_transcript),
     ("markdown_links", gate_markdown_links),

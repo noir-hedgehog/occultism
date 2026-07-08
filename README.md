@@ -147,6 +147,7 @@ Safety-first occultism agent toolkit: knowledge base, SOPs, Python tools, Codex 
 - [知识库/案例采集模板.md](知识库/案例采集模板.md)：从 backlog 项派生的可填写字段、示例 payload 和推荐工具流
 - [知识库/交互可用化矩阵.md](知识库/交互可用化矩阵.md)：Web UI、API、工具、自动化等级和 Agent/人工接管边界
 - [知识库/WebUISurfaceSmoke验证.md](知识库/WebUISurfaceSmoke验证.md)：本地 Web UI/API surface 的 HTTP smoke 验证
+- [知识库/UIActionManifest一致性验证.md](知识库/UIActionManifest一致性验证.md)：shared helper、Web UI session、咨询 handoff 和 runtime handoff 的动作菜单一致性验证
 - [知识库/Skill回放验证.md](知识库/Skill回放验证.md)：首批 Skill 前向回放案例
 - [知识库/Skill多轮回放验证.md](知识库/Skill多轮回放验证.md)：多轮 transcript 验证案例
 - [知识库/Agent路由冒烟验证.md](知识库/Agent路由冒烟验证.md)：跨流派运行时路由冒烟验证
@@ -204,6 +205,7 @@ python3 agent-tools/scripts/case_validation_backlog_builder.py --format markdown
 python3 agent-tools/scripts/case_validation_template_builder.py --domain fengshui --format markdown
 python3 agent-tools/scripts/interaction_surface_matrix_builder.py --format markdown
 python3 agent-tools/scripts/web_ui_surface_smoke_runner.py --format markdown
+python3 agent-tools/scripts/ui_action_manifest_consistency_checker.py --format markdown
 python3 agent-tools/scripts/agent_route_smoke_runner.py
 python3 agent-tools/scripts/agent_runtime_dry_run_runner.py
 python3 agent-tools/scripts/agent_tool_wrapper_manifest_builder.py --format markdown

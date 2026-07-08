@@ -6,9 +6,9 @@
 
 | 指标 | 当前值 |
 | --- | --- |
-| Definition | 286 |
-| OpenAI-style tool | 286 |
-| 来源 wrapper | 286 |
+| Definition | 287 |
+| OpenAI-style tool | 287 |
+| 来源 wrapper | 287 |
 
 ## 定义清单
 
@@ -280,6 +280,7 @@
 | `tool_manifest_builder` | `agent-tools/scripts/tool_manifest_builder.py` | [tool-manifest-builder.schema.json](../agent-tools/schemas/tool-manifest-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `transcript_anonymizer` | `agent-tools/scripts/transcript_anonymizer.py` | [transcript-anonymizer.schema.json](../agent-tools/schemas/transcript-anonymizer.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `transcript_fixture_builder` | `agent-tools/scripts/transcript_fixture_builder.py` | [transcript-fixture-builder.schema.json](../agent-tools/schemas/transcript-fixture-builder.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
+| `ui_action_manifest_consistency_checker` | `agent-tools/scripts/ui_action_manifest_consistency_checker.py` | [ui-action-manifest-consistency-checker.schema.json](../agent-tools/schemas/ui-action-manifest-consistency-checker.schema.json) | `shared` | `professional_boundary_required`, `runtime_infrastructure`, `symbolic_interpretation_only` |
 | `wealth_luck_action_planner` | `agent-tools/scripts/wealth_luck_action_planner.py` | [wealth-luck-action-planner.schema.json](../agent-tools/schemas/wealth-luck-action-planner.schema.json) | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_context_recorder` | `agent-tools/scripts/wealth_luck_context_recorder.py` | [wealth-luck-context-recorder.schema.json](../agent-tools/schemas/wealth-luck-context-recorder.schema.json) | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` |
 | `wealth_luck_request_guard` | `agent-tools/scripts/wealth_luck_request_guard.py` | [wealth-luck-request-guard.schema.json](../agent-tools/schemas/wealth-luck-request-guard.schema.json) | `wealth_luck` | `professional_boundary_required`, `symbolic_interpretation_only` |
