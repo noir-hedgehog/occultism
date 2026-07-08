@@ -8791,6 +8791,7 @@ class ToolManifestBuilderTests(unittest.TestCase):
         names = {item["name"] for item in result["tools"]}
         self.assertIn("tarot_spread_selector", names)
         self.assertIn("release_manifest_builder", names)
+        self.assertNotIn("_ui_action_manifest", names)
 
     def test_skill_index_maps_tarot_tools(self):
         result = tool_manifest_builder.build()

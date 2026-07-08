@@ -12,6 +12,7 @@
 - 结构化输入和案例记录独立面板复用同一风险守门逻辑
 - `/api/session` 返回 UI action manifest，供 Web UI 和外部 agent/runtime 共用动作边界
 - `/api/handoff` 携带同一动作边界，供 Agent 接管后继续判断下一步
+- session 与 handoff 的动作边界复用同一共享 manifest helper，避免守门规则漂移
 - 从工作台和上下文面板直接打开必读文档
 - 生成给人和 Agent 共读的咨询工作单
 - 按可直接运行、需结构化输入和需 Agent 草稿分组展示工具链

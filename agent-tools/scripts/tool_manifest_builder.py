@@ -108,7 +108,7 @@ def script_tools(root: Path) -> set[str]:
     scripts_dir = root / "agent-tools" / "scripts"
     if not scripts_dir.exists():
         return set()
-    return {path.stem for path in scripts_dir.glob("*.py") if not path.name.startswith("__")}
+    return {path.stem for path in scripts_dir.glob("*.py") if not path.name.startswith("_")}
 
 
 def spec_title(root: Path, spec_path: str) -> str:
