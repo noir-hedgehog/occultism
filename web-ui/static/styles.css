@@ -810,7 +810,99 @@ button:disabled {
   max-height: 520px;
   background: #fff;
   color: var(--ink);
-  white-space: pre-wrap;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+}
+
+.doc-content h1,
+.doc-content h2,
+.doc-content h3,
+.doc-content h4 {
+  margin: 18px 0 8px;
+  letter-spacing: 0;
+  line-height: 1.25;
+}
+
+.doc-content h1:first-child,
+.doc-content h2:first-child,
+.doc-content h3:first-child,
+.doc-content h4:first-child {
+  margin-top: 0;
+}
+
+.doc-content h1 {
+  font-size: 24px;
+}
+
+.doc-content h2 {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 19px;
+}
+
+.doc-content h3 {
+  font-size: 16px;
+}
+
+.doc-content h4 {
+  font-size: 14px;
+}
+
+.doc-content p,
+.doc-content li,
+.doc-content td,
+.doc-content th {
+  font-size: 13px;
+}
+
+.doc-content p {
+  margin: 0 0 10px;
+}
+
+.doc-content ul {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+
+.doc-content li + li {
+  margin-top: 4px;
+}
+
+.doc-content table {
+  width: 100%;
+  margin: 10px 0 14px;
+  border-collapse: collapse;
+}
+
+.doc-content th,
+.doc-content td {
+  border: 1px solid var(--line);
+  padding: 7px 8px;
+  vertical-align: top;
+}
+
+.doc-content th {
+  background: #fbf8f1;
+  text-align: left;
+}
+
+.doc-content code {
+  border-radius: 5px;
+  padding: 1px 5px;
+  background: #f1ece2;
+}
+
+.doc-content .doc-code {
+  max-height: none;
+  margin: 10px 0 14px;
+  background: #151515;
+  color: #f6f4ef;
+}
+
+.doc-content a {
+  color: var(--accent);
 }
 
 .json-panel {

@@ -1353,6 +1353,7 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
                 "command_copy_js",
                 "context_doc_links_js",
                 "docs_search",
+                "doc_markdown_rendering_js",
                 "examples",
                 "interaction_surface_matrix",
                 "paradigm_boundary_js",
@@ -1363,8 +1364,8 @@ class WebUISurfaceSmokeRunnerTests(unittest.TestCase):
         )
         self.assertEqual(result["tool"], "web_ui_surface_smoke_runner")
         self.assertTrue(result["is_valid"])
-        self.assertEqual(result["case_count"], 11)
-        self.assertEqual(result["passed_count"], 11)
+        self.assertEqual(result["case_count"], 12)
+        self.assertEqual(result["passed_count"], 12)
         self.assertEqual(result["failed_count"], 0)
 
     def test_rejects_unknown_case_id(self):
@@ -8537,7 +8538,7 @@ class ReleaseGateRunnerTests(unittest.TestCase):
         result = release_gate_runner.run(gates=["web_ui_surface_smoke_runner"])
         self.assertTrue(result["is_valid"])
         self.assertEqual(result["gates"][0]["summary"]["tool"], "web_ui_surface_smoke_runner")
-        self.assertEqual(result["gates"][0]["summary"]["case_count"], 24)
+        self.assertEqual(result["gates"][0]["summary"]["case_count"], 25)
         self.assertEqual(result["gates"][0]["summary"]["failed_count"], 0)
         self.assertEqual(result["gates"][0]["summary"]["covered_surface_count"], 13)
         self.assertEqual(result["gates"][0]["summary"]["matrix_surface_count"], 13)

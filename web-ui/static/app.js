@@ -26,6 +26,117 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;");
 }
 
+function inlineMarkdown(value) {
+  return escapeHtml(value)
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, label, href) => {
+      const safeHref = href.trim();
+      const allowed = /^(https?:\/\/|#|\/|[A-Za-z0-9_.%/?=&:-]+$)/.test(safeHref);
+      if (!allowed || /^javascript:/i.test(safeHref)) return label;
+      return `<a href="${safeHref}" target="_blank" rel="noreferrer">${label}</a>`;
+    });
+}
+
+function tableCells(line) {
+  return line
+    .replace(/^\|/, "")
+    .replace(/\|$/, "")
+    .split("|")
+    .map((cell) => cell.trim());
+}
+
+function renderMarkdownTable(lines, startIndex) {
+  const header = tableCells(lines[startIndex]);
+  const rows = [];
+  let index = startIndex + 2;
+  while (index < lines.length && lines[index].includes("|") && lines[index].trim()) {
+    rows.push(tableCells(lines[index]));
+    index += 1;
+  }
+  const html = `
+    <table>
+      <thead><tr>${header.map((cell) => `<th>${inlineMarkdown(cell)}</th>`).join("")}</tr></thead>
+      <tbody>
+        ${rows
+          .map((row) => `<tr>${row.map((cell) => `<td>${inlineMarkdown(cell)}</td>`).join("")}</tr>`)
+          .join("")}
+      </tbody>
+    </table>
+  `;
+  return {html, nextIndex: index};
+}
+
+function markdownToHtml(markdown) {
+  const lines = String(markdown || "").replace(/\r\n/g, "\n").split("\n");
+  const blocks = [];
+  let listItems = [];
+  let codeLines = [];
+  let inCode = false;
+
+  function flushList() {
+    if (!listItems.length) return;
+    blocks.push(`<ul>${listItems.map((item) => `<li>${inlineMarkdown(item)}</li>`).join("")}</ul>`);
+    listItems = [];
+  }
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith("```")) {
+      if (inCode) {
+        blocks.push(`<pre class="doc-code"><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+        codeLines = [];
+        inCode = false;
+      } else {
+        flushList();
+        inCode = true;
+      }
+      continue;
+    }
+
+    if (inCode) {
+      codeLines.push(line);
+      continue;
+    }
+
+    if (!trimmed) {
+      flushList();
+      continue;
+    }
+
+    if (/^\|.+\|$/.test(trimmed) && index + 1 < lines.length && /^\|?\s*:?-{3,}:?\s*(\|\s*:?-{3,}:?\s*)+\|?$/.test(lines[index + 1].trim())) {
+      flushList();
+      const table = renderMarkdownTable(lines, index);
+      blocks.push(table.html);
+      index = table.nextIndex - 1;
+      continue;
+    }
+
+    const heading = /^(#{1,4})\s+(.+)$/.exec(trimmed);
+    if (heading) {
+      flushList();
+      const level = heading[1].length;
+      blocks.push(`<h${level}>${inlineMarkdown(heading[2])}</h${level}>`);
+      continue;
+    }
+
+    const list = /^[-*]\s+(.+)$/.exec(trimmed);
+    if (list) {
+      listItems.push(list[1]);
+      continue;
+    }
+
+    flushList();
+    blocks.push(`<p>${inlineMarkdown(trimmed)}</p>`);
+  }
+
+  flushList();
+  if (inCode) blocks.push(`<pre class="doc-code"><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+  return blocks.join("");
+}
+
 function docButton(doc, label = "") {
   const title = doc.title || doc.path;
   const prefix = label ? `<strong>${escapeHtml(label)}：${escapeHtml(title)}</strong>` : `<strong>${escapeHtml(title)}</strong>`;
@@ -527,7 +638,7 @@ function renderDocIndex() {
     button.addEventListener("click", () => loadDoc(button.dataset.readDoc));
   });
   if (state.activeDoc) {
-    $("#docContent").textContent = state.activeDoc.content;
+    $("#docContent").innerHTML = markdownToHtml(state.activeDoc.content);
   }
 }
 
