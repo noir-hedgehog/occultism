@@ -72,6 +72,13 @@ def smoke_cases() -> list[dict[str, Any]]:
             "expected_text": "data-disabled-reason",
         },
         {
+            "case_id": "panel_action_guards_js",
+            "surface_id": "structured_tool_preview",
+            "method": "GET",
+            "path": "/static/app.js",
+            "expected_text": "syncPanelActionGuards",
+        },
+        {
             "case_id": "paradigm_boundary_js",
             "surface_id": "paradigm_selection",
             "method": "GET",

@@ -413,6 +413,25 @@ function bindWorkbenchActionButtons() {
   });
 }
 
+function applyPanelActionGuard(buttonSelector, noteSelector, action) {
+  const button = $(buttonSelector);
+  const note = $(noteSelector);
+  if (!button || !note) return;
+  const hasSession = Boolean(state.session);
+  const actionState = workbenchActionState(state.session, action);
+  const disabled = hasSession && actionState.disabled;
+  button.disabled = disabled;
+  button.title = hasSession ? actionState.reason : "";
+  button.dataset.panelGuardReason = hasSession ? actionState.reason : "";
+  note.hidden = !disabled;
+  note.textContent = disabled ? actionState.reason : "";
+}
+
+function syncPanelActionGuards() {
+  applyPanelActionGuard("#previewButton", "#previewGuardNote", "preview");
+  applyPanelActionGuard("#caseButton", "#caseGuardNote", "case");
+}
+
 function renderParadigm(session) {
   if (!session || !session.paradigm) {
     $("#paradigmBadge").textContent = "";
@@ -809,6 +828,7 @@ function renderAll() {
   renderPreview();
   renderHandoff();
   renderCaseRecord();
+  syncPanelActionGuards();
   setJson(state.session || state.summary || {});
 }
 
@@ -956,6 +976,7 @@ function fengshuiPayload() {
 
 async function runPreview() {
   const button = $("#previewButton");
+  if (button.disabled) return;
   button.disabled = true;
   button.textContent = "生成中";
   try {
@@ -1034,6 +1055,7 @@ async function runHandoff() {
 
 async function runCaseRecord() {
   const button = $("#caseButton");
+  if (button.disabled) return;
   button.disabled = true;
   button.textContent = "生成中";
   try {

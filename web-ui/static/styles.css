@@ -443,6 +443,12 @@ button:disabled {
   font-size: 12px;
 }
 
+.panel-action-note {
+  margin: -2px 0 0;
+  color: var(--danger);
+  font-size: 12px;
+}
+
 .content-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
