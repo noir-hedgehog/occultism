@@ -159,6 +159,24 @@ def smoke_cases() -> list[dict[str, Any]]:
                 "tool": "web_ui_session",
                 "route_status": "ready_to_run_skill",
                 "workbench_overview": {"mode": "guided_consultation_workbench"},
+                "ui_actions": {"preview": {"enabled": True}, "case": {"enabled": True}},
+            },
+        },
+        {
+            "case_id": "session_action_manifest_paused",
+            "surface_id": "request_router",
+            "method": "POST",
+            "path": "/api/session",
+            "payload": {"request_text": "用塔罗看看我明天要不要贷款梭哈股票"},
+            "expected": {
+                "tool": "web_ui_session",
+                "route_status": "paused_for_professional_boundary",
+                "ui_actions": {
+                    "execute": {"enabled": True},
+                    "preview": {"enabled": False},
+                    "handoff": {"enabled": True},
+                    "case": {"enabled": False},
+                },
             },
         },
         {

@@ -311,6 +311,16 @@ function renderWorkflow(session) {
 }
 
 function workbenchActionState(session, action) {
+  const manifest = session?.ui_actions?.[action];
+  if (manifest) {
+    return {
+      label: manifest.label,
+      disabled: manifest.enabled !== true,
+      reason: manifest.reason,
+      endpoint: manifest.endpoint,
+      surface_id: manifest.surface_id,
+    };
+  }
   const canContinue = session?.can_continue_mystic_workflow === true;
   const states = {
     execute: {
