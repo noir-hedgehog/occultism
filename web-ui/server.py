@@ -403,8 +403,9 @@ def build_session(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def doc_index() -> dict[str, Any]:
+def doc_index(query: str = "") -> dict[str, Any]:
     docs = []
+    normalized_query = query.strip().casefold()
     for path in sorted((ROOT / "知识库").rglob("*.md")):
         rel = path.relative_to(ROOT).as_posix()
         docs.append(
@@ -421,7 +422,20 @@ def doc_index() -> dict[str, Any]:
             {"path": "agent-tools/README.md", "title": first_heading(ROOT / "agent-tools/README.md"), "section": "项目"},
         ]
     )
-    return {"tool": "web_ui_doc_index", "count": len(docs), "docs": docs}
+    total_count = len(docs)
+    if normalized_query:
+        docs = [
+            doc
+            for doc in docs
+            if normalized_query in f"{doc['path']} {doc['title']} {doc['section']}".casefold()
+        ]
+    return {
+        "tool": "web_ui_doc_index",
+        "query": query.strip(),
+        "count": len(docs),
+        "total_count": total_count,
+        "docs": docs,
+    }
 
 
 def read_doc(path: str) -> dict[str, Any]:
@@ -589,11 +603,11 @@ class MysticUIHandler(BaseHTTPRequestHandler):
             elif path == "/api/interaction-surface-matrix":
                 self.send_json(interaction_surface_matrix_builder.build(ROOT))
             elif path == "/api/docs":
-                query = parsed.query
-                if query.startswith("path="):
-                    self.send_json(read_doc(unquote(query.removeprefix("path="))))
+                query = parse_qs(parsed.query)
+                if query.get("path"):
+                    self.send_json(read_doc(query["path"][0]))
                 else:
-                    self.send_json(doc_index())
+                    self.send_json(doc_index(query.get("q", [""])[0]))
             elif path == "/" or path == "/index.html":
                 self.send_static(STATIC_DIR / "index.html")
             elif path.startswith("/static/"):

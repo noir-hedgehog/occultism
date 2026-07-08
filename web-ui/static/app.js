@@ -7,6 +7,7 @@ const state = {
   examples: null,
   session: null,
   docs: null,
+  docQuery: "",
   activeDoc: null,
   preview: null,
   execution: null,
@@ -414,7 +415,11 @@ function renderContext(session) {
 
 function renderDocIndex() {
   if (!state.docs) return;
-  $("#docBadge").textContent = `${state.docs.count} 篇`;
+  const total = state.docs.total_count || state.docs.count;
+  const query = state.docs.query || "";
+  $("#docSearch").value = query;
+  $("#docBadge").textContent = query ? `${state.docs.count}/${total} 篇` : `${state.docs.count} 篇`;
+  $("#docSearchMeta").textContent = query ? `筛选：${query}` : "全部文档";
   const selected = state.activeDoc?.path;
   $("#docIndex").innerHTML = state.docs.docs
     .map(
@@ -542,8 +547,10 @@ async function loadSummary() {
   renderAll();
 }
 
-async function loadDocs() {
-  const response = await fetch("/api/docs");
+async function loadDocs(query = state.docQuery || "") {
+  state.docQuery = query;
+  const url = query ? `/api/docs?q=${encodeURIComponent(query)}` : "/api/docs";
+  const response = await fetch(url);
   if (!response.ok) throw new Error(`docs failed: ${response.status}`);
   state.docs = await response.json();
   renderAll();
@@ -815,6 +822,9 @@ $("#handoffButton").addEventListener("click", runHandoff);
 $("#caseButton").addEventListener("click", runCaseRecord);
 $("#templateButton").addEventListener("click", runValidationTemplate);
 $("#previewMode").addEventListener("change", syncPreviewMode);
+$("#docSearch").addEventListener("input", (event) => {
+  loadDocs(event.target.value.trim()).catch((error) => setJson({error: error.message}));
+});
 
 $("#toggleJson").addEventListener("click", () => {
   state.jsonOpen = !state.jsonOpen;

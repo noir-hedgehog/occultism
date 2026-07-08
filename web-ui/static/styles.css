@@ -549,6 +549,19 @@ button:disabled {
   gap: 12px;
 }
 
+.doc-tools {
+  display: grid;
+  grid-template-columns: minmax(220px, 360px) minmax(120px, auto);
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.doc-tools span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .structured-tools {
   display: grid;
   grid-template-columns: minmax(260px, 420px) minmax(0, 1fr);
@@ -704,6 +717,7 @@ pre {
   .overview-columns,
   .example-grid,
   .doc-browser,
+  .doc-tools,
   .template-tools,
   .case-grid {
     grid-template-columns: 1fr;

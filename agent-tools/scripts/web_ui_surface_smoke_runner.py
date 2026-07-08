@@ -31,6 +31,13 @@ def smoke_cases() -> list[dict[str, Any]]:
         {"case_id": "home", "surface_id": "home", "method": "GET", "path": "/", "content_type": "text/html", "expected_text": "玄学大典"},
         {"case_id": "docs_index", "surface_id": "knowledge_docs_site", "method": "GET", "path": "/api/docs", "expected": {"tool": "web_ui_doc_index"}},
         {
+            "case_id": "docs_search",
+            "surface_id": "knowledge_docs_site",
+            "method": "GET",
+            "path": "/api/docs?" + urlencode({"q": "风水"}),
+            "expected": {"tool": "web_ui_doc_index", "query": "风水"},
+        },
+        {
             "case_id": "docs_read",
             "surface_id": "knowledge_docs_site",
             "method": "GET",
@@ -258,6 +265,7 @@ def run_case(base_url: str, case: dict[str, Any], timeout_seconds: float) -> dic
                     "is_valid",
                     "ok",
                     "project",
+                    "query",
                     "route_status",
                     "domain",
                     "template_count",

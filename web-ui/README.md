@@ -44,6 +44,7 @@ curl http://127.0.0.1:8765/api/validation-backlog
 curl "http://127.0.0.1:8765/api/validation-template?domain=fengshui"
 curl http://127.0.0.1:8765/api/interaction-surface-matrix
 curl http://127.0.0.1:8765/api/docs
+curl "http://127.0.0.1:8765/api/docs?q=%E9%A3%8E%E6%B0%B4"
 curl "http://127.0.0.1:8765/api/docs?path=%E7%9F%A5%E8%AF%86%E5%BA%93/07-%E9%97%AE%E9%A2%98%E5%88%B0%E8%8C%83%E5%BC%8F%E6%98%A0%E5%B0%84.md"
 curl -X POST http://127.0.0.1:8765/api/paradigm \
   -H 'Content-Type: application/json' \
